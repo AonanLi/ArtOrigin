@@ -17,7 +17,7 @@ class SideBar extends Component {
     render() {
         return (
             <Container>
-                <Content bounces={false} style={{ flex: 1, backgroundColor: '#fff', top: -1 }}>
+                <Content bounces={false} style={styles.content}>
                     <Image source={drawerCover} style={styles.drawerCover} />
                     <Image square style={styles.drawerImage} source={drawerImage} />
                     <List

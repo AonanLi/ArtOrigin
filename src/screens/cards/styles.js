@@ -1,5 +1,12 @@
 export default {
-    container: {
-        backgroundColor: '#fff'
+    imageRow: {
+        flex: 1,
+        flexDirection: 'column',
+        marginBottom: 16
+    },
+    imageColumn: {
+        flex: 1,
+        flexDirection: 'row',
+        justifyContent: 'space-between'
     }
 };

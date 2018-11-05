@@ -3,34 +3,46 @@ import { Root } from 'native-base';
 import { StackNavigator, DrawerNavigator } from 'react-navigation';
 
 import SideBar from './screens/sidebar';
+import Filter from './screens/filter';
 import Cards from './screens/cards';
-
-const Drawer = DrawerNavigator(
-    {
-        Cards: { screen: Cards }
-    },
-    {
-        initialRouteName: 'Cards',
-        navigationOptions: { drawerLockMode: 'locked-closed' },
-        contentOptions: {
-            activeTintColor: '#e91e63'
-        },
-        contentComponent: props => <SideBar {...props} />
-    }
-);
+import Card from './screens/card';
 
 const AppNavigator = StackNavigator(
     {
-        Drawer: { screen: Drawer }
+        Cards: { screen: Cards },
+        Card: { screen: Card }
     },
     {
-        initialRouteName: 'Drawer',
+        initialRouteName: 'Cards',
         headerMode: 'none'
+    }
+);
+
+const RightDrawer = DrawerNavigator(
+    {
+        App: AppNavigator
+    },
+    {
+        initialRouteName: 'App',
+        drawerPosition: 'right',
+        drawerOpenRoute: 'Filter',
+        navigationOptions: { drawerLockMode: 'locked-closed' },
+        contentComponent: props => <Filter {...props} />
+    }
+);
+
+const Drawer = DrawerNavigator(
+    {
+        RightDrawer: { screen: RightDrawer }
+    },
+    {
+        navigationOptions: { drawerLockMode: 'locked-closed' },
+        contentComponent: props => <SideBar {...props} />
     }
 );
 
 export default () => (
     <Root>
-        <AppNavigator />
+        <Drawer />
     </Root>
 );
