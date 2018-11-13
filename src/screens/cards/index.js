@@ -12,7 +12,8 @@ import {
     Right,
     Body
 } from 'native-base';
-import { Dimensions, Image, View, TouchableOpacity } from 'react-native';
+import { Dimensions, View, TouchableOpacity } from 'react-native';
+import { Image } from 'react-native-expo-image-cache';
 import _ from 'lodash';
 
 import styles from './styles';
@@ -64,10 +65,7 @@ class Cards extends Component {
                                             activeOpacity={0.8}
                                             onPress={() => navigate('Card', { item })}
                                         >
-                                            <Image
-                                                source={{ uri: path }}
-                                                style={{ height: 168, width: 99 }}
-                                            />
+                                            <Image uri={path} style={{ height: 168, width: 99 }} />
                                         </TouchableOpacity>
                                     );
                                 })}

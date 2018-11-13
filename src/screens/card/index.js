@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { Container, Header, Title, Content, Text, Button, Icon, Left, Body } from 'native-base';
-import { Image } from 'react-native';
+import { Image } from 'react-native-expo-image-cache';
 
 const Card = ({ navigation }) => {
     const { card_name, large_image } = navigation.state.params.item;
@@ -17,7 +17,7 @@ const Card = ({ navigation }) => {
                 </Body>
             </Header>
             <Content padder>
-                <Image source={{ uri: large_image.default }} style={{ width: 300, height: 507 }} />
+                <Image uri={large_image.default} style={{ width: 300, height: 507 }} />
             </Content>
         </Container>
     );
