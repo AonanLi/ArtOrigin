@@ -1,13 +1,15 @@
-import { AppLoading, Asset, Font } from 'expo';
 import React, { Component } from 'react';
+import { AppLoading, Asset, Font } from 'expo';
+import { connect } from 'react-redux';
 import { StyleProvider } from 'native-base';
 
 import App from '../App';
 
 import getTheme from '../theme/components';
 import material from '../theme/variables/material';
-import cards from '../data/cards';
 import ui from '../data/ui';
+
+import { saveCardsets } from '../actions/cardsets';
 
 const cacheImages = images =>
     images.map(image => {
@@ -20,7 +22,7 @@ const cacheImages = images =>
 
 const cacheFonts = fonts => fonts.map(font => Font.loadAsync(font));
 
-export default class Setup extends Component {
+class Setup extends Component {
     constructor() {
         super();
         this.state = {
@@ -28,8 +30,15 @@ export default class Setup extends Component {
         };
     }
 
+    componentDidMount() {
+        const { sets, saveCardsets } = this.props;
+        if (!sets) {
+            this.props.saveCardsets();
+        }
+    }
+
     async _loadAssetsAsync() {
-        const imageAssets = cacheImages(cards.concat(ui));
+        const imageAssets = cacheImages(ui);
         const fontAssets = cacheFonts([
             {
                 Roboto: require('native-base/Fonts/Roboto.ttf'),
@@ -41,7 +50,7 @@ export default class Setup extends Component {
     }
 
     render() {
-        if (!this.state.isReady) {
+        if (this.props.loading || !this.state.isReady) {
             return (
                 <AppLoading
                     startAsync={this._loadAssetsAsync}
@@ -57,3 +66,7 @@ export default class Setup extends Component {
         );
     }
 }
+
+export default connect(state => ({ sets: state.cardsets.sets, loading: state.cardsets.loading }), {
+    saveCardsets
+})(Setup);

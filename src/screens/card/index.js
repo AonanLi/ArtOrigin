@@ -3,7 +3,7 @@ import { Container, Header, Title, Content, Text, Button, Icon, Left, Body } fro
 import { Image } from 'react-native';
 
 const Card = ({ navigation }) => {
-    const { name, path } = navigation.state.params.item;
+    const { card_name, large_image } = navigation.state.params.item;
     return (
         <Container>
             <Header>
@@ -13,11 +13,11 @@ const Card = ({ navigation }) => {
                     </Button>
                 </Left>
                 <Body>
-                    <Title>{name}</Title>
+                    <Title>{card_name.english}</Title>
                 </Body>
             </Header>
             <Content padder>
-                <Image source={path} />
+                <Image source={{ uri: large_image.default }} style={{ width: 300, height: 507 }} />
             </Content>
         </Container>
     );

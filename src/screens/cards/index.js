@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
 import {
     Container,
     Header,
@@ -14,33 +15,17 @@ import {
 import { Dimensions, Image, View, TouchableOpacity } from 'react-native';
 import _ from 'lodash';
 
-import { cards } from '../../data/cards';
 import styles from './styles';
 
 const deviceWidth = Dimensions.get('window').width;
-
 const col = deviceWidth < 494 ? 3 : deviceWidth < 887 ? 6 : 7;
 
 class Cards extends Component {
-    constructor() {
-        super();
-        this.state = {
-            col,
-            row: Math.ceil(_.size(cards) / col),
-            data: cards
-        };
-    }
-
-    componentDidMount() {
-        console.log('called');
-    }
-
-    onChange = (field, value) => this.setState({ [field]: value });
-
+    // onChange = (field, value) => this.setState({ [field]: value });
     render() {
-        const { col, row, data } = this.state;
-        const { navigate } = this.props.navigation;
-        const array = _.toArray(data);
+        const { cards, navigation } = this.props;
+        const row = Math.ceil(_.size(cards) / col);
+        const { navigate } = navigation;
         return (
             <Container>
                 <Header>
@@ -64,11 +49,15 @@ class Cards extends Component {
                             <View style={styles.imageColumn}>
                                 {_.times(col).map((c, ci) => {
                                     const index = ri * col + ci;
-                                    if (index > array.length - 1) {
+                                    if (index > cards.length - 1) {
                                         return false;
                                     }
-                                    const key = array[index].name;
-                                    const item = data[key];
+                                    const item = cards[index];
+                                    const path = item.large_image.default;
+                                    if (!path) {
+                                        console.log(item);
+                                        return false;
+                                    }
                                     return (
                                         <TouchableOpacity
                                             key={ci}
@@ -76,7 +65,7 @@ class Cards extends Component {
                                             onPress={() => navigate('Card', { item })}
                                         >
                                             <Image
-                                                source={item.path}
+                                                source={{ uri: path }}
                                                 style={{ height: 168, width: 99 }}
                                             />
                                         </TouchableOpacity>
@@ -91,4 +80,12 @@ class Cards extends Component {
     }
 }
 
-export default Cards;
+export default connect(
+    state => ({
+        cards: _.filter(
+            state.cardsets.sets[1].card_list,
+            c => c.card_type !== 'Passive Ability' && c.card_type !== 'Ability'
+        )
+    }),
+    {}
+)(Cards);
