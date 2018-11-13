@@ -8,7 +8,7 @@ const drawerImage = require('../../../assets/logo-kitchen-sink.png');
 const datas = [
     {
         name: 'Cards',
-        route: 'Cards',
+        route: 'App',
         icon: 'phone-portrait'
     }
 ];
