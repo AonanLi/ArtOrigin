@@ -6,6 +6,8 @@ import SideBar from './screens/sidebar';
 import Filter from './screens/filter';
 import Cards from './screens/cards';
 import Card from './screens/card';
+import Settings from './screens/settings';
+import Setting from './screens/setting';
 
 const AppNavigator = StackNavigator(
     {
@@ -18,9 +20,21 @@ const AppNavigator = StackNavigator(
     }
 );
 
+const SettingsNavigator = StackNavigator(
+    {
+        Settings: { screen: Settings },
+        Setting: { screen: Setting }
+    },
+    {
+        initialRouteName: 'Settings',
+        headerMode: 'none'
+    }
+);
+
 const RightDrawer = DrawerNavigator(
     {
-        App: AppNavigator
+        App: AppNavigator,
+        Set: SettingsNavigator
     },
     {
         initialRouteName: 'App',

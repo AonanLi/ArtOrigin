@@ -9,7 +9,12 @@ const datas = [
     {
         name: 'Cards',
         route: 'App',
-        icon: 'phone-portrait'
+        icon: 'ios-albums'
+    },
+    {
+        name: 'Settings',
+        route: 'Set',
+        icon: 'ios-settings'
     }
 ];
 

@@ -1,0 +1,32 @@
+const languages = [
+    { value: '', label: '' },
+    { value: 'english', label: 'English' },
+    { value: 'german', label: 'German' },
+    { value: 'french', label: 'French' },
+    { value: 'italian', label: 'Italian' },
+    { value: 'koreana', label: 'Korean' },
+    { value: 'spanish', label: 'Spanish' },
+    { value: 'schinese', label: 'Simplified Chinese' },
+    { value: 'tchinese', label: 'Traditional Chinese' },
+    { value: 'russian', label: 'Russian' },
+    { value: 'thai', label: 'Thai' },
+    { value: 'japanese', label: 'Japanese' },
+    { value: 'portuguese', label: 'Portuguese' },
+    { value: 'polish', label: 'Polish' },
+    { value: 'danish', label: 'Danish' },
+    { value: 'dutch', label: 'Dutch' },
+    { value: 'finnish', label: 'Finnish' },
+    { value: 'norwegian', label: 'Norwegian' },
+    { value: 'swedish', label: 'Swedish' },
+    { value: 'hungarian', label: 'Hungarian' },
+    { value: 'czech', label: 'Czech' },
+    { value: 'romanian', label: 'Romanian' },
+    { value: 'brazilian', label: 'Brazilian' },
+    { value: 'bulgarian', label: 'Bulgarian' },
+    { value: 'greek', label: 'Greek' },
+    { value: 'ukrainian', label: 'Ukrainian' },
+    { value: 'latam', label: 'Latin America' },
+    { value: 'vietnamese', label: 'Vietnamese' }
+];
+
+export default languages;

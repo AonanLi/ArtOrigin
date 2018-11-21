@@ -2,9 +2,11 @@ import { combineReducers } from 'redux';
 import _ from 'lodash';
 
 import cardsets from './cardsets';
+import settings from './settings';
 
 const paths = {
-    cardsets
+    cardsets,
+    settings
 };
 
 const rootReducer = combineReducers(_.mapValues(paths, path => getReducer(path)));

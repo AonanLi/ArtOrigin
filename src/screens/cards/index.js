@@ -24,7 +24,7 @@ const col = deviceWidth < 494 ? 3 : deviceWidth < 887 ? 6 : 7;
 class Cards extends Component {
     // onChange = (field, value) => this.setState({ [field]: value });
     render() {
-        const { cards, navigation } = this.props;
+        const { cards, navigation, language } = this.props;
         const row = Math.ceil(_.size(cards) / col);
         const { navigate } = navigation;
         return (
@@ -54,7 +54,8 @@ class Cards extends Component {
                                         return false;
                                     }
                                     const item = cards[index];
-                                    const path = item.large_image.default;
+                                    const path =
+                                        item.large_image[language] || item.large_image.default;
                                     if (!path) {
                                         console.log(item);
                                         return false;
@@ -83,7 +84,8 @@ export default connect(
         cards: _.filter(
             state.cardsets.sets[1].card_list,
             c => c.card_type !== 'Passive Ability' && c.card_type !== 'Ability'
-        )
+        ),
+        language: state.settings.language
     }),
     {}
 )(Cards);
