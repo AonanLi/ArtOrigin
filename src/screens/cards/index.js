@@ -5,27 +5,32 @@ import {
     Header,
     Title,
     Content,
-    Text,
     Button,
     Icon,
     Left,
     Right,
-    Body
+    Body,
+    Tab,
+    Tabs
 } from 'native-base';
-import { Dimensions, View, TouchableOpacity } from 'react-native';
-import { Image } from 'react-native-expo-image-cache';
+import { FlatList } from 'react-native';
 import _ from 'lodash';
 
-import styles from './styles';
+import ListItem from './ListItem';
 
-const deviceWidth = Dimensions.get('window').width;
-const col = deviceWidth < 494 ? 3 : deviceWidth < 887 ? 6 : 7;
+import { ui } from '../../data/ui';
+
+const typeOrders = {
+    Hero: 0,
+    Creep: 1,
+    Improvement: 2,
+    Spell: 3,
+    Item: 4
+};
 
 class Cards extends Component {
-    // onChange = (field, value) => this.setState({ [field]: value });
     render() {
         const { cards, navigation, language } = this.props;
-        const row = Math.ceil(_.size(cards) / col);
         const { navigate } = navigation;
         return (
             <Container>
@@ -44,35 +49,14 @@ class Cards extends Component {
                         </Button>
                     </Right>
                 </Header>
-                <Content padder>
-                    {_.times(row).map((r, ri) => (
-                        <View style={styles.imageRow} key={ri}>
-                            <View style={styles.imageColumn}>
-                                {_.times(col).map((c, ci) => {
-                                    const index = ri * col + ci;
-                                    if (index > cards.length - 1) {
-                                        return false;
-                                    }
-                                    const item = cards[index];
-                                    const path =
-                                        item.large_image[language] || item.large_image.default;
-                                    if (!path) {
-                                        console.log(item);
-                                        return false;
-                                    }
-                                    return (
-                                        <TouchableOpacity
-                                            key={ci}
-                                            activeOpacity={0.8}
-                                            onPress={() => navigate('Card', { item })}
-                                        >
-                                            <Image uri={path} style={{ height: 168, width: 99 }} />
-                                        </TouchableOpacity>
-                                    );
-                                })}
-                            </View>
-                        </View>
-                    ))}
+                <Content style={{ backgroundColor: 'rgba(0, 0, 0, 0.8)' }}>
+                    <FlatList
+                        style={{ padding: 8 }}
+                        data={cards}
+                        renderItem={({ item }) => (
+                            <ListItem item={item} language={language} navigate={navigate} />
+                        )}
+                    />
                 </Content>
             </Container>
         );
@@ -81,9 +65,18 @@ class Cards extends Component {
 
 export default connect(
     state => ({
-        cards: _.filter(
-            state.cardsets.sets[1].card_list,
-            c => c.card_type !== 'Passive Ability' && c.card_type !== 'Ability'
+        cards: _.sortBy(
+            state.cardsets.sets[0].card_list
+                .concat(state.cardsets.sets[1].card_list)
+                .filter(
+                    c =>
+                        c.card_type !== 'Passive Ability' &&
+                        c.card_type !== 'Ability' &&
+                        c.card_type !== 'Pathing' &&
+                        c.card_type !== 'Stronghold'
+                )
+                .map(c => ({ ...c, key: c.card_id.toString() })),
+            c => typeOrders[c.card_type]
         ),
         language: state.settings.language
     }),

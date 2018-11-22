@@ -67,6 +67,9 @@ class Setup extends Component {
     }
 }
 
-export default connect(state => ({ sets: state.cardsets.sets, loading: state.cardsets.loading }), {
-    saveCardsets
-})(Setup);
+export default connect(
+    state => ({ sets: state.cardsets.sets, loading: state.cardsets.loading }),
+    {
+        saveCardsets
+    }
+)(Setup);
