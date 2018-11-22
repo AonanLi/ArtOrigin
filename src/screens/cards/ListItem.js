@@ -4,6 +4,7 @@ import { View, ImageBackground, TouchableOpacity, Image as NativeImage } from 'r
 import { Image } from 'react-native-expo-image-cache';
 
 import { ui } from '../../data/ui';
+import defaultGet from '../../utils/defaultGet';
 
 const getBackground = ({ is_red, is_blue, is_green, is_black, card_type }) => {
     const { red, blue, green, black, item } = ui;
@@ -55,12 +56,12 @@ const getCost = ({ mana_cost, gold_cost }) => mana_cost || gold_cost;
 
 const ListItem = ({ item, language, navigate }) => {
     const path = item.mini_image.default;
-    const text = item.card_name[language] || item.card_name.english;
+    const text = defaultGet(item.card_name, language, 'english');
     const background = getBackground(item);
     const type = getType(item);
     const cost = getCost(item);
     return (
-        <TouchableOpacity onPress={() => navigate('Card', { item })} activeOpacity={0.8}>
+        <TouchableOpacity onPress={() => navigate('Card', { item, language })} activeOpacity={0.8}>
             <ImageBackground
                 source={background}
                 style={{
