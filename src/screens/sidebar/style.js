@@ -5,10 +5,6 @@ const deviceHeight = Dimensions.get('window').height;
 const deviceWidth = Dimensions.get('window').width;
 
 export default {
-    content: {
-        flex: 1,
-        top: -1
-    },
     drawerCover: {
         alignSelf: 'stretch',
         height: deviceHeight / 3.5,

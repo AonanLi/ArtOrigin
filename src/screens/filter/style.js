@@ -1,10 +1,6 @@
 const React = require('react-native');
 
 export default {
-    content: {
-        flex: 1,
-        top: -1
-    },
     row: {
         flex: 1,
         flexDirection: 'row',

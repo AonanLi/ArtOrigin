@@ -4,9 +4,12 @@ import { ImageBackground } from 'react-native';
 
 import { ui } from '../data/ui';
 
-const Background = ({ children }) => (
+const Background = ({ children, path }) => (
     <Container>
-        <ImageBackground source={ui.background} style={{ width: '100%', height: '100%' }}>
+        <ImageBackground
+            source={path ? ui[path] : ui.background}
+            style={{ width: '100%', height: '100%' }}
+        >
             {children}
         </ImageBackground>
     </Container>

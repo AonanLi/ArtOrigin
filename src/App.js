@@ -41,7 +41,8 @@ const RightDrawer = DrawerNavigator(
         drawerPosition: 'right',
         drawerOpenRoute: 'Filter',
         navigationOptions: { drawerLockMode: 'locked-closed' },
-        contentComponent: props => <Filter {...props} />
+        contentComponent: props => <Filter {...props} />,
+        drawerBackgroundColor: 'rgba(0, 0, 0, 0.9)'
     }
 );
 
@@ -51,7 +52,8 @@ const Drawer = DrawerNavigator(
     },
     {
         navigationOptions: { drawerLockMode: 'locked-closed' },
-        contentComponent: props => <SideBar {...props} />
+        contentComponent: props => <SideBar {...props} />,
+        drawerBackgroundColor: 'rgba(0, 0, 0, 0.9)'
     }
 );
 

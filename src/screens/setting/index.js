@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import {
-    Container,
     Header,
     Title,
     Content,
@@ -10,11 +9,13 @@ import {
     Left,
     Right,
     Body,
-    List,
+    View,
     ListItem,
     Text
 } from 'native-base';
 import _ from 'lodash';
+
+import Background from '../../components/Background';
 
 import { editSetting } from '../../actions/settings';
 import languages from '../../utils/languages';
@@ -23,7 +24,7 @@ const Settings = ({ navigation, settings, editSetting }) => {
     const { label, path, options } = navigation.state.params.s;
     const value = _.get(settings, path, '');
     return (
-        <Container>
+        <Background path="sidebar">
             <Header>
                 <Left>
                     <Button transparent onPress={() => navigation.goBack()}>
@@ -35,7 +36,7 @@ const Settings = ({ navigation, settings, editSetting }) => {
                 </Body>
             </Header>
             <Content>
-                <List style={{ paddingTop: 8 }}>
+                <View style={{ paddingTop: 8 }}>
                     {options.filter(o => o.value !== '').map((o, i) => (
                         <ListItem
                             underlayColor="#150f19"
@@ -51,10 +52,13 @@ const Settings = ({ navigation, settings, editSetting }) => {
                             </Right>
                         </ListItem>
                     ))}
-                </List>
+                </View>
             </Content>
-        </Container>
+        </Background>
     );
 };
 
-export default connect(state => ({ settings: state.settings }), { editSetting })(Settings);
+export default connect(
+    state => ({ settings: state.settings }),
+    { editSetting }
+)(Settings);

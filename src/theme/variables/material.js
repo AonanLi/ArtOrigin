@@ -181,7 +181,7 @@ export default {
     listDividerBg: '#f4f4f4',
     listBtnUnderlayColor: '#DDD',
     listItemPadding: 12,
-    listNoteColor: '#808080',
+    listNoteColor: '#8d8e8d',
     listNoteSize: 13,
 
     // Progress Bar

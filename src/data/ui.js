@@ -17,7 +17,8 @@ export const ui = {
     item: require('../../assets/ui/card_list_bg_item.png'),
     background: require('../../assets/ui/deck_list_fullbg.png'),
     drawerCover: require('../../assets/ui/drawer-cover.png'),
-    drawerImage: require('../../assets/ui/artifact_logo_top.png')
+    drawerImage: require('../../assets/ui/artifact_logo_top.png'),
+    sidebar: require('../../assets/ui/sidebar.jpg')
 };
 
 export default _.toArray(ui);

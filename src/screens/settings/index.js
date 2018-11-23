@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import {
-    Container,
     Header,
     Title,
     Content,
@@ -10,11 +9,13 @@ import {
     Left,
     Right,
     Body,
-    List,
+    View,
     ListItem,
     Text
 } from 'native-base';
 import _ from 'lodash';
+
+import Background from '../../components/Background';
 
 import languages from '../../utils/languages';
 
@@ -29,7 +30,7 @@ const lists = [
 
 const Settings = ({ navigation, settings, editSetting }) => {
     return (
-        <Container>
+        <Background path="sidebar">
             <Header>
                 <Left>
                     <Button transparent onPress={() => navigation.navigate('DrawerOpen')}>
@@ -41,7 +42,7 @@ const Settings = ({ navigation, settings, editSetting }) => {
                 </Body>
             </Header>
             <Content>
-                <List style={{ paddingTop: 8 }}>
+                <View style={{ paddingTop: 8 }}>
                     {lists.map((s, i) => {
                         const { icon, label, path, options } = s;
                         const value = _.get(settings, path, '');
@@ -65,10 +66,13 @@ const Settings = ({ navigation, settings, editSetting }) => {
                             </ListItem>
                         );
                     })}
-                </List>
+                </View>
             </Content>
-        </Container>
+        </Background>
     );
 };
 
-export default connect(state => ({ settings: state.settings }), {})(Settings);
+export default connect(
+    state => ({ settings: state.settings }),
+    {}
+)(Settings);
