@@ -21,7 +21,7 @@ export default {
 
   // Badge
   badgeBg: "#ED1727",
-  badgeColor: "#fff",
+  badgeColor: "#cad4ff",
   badgePadding: platform === "ios" ? 3 : 0,
 
   // Button
@@ -78,7 +78,7 @@ export default {
   },
 
   // Card
-  cardDefaultBg: "#fff",
+  cardDefaultBg: "#cad4ff",
   cardBorderColor: "#ccc",
 
   // CheckBox
@@ -92,7 +92,7 @@ export default {
   DefaultFontSize: 17,
   checkboxBgColor: "#039BE5",
   checkboxSize: 20,
-  checkboxTickColor: "#fff",
+  checkboxTickColor: "#cad4ff",
 
   // Color
   brandPrimary: platform === "ios" ? "#007aff" : "#3F51B5",
@@ -124,20 +124,20 @@ export default {
   // FooterTab
   tabBarTextColor: platform === "ios" ? "#6b6b6b" : "#b3c7f9",
   tabBarTextSize: platform === "ios" ? 14 : 11,
-  activeTab: platform === "ios" ? "#007aff" : "#fff",
+  activeTab: platform === "ios" ? "#007aff" : "#cad4ff",
   sTabBarActiveTextColor: "#007aff",
-  tabBarActiveTextColor: platform === "ios" ? "#007aff" : "#fff",
+  tabBarActiveTextColor: platform === "ios" ? "#007aff" : "#cad4ff",
   tabActiveBgColor: platform === "ios" ? "#cde1f9" : "#3F51B5",
 
   // Header
-  toolbarBtnColor: platform === "ios" ? "#007aff" : "#fff",
+  toolbarBtnColor: platform === "ios" ? "#007aff" : "#cad4ff",
   toolbarDefaultBg: platform === "ios" ? "#F8F8F8" : "#3F51B5",
   toolbarHeight: platform === "ios" ? (isIphoneX ? 88 : 64) : 56,
   toolbarSearchIconSize: platform === "ios" ? 20 : 23,
-  toolbarInputColor: platform === "ios" ? "#CECDD2" : "#fff",
+  toolbarInputColor: platform === "ios" ? "#CECDD2" : "#cad4ff",
   searchBarHeight: platform === "ios" ? 30 : 40,
   searchBarInputHeight: platform === "ios" ? 30 : 50,
-  toolbarBtnTextColor: platform === "ios" ? "#007aff" : "#fff",
+  toolbarBtnTextColor: platform === "ios" ? "#007aff" : "#cad4ff",
   toolbarDefaultBorder: platform === "ios" ? "#a7a6ab" : "#3F51B5",
   iosStatusbar: platform === "ios" ? "dark-content" : "light-content",
   get statusBarColor() {
@@ -199,10 +199,10 @@ export default {
 
   // Segment
   segmentBackgroundColor: platform === "ios" ? "#F8F8F8" : "#3F51B5",
-  segmentActiveBackgroundColor: platform === "ios" ? "#007aff" : "#fff",
-  segmentTextColor: platform === "ios" ? "#007aff" : "#fff",
-  segmentActiveTextColor: platform === "ios" ? "#fff" : "#3F51B5",
-  segmentBorderColor: platform === "ios" ? "#007aff" : "#fff",
+  segmentActiveBackgroundColor: platform === "ios" ? "#007aff" : "#cad4ff",
+  segmentTextColor: platform === "ios" ? "#007aff" : "#cad4ff",
+  segmentActiveTextColor: platform === "ios" ? "#cad4ff" : "#3F51B5",
+  segmentBorderColor: platform === "ios" ? "#007aff" : "#cad4ff",
   segmentBorderColorMain: platform === "ios" ? "#a7a6ab" : "#3F51B5",
 
   // Spinner
@@ -212,9 +212,9 @@ export default {
   // Tab
   tabDefaultBg: platform === "ios" ? "#F8F8F8" : "#3F51B5",
   topTabBarTextColor: platform === "ios" ? "#6b6b6b" : "#b3c7f9",
-  topTabBarActiveTextColor: platform === "ios" ? "#007aff" : "#fff",
-  topTabBarBorderColor: platform === "ios" ? "#a7a6ab" : "#fff",
-  topTabBarActiveBorderColor: platform === "ios" ? "#007aff" : "#fff",
+  topTabBarActiveTextColor: platform === "ios" ? "#007aff" : "#cad4ff",
+  topTabBarBorderColor: platform === "ios" ? "#a7a6ab" : "#cad4ff",
+  topTabBarActiveBorderColor: platform === "ios" ? "#007aff" : "#cad4ff",
 
   // Tabs
   tabBgColor: "#F8F8F8",
@@ -222,7 +222,7 @@ export default {
 
   // Text
   textColor: "#000",
-  inverseTextColor: "#fff",
+  inverseTextColor: "#cad4ff",
   noteFontSize: 14,
   get defaultTextColor() {
     return this.textColor;
@@ -232,8 +232,8 @@ export default {
   titleFontfamily: platform === "ios" ? "System" : "Roboto_medium",
   titleFontSize: platform === "ios" ? 17 : 19,
   subTitleFontSize: platform === "ios" ? 12 : 14,
-  subtitleColor: platform === "ios" ? "#8e8e93" : "#FFF",
-  titleFontColor: platform === "ios" ? "#000" : "#FFF",
+  subtitleColor: platform === "ios" ? "#8e8e93" : "#cad4ff",
+  titleFontColor: platform === "ios" ? "#000" : "#cad4ff",
 
   // Other
   borderRadiusBase: platform === "ios" ? 5 : 2,

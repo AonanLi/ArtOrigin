@@ -50,6 +50,7 @@ const Settings = ({ navigation, settings, editSetting }) => {
                             : value;
                         return (
                             <ListItem
+                                underlayColor="#150f19"
                                 key={i}
                                 icon
                                 onPress={() => navigation.navigate('Setting', { s })}
@@ -70,7 +71,4 @@ const Settings = ({ navigation, settings, editSetting }) => {
     );
 };
 
-export default connect(
-    state => ({ settings: state.settings }),
-    {}
-)(Settings);
+export default connect(state => ({ settings: state.settings }), {})(Settings);

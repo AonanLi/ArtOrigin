@@ -28,6 +28,8 @@ const getBackground = ({ is_red, is_blue, is_green, is_black, card_type }) => {
 const getType = ({ card_type, sub_type }) => {
     const { creeps, improve, spells, heroes, weapon, armor, accessory, consumable } = ui;
     switch (card_type) {
+        case 'Hero':
+            return heroes;
         case 'Creep':
             return creeps;
         case 'Improvement':
@@ -52,7 +54,7 @@ const getType = ({ card_type, sub_type }) => {
     }
 };
 
-const getCost = ({ mana_cost, gold_cost }) => mana_cost || gold_cost;
+const getCost = ({ mana_cost, gold_cost }) => mana_cost || gold_cost || '-';
 
 const ListItem = ({ item, language, navigate }) => {
     const path = item.mini_image.default;
@@ -67,7 +69,6 @@ const ListItem = ({ item, language, navigate }) => {
                 style={{
                     height: 45,
                     width: '100%',
-                    flex: 1,
                     flexDirection: 'row',
                     justifyContent: 'space-between'
                 }}
@@ -99,7 +100,17 @@ const ListItem = ({ item, language, navigate }) => {
                     >
                         {cost}
                     </Text>
-                    <Text style={{ flex: 5, color: 'white' }}>{text}</Text>
+                    <Text
+                        style={{
+                            flex: 5,
+                            color: 'white',
+                            textShadowColor: '#585858',
+                            textShadowOffset: { width: 5, height: 5 },
+                            textShadowRadius: 10
+                        }}
+                    >
+                        {text}
+                    </Text>
                     <Text style={{ flex: 1, color: 'white' }}>x3</Text>
                 </View>
             </ImageBackground>

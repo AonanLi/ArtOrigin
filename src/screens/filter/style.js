@@ -3,7 +3,6 @@ const React = require('react-native');
 export default {
     content: {
         flex: 1,
-        backgroundColor: '#fff',
         top: -1
     },
     row: {

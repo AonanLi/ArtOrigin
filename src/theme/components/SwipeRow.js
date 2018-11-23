@@ -1,10 +1,10 @@
-import variable from "./../variables/platform";
+import variable from "./../variables/material";
 
 export default (variables = variable) => {
 	const swipeRowTheme = {
 		"NativeBase.ListItem": {
 			".list": {
-				backgroundColor: "#FFF",
+				backgroundColor: "#cad4ff",
 			},
 			marginLeft: 0,
 		},

@@ -38,6 +38,7 @@ const Settings = ({ navigation, settings, editSetting }) => {
                 <List style={{ paddingTop: 8 }}>
                     {options.filter(o => o.value !== '').map((o, i) => (
                         <ListItem
+                            underlayColor="#150f19"
                             key={i}
                             selected={o.value === value}
                             onPress={() => editSetting(path, o.value)}
@@ -56,7 +57,4 @@ const Settings = ({ navigation, settings, editSetting }) => {
     );
 };
 
-export default connect(
-    state => ({ settings: state.settings }),
-    { editSetting }
-)(Settings);
+export default connect(state => ({ settings: state.settings }), { editSetting })(Settings);

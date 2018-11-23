@@ -1,8 +1,9 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { Container, Header, Title, Content, Text, Button, Icon, Left, Body } from 'native-base';
+import { Header, Title, Content, Text, Button, Icon, Left, Body } from 'native-base';
 import _ from 'lodash';
 
+import Background from '../../components/Background';
 import FullWidthImage from './FullWidthImage';
 import References from './References';
 
@@ -11,7 +12,7 @@ import defaultGet from '../../utils/defaultGet';
 const Card = ({ navigation, language, refs }) => {
     const { card_name, large_image } = navigation.state.params.item;
     return (
-        <Container>
+        <Background>
             <Header>
                 <Left>
                     <Button transparent onPress={() => navigation.goBack()}>
@@ -22,11 +23,11 @@ const Card = ({ navigation, language, refs }) => {
                     <Title>{defaultGet(card_name, language, 'english')}</Title>
                 </Body>
             </Header>
-            <Content style={{ paddingTop: 20 }}>
+            <Content>
                 <FullWidthImage uri={defaultGet(large_image, language, 'default')} />
                 <References refs={refs} language={language} />
             </Content>
-        </Container>
+        </Background>
     );
 };
 
@@ -42,18 +43,15 @@ const getRefs = (item, refs, origin) =>
         return false;
     });
 
-export default connect(
-    (state, props) => {
-        const { item } = props.navigation.state.params;
-        const { refs } = state.cardsets;
+export default connect((state, props) => {
+    const { item } = props.navigation.state.params;
+    const { refs } = state.cardsets;
 
-        const first = getRefs(item, refs, item);
-        const second = _.uniq(_.flatten(first.map(i => getRefs(i, refs, item))));
-        const combine = _.compact(first.concat(second));
-        return {
-            refs: combine,
-            language: state.settings.language
-        };
-    },
-    {}
-)(Card);
+    const first = getRefs(item, refs, item);
+    const second = _.flatten(first.map(i => getRefs(i, refs, item)));
+    const combine = _.uniq(_.compact(first.concat(second)));
+    return {
+        refs: combine,
+        language: state.settings.language
+    };
+}, {})(Card);

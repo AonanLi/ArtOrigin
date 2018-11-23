@@ -7,6 +7,11 @@ import ShowIf from '../../components/ShowIf';
 
 import defaultGet from '../../utils/defaultGet';
 
+const typeNames = {
+    Ability: 'Active',
+    'Passive Ability': 'Passive'
+};
+
 const References = ({ refs, language }) => {
     const partition = _.partition(
         refs,
@@ -17,7 +22,7 @@ const References = ({ refs, language }) => {
     return (
         <View>
             <ShowIf condition={ability.length > 0}>
-                <ListItem itemHeader noBorder>
+                <ListItem noBorder>
                     <Text>Ability</Text>
                 </ListItem>
                 {ability.map((c, i) => (
@@ -27,13 +32,13 @@ const References = ({ refs, language }) => {
                             <Text note>{defaultGet(c.card_text, language, 'english', true)}</Text>
                         </Body>
                         <Right>
-                            <Text note>{c.card_type}</Text>
+                            <Text note>{typeNames[c.card_type]}</Text>
                         </Right>
                     </ListItem>
                 ))}
             </ShowIf>
             <ShowIf condition={includes.length > 0}>
-                <ListItem itemHeader noBorder>
+                <ListItem noBorder>
                     <Text>Includes</Text>
                 </ListItem>
                 {includes.map((c, i) => (

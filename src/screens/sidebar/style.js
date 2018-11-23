@@ -7,7 +7,6 @@ const deviceWidth = Dimensions.get('window').width;
 export default {
     content: {
         flex: 1,
-        backgroundColor: '#fff',
         top: -1
     },
     drawerCover: {
@@ -22,7 +21,7 @@ export default {
         left: Platform.OS === 'android' ? deviceWidth / 10 : deviceWidth / 9,
         top: Platform.OS === 'android' ? deviceHeight / 13 : deviceHeight / 12,
         width: 210,
-        height: 75,
+        height: 84,
         resizeMode: 'cover'
     },
     text: {

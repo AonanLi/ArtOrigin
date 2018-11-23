@@ -49,7 +49,7 @@ class Cards extends PureComponent {
                         </Button>
                     </Right>
                 </Header>
-                <Content style={{ backgroundColor: 'rgba(0, 0, 0, 0.8)' }}>
+                <Content>
                     <FlatList
                         style={{ padding: 8 }}
                         data={cards}

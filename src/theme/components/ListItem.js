@@ -1,16 +1,16 @@
 import { Platform, PixelRatio } from 'react-native';
 
 import pickerTheme from './Picker';
-import variable from './../variables/platform';
+import variable from './../variables/material';
 
 export default (variables = variable) => {
     const platform = variables.platform;
     const selectedStyle = {
         'NativeBase.Text': {
-            color: variables.brandPrimary
+            color: variables.titleFontColor
         },
         'NativeBase.Icon': {
-            color: variables.brandPrimary
+            color: variables.titleFontColor
         }
     };
 
@@ -57,7 +57,7 @@ export default (variables = variable) => {
                 flex: 1,
                 height: platform === 'ios' ? 30 : 40,
                 borderColor: 'transparent',
-                backgroundColor: '#fff',
+                backgroundColor: '#cad4ff',
                 borderRadius: 5
             },
             'NativeBase.Button': {

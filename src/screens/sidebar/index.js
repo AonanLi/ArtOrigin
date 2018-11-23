@@ -1,10 +1,10 @@
 import React, { Component } from 'react';
 import { Image } from 'react-native';
 import { Content, Text, List, ListItem, Icon, Container, Left } from 'native-base';
+
+import { ui } from '../../data/ui';
 import styles from './style';
 
-const drawerCover = require('../../../assets/drawer-cover.png');
-const drawerImage = require('../../../assets/logo-kitchen-sink.png');
 const datas = [
     {
         name: 'Cards',
@@ -23,12 +23,13 @@ class SideBar extends Component {
         return (
             <Container>
                 <Content bounces={false} style={styles.content}>
-                    <Image source={drawerCover} style={styles.drawerCover} />
-                    <Image square style={styles.drawerImage} source={drawerImage} />
+                    <Image source={ui.drawerCover} style={styles.drawerCover} />
+                    <Image square source={ui.drawerImage} style={styles.drawerImage} />
                     <List
                         dataArray={datas}
                         renderRow={data => (
                             <ListItem
+                                underlayColor="#150f19"
                                 button
                                 noBorder
                                 onPress={() => this.props.navigation.navigate(data.route)}

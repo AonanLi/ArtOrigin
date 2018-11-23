@@ -1,6 +1,6 @@
 import { Platform } from "react-native";
 
-import variable from "./../variables/platform";
+import variable from "./../variables/material";
 
 export default (variables = variable) => {
   const radioTheme = {

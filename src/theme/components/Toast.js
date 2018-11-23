@@ -1,4 +1,4 @@
-import variable from "./../variables/platform";
+import variable from "./../variables/material";
 
 export default (variables = variable) => {
   const platform = variables.platform;
@@ -21,7 +21,7 @@ export default (variables = variable) => {
     padding: 10,
     minHeight: 50,
     "NativeBase.Text": {
-      color: "#fff",
+      color: "#cad4ff",
       flex: 1
     },
     "NativeBase.Button": {
