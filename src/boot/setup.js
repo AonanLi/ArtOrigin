@@ -31,8 +31,8 @@ class Setup extends Component {
     }
 
     componentDidMount() {
-        const { sets, saveCardsets } = this.props;
-        if (!sets) {
+        const { cards, saveCardsets } = this.props;
+        if (!cards) {
             this.props.saveCardsets();
         }
     }

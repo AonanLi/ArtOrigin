@@ -15,7 +15,7 @@ export const getCardSets = () =>
                 return axios({
                     method: 'get',
                     url: `${cdn_root}${url}`
-                }).then(set => set.data.card_set);
+                }).then(set => set.data.card_set.card_list);
             })
         )
     ).catch(err => console.log(err));

@@ -81,7 +81,7 @@ class Filter extends Component {
                     keyboardShouldPersistTaps="never"
                 >
                     <List>
-                        <ListHeader visible text="VIEW">
+                        <ListHeader text="VIEW">
                             {modes.map((m, i) => (
                                 <IconButton
                                     key={i}
@@ -91,31 +91,31 @@ class Filter extends Component {
                                 />
                             ))}
                         </ListHeader>
-                        <ListHeader visible text="COLOR">
+                        <ListHeader text="COLOR">
                             {colors.map((c, i) => (
                                 <SmallButton key={i} item={c} record={state} onChange={onChange} />
                             ))}
                         </ListHeader>
-                        <ListHeader visible text="RARITY">
+                        <ListHeader text="RARITY">
                             {rarity.map((r, i) => (
                                 <SmallButton key={i} item={r} record={state} onChange={onChange} />
                             ))}
                         </ListHeader>
-                        <ListHeader visible text="TYPE">
+                        <ListHeader text="TYPE">
                             {types.map((t, i) => (
                                 <SmallButton key={i} item={t} record={state} onChange={onChange}>
                                     <Image source={t.icon} style={styles.buttonImage} />
                                 </SmallButton>
                             ))}
                         </ListHeader>
-                        <ListHeader visible>
+                        <ListHeader>
                             {items.map((t, i) => (
                                 <SmallButton key={i} item={t} record={state} onChange={onChange}>
                                     <Image source={t.icon} style={styles.buttonImage} />
                                 </SmallButton>
                             ))}
                         </ListHeader>
-                        <ListHeader visible={showMana} text="MANA">
+                        <ListHeader hide={!showMana} text="MANA">
                             <Slider
                                 label="mana"
                                 max={10}
@@ -124,7 +124,7 @@ class Filter extends Component {
                                 onChange={onChange}
                             />
                         </ListHeader>
-                        <ListHeader visible={showGold} text="GOLD">
+                        <ListHeader hide={!showGold} text="GOLD">
                             <Slider
                                 label="gold"
                                 max={25}
@@ -133,7 +133,7 @@ class Filter extends Component {
                                 onChange={onChange}
                             />
                         </ListHeader>
-                        <ListHeader visible={heroes} text="STATS">
+                        <ListHeader hide={!heroes} text="STATS">
                             <Slider
                                 label="attack"
                                 max={20}
@@ -143,7 +143,7 @@ class Filter extends Component {
                                 onChange={onChange}
                             />
                         </ListHeader>
-                        <ListHeader visible={heroes}>
+                        <ListHeader hide={!heroes}>
                             <Slider
                                 label="defense"
                                 max={20}
@@ -153,7 +153,7 @@ class Filter extends Component {
                                 onChange={onChange}
                             />
                         </ListHeader>
-                        <ListHeader visible={heroes}>
+                        <ListHeader hide={!heroes}>
                             <Slider
                                 label="health"
                                 max={20}

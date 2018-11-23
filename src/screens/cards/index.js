@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { PureComponent } from 'react';
 import { connect } from 'react-redux';
 import {
     Container,
@@ -28,9 +28,9 @@ const typeOrders = {
     Item: 4
 };
 
-class Cards extends Component {
+class Cards extends PureComponent {
     render() {
-        const { cards, navigation, language } = this.props;
+        const { cards, language, navigation } = this.props;
         const { navigate } = navigation;
         return (
             <Container>
@@ -65,19 +65,7 @@ class Cards extends Component {
 
 export default connect(
     state => ({
-        cards: _.sortBy(
-            state.cardsets.sets[0].card_list
-                .concat(state.cardsets.sets[1].card_list)
-                .filter(
-                    c =>
-                        c.card_type !== 'Passive Ability' &&
-                        c.card_type !== 'Ability' &&
-                        c.card_type !== 'Pathing' &&
-                        c.card_type !== 'Stronghold'
-                )
-                .map(c => ({ ...c, key: c.card_id.toString() })),
-            c => typeOrders[c.card_type]
-        ),
+        cards: _.sortBy(state.cardsets.cards, c => typeOrders[c.card_type]),
         language: state.settings.language
     }),
     {}

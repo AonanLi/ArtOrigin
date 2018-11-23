@@ -4,8 +4,8 @@ import { Text, List, ListItem } from 'native-base';
 
 import styles from './style';
 
-const ListHeader = ({ text, visible, children }) => {
-    if (visible) {
+const ListHeader = ({ text, hide, children }) => {
+    if (!hide) {
         return (
             <View>
                 {text ? (

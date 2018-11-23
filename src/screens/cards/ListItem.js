@@ -61,7 +61,7 @@ const ListItem = ({ item, language, navigate }) => {
     const type = getType(item);
     const cost = getCost(item);
     return (
-        <TouchableOpacity onPress={() => navigate('Card', { item, language })} activeOpacity={0.8}>
+        <TouchableOpacity onPress={() => navigate('Card', { item })} activeOpacity={0.8}>
             <ImageBackground
                 source={background}
                 style={{

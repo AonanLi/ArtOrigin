@@ -2,10 +2,10 @@ import { getCardSets } from '../api/artifact';
 
 export const saveCardsets = () => dispatch => {
     dispatch(setCardsetsLoading(true));
-    getCardSets().then(sets => {
+    getCardSets().then(cards => {
         dispatch({
             type: 'SAVE_CARDSETS',
-            payload: sets
+            payload: cards
         });
         dispatch(setCardsetsLoading(false));
     });
