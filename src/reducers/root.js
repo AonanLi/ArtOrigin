@@ -3,10 +3,12 @@ import _ from 'lodash';
 
 import cardsets from './cardsets';
 import settings from './settings';
+import filters from './filters';
 
 const paths = {
     cardsets,
-    settings
+    settings,
+    filters
 };
 
 const rootReducer = combineReducers(_.mapValues(paths, path => getReducer(path)));
