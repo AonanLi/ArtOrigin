@@ -7,7 +7,22 @@ export const setFilterValue = (path, value) => ({
     payload: { path, value }
 });
 
-export const setFilterRange = (path, index, value) => ({
-    type: 'SET_FILTER_RANGE',
-    payload: { path, index, value }
+export const setColor = value => ({
+    type: 'SET_COLOR',
+    payload: value
+});
+
+export const setCardType = value => ({
+    type: 'SET_CARDTYPE',
+    payload: value
+});
+
+export const setSubType = value => ({
+    type: 'SET_SUBTYPE',
+    payload: value
+});
+
+export const setRarity = value => ({
+    type: 'SET_RARITY',
+    payload: value
 });

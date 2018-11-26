@@ -7,14 +7,13 @@ import styles from './style';
 class Slider extends Component {
     constructor(props) {
         super(props);
-        const { label, record } = props;
-        this.state = { values: record[label] };
+        this.state = { values: props.record };
     }
 
     onChange = values => this.setState({ values });
 
     render() {
-        const { label, max, icon, color, onChange } = this.props;
+        const { path, max, icon, color, onChange, lock } = this.props;
         const { values } = this.state;
         const slider = (
             <MultiSlider
@@ -24,14 +23,14 @@ class Slider extends Component {
                 max={max}
                 selectedStyle={{ backgroundColor: color }}
                 isMarkersSeparated
-                onValuesChangeStart={() => onChange('locked', true)}
+                onValuesChangeStart={() => lock(true)}
                 onValuesChangeFinish={v => {
-                    onChange('locked', false);
-                    onChange(label, v);
+                    lock(false);
+                    onChange(path, v);
                 }}
                 onValuesChange={v => this.setState({ values: v })}
                 customMarkerLeft={() => (
-                    <View style={{ marginTop: 22 }}>
+                    <View style={styles.outer}>
                         <View
                             style={{
                                 width: 14,
@@ -40,11 +39,11 @@ class Slider extends Component {
                                 backgroundColor: color
                             }}
                         />
-                        <Text style={{ marginTop: 5, marginLeft: 3 }}>{values[0]}</Text>
+                        <Text style={styles.left}>{values[0]}</Text>
                     </View>
                 )}
                 customMarkerRight={() => (
-                    <View style={{ marginTop: 22 }}>
+                    <View style={styles.outer}>
                         <View
                             style={{
                                 width: 14,
@@ -53,7 +52,7 @@ class Slider extends Component {
                                 backgroundColor: color
                             }}
                         />
-                        <Text style={{ marginTop: 5 }}>{values[1]}</Text>
+                        <Text style={styles.right}>{values[1]}</Text>
                     </View>
                 )}
             />

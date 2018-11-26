@@ -1,10 +1,10 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
 import { Image } from 'react-native';
 import { Content } from 'native-base';
 import _ from 'lodash';
 
 import SearchBar from './SearchBar';
-import IconButton from './IconButton';
 import ListHeader from './ListHeader';
 import SmallButton from './SmallButton';
 import Slider from './Slider';
@@ -12,151 +12,172 @@ import Background from '../../components/Background';
 
 import { ui } from '../../data/ui';
 import styles from './style';
+import * as filters from '../../actions/filters';
 
 const colors = [
-    { label: 'red', value: '#F44336' },
-    { label: 'green', value: '#00C853' },
-    { label: 'blue', value: '#2196F3' },
-    { label: 'black', value: '#212121' }
-];
-const rarity = [
-    { label: 'basic', value: '#E0E0E0' },
-    { label: 'common', value: '#5D4037' },
-    { label: 'uncommon', value: '#424242' },
-    { label: 'rare', value: '#FFD740' }
-];
-const types = [
-    { label: 'heroes', icon: ui.heroes },
-    { label: 'spells', icon: ui.spells },
-    { label: 'creeps', icon: ui.creeps },
-    { label: 'improve', icon: ui.improve }
-];
-const items = [
-    { label: 'weapon', icon: ui.weapon },
-    { label: 'armor', icon: ui.armor },
-    { label: 'accessory', icon: ui.accessory },
-    { label: 'consumable', icon: ui.consumable }
-];
-const modes = [
-    { text: 'Card View', icon: 'md-apps', value: 'card' },
-    { text: 'List View', icon: 'md-list', value: 'list' }
+    { label: 'is_red', value: '#7B2435', unselected: '#4f1722' },
+    { label: 'is_green', value: '#4C733C', unselected: '#2c4323' },
+    { label: 'is_blue', value: '#145982', unselected: '#0a2e42' },
+    { label: 'is_black', value: '#25242A', unselected: '#0c0c0e' }
 ];
 
-const buttonState = _.reduce(
-    _.keyBy(_.flatten([colors, rarity, types, items]), i => i.label),
-    (r, v, k) => ({ ...r, [k]: false }),
-    {}
-);
+const rarities = [
+    { label: 'Basic', value: '#E0E0E0', unselected: '#999999' },
+    { label: 'Common', value: '#5D4037', unselected: '#30211c' },
+    { label: 'Uncommon', value: '#424242', unselected: '#262626' },
+    { label: 'Rare', value: '#FFD740', unselected: '#b38c00' }
+];
 
-const defaultState = {
-    ...buttonState,
-    mana: [0, 10],
-    gold: [0, 25],
-    attack: [0, 20],
-    defense: [0, 20],
-    health: [0, 20],
-    keyword: ''
-};
+const card_types = [
+    { label: 'Hero', icon: ui.heroes },
+    { label: 'Spell', icon: ui.spells },
+    { label: 'Creep', icon: ui.creeps },
+    { label: 'Improvement', icon: ui.improve }
+];
+
+const sub_types = [
+    { label: 'Weapon', icon: ui.weapon },
+    { label: 'Armor', icon: ui.armor },
+    { label: 'Accessory', icon: ui.accessory },
+    { label: 'Consumable', icon: ui.consumable }
+];
 
 class Filter extends Component {
     constructor() {
         super();
-        this.state = { ...defaultState, mode: 'card', locked: false };
+        this.state = { locked: false };
     }
 
-    onChange = (field, value) => this.setState({ [field]: value });
-
-    reset = () => this.setState(defaultState);
+    lock = locked => this.setState({ locked });
 
     render() {
-        const { onChange, reset, state } = this;
-        const { heroes, keyword, mode, locked } = state;
-        const showMana = _.find(types, t => t.label !== 'heroes' && state[t.label]);
-        const showGold = _.find(items, i => state[i.label]);
+        const {
+            filterState,
+            resetFilter,
+            setFilterValue,
+            setColor,
+            setCardType,
+            setSubType,
+            setRarity
+        } = this.props;
+        const {
+            card_type,
+            sub_type,
+            keyword,
+            color,
+            rarity,
+            mana_cost,
+            gold_cost,
+            attack,
+            armor,
+            hit_points
+        } = filterState;
+        const showMana =
+            card_type.includes('Spell') ||
+            card_type.includes('Creep') ||
+            card_type.includes('Improvement');
+        const showGold = !_.isEmpty(sub_type);
+        const hasHero = card_type.includes('Hero');
+
         return (
             <Background path="sidebar">
-                <SearchBar onChange={onChange} reset={reset} keyword={keyword} />
-                <Content scrollEnabled={!locked} keyboardShouldPersistTaps="never">
-                    <ListHeader text="VIEW">
-                        {modes.map((m, i) => (
-                            <IconButton
-                                key={i}
-                                item={m}
-                                selected={mode === m.value}
-                                onChange={onChange}
+                <SearchBar onChange={setFilterValue} reset={resetFilter} keyword={keyword} />
+                <Content scrollEnabled={!this.state.locked} keyboardShouldPersistTaps="never">
+                    <ListHeader text="COLOR">
+                        {colors.map(c => (
+                            <SmallButton
+                                key={c.label}
+                                item={c}
+                                record={color}
+                                onChange={setColor}
                             />
                         ))}
                     </ListHeader>
-                    <ListHeader text="COLOR">
-                        {colors.map((c, i) => (
-                            <SmallButton key={i} item={c} record={state} onChange={onChange} />
-                        ))}
-                    </ListHeader>
                     <ListHeader text="RARITY">
-                        {rarity.map((r, i) => (
-                            <SmallButton key={i} item={r} record={state} onChange={onChange} />
+                        {rarities.map(r => (
+                            <SmallButton
+                                key={r.label}
+                                item={r}
+                                record={rarity}
+                                onChange={setRarity}
+                            />
                         ))}
                     </ListHeader>
                     <ListHeader text="TYPE">
-                        {types.map((t, i) => (
-                            <SmallButton key={i} item={t} record={state} onChange={onChange}>
+                        {card_types.map(t => (
+                            <SmallButton
+                                key={t.label}
+                                item={t}
+                                record={card_type}
+                                onChange={setCardType}
+                            >
                                 <Image source={t.icon} style={styles.buttonImage} />
                             </SmallButton>
                         ))}
                     </ListHeader>
                     <ListHeader>
-                        {items.map((t, i) => (
-                            <SmallButton key={i} item={t} record={state} onChange={onChange}>
+                        {sub_types.map(t => (
+                            <SmallButton
+                                key={t.label}
+                                item={t}
+                                record={sub_type}
+                                onChange={setSubType}
+                            >
                                 <Image source={t.icon} style={styles.buttonImage} />
                             </SmallButton>
                         ))}
                     </ListHeader>
                     <ListHeader hide={!showMana} text="MANA">
                         <Slider
-                            label="mana"
                             max={10}
-                            color="#2196F3"
-                            record={state}
-                            onChange={onChange}
+                            color="#145982"
+                            record={mana_cost}
+                            path="mana_cost"
+                            onChange={setFilterValue}
+                            lock={this.lock}
                         />
                     </ListHeader>
                     <ListHeader hide={!showGold} text="GOLD">
                         <Slider
-                            label="gold"
                             max={25}
-                            color="#FFD740"
-                            record={state}
-                            onChange={onChange}
+                            color="#F4D35E"
+                            record={gold_cost}
+                            path="gold_cost"
+                            onChange={setFilterValue}
+                            lock={this.lock}
                         />
                     </ListHeader>
-                    <ListHeader hide={!heroes} text="STATS">
+                    <ListHeader hide={!hasHero} text="STATS">
                         <Slider
-                            label="attack"
                             max={20}
                             icon={ui.weapon}
-                            color="#B71C1C"
-                            record={state}
-                            onChange={onChange}
+                            color="#7B2435"
+                            record={attack}
+                            path="attack"
+                            onChange={setFilterValue}
+                            lock={this.lock}
                         />
                     </ListHeader>
-                    <ListHeader hide={!heroes}>
+                    <ListHeader hide={!hasHero}>
                         <Slider
-                            label="defense"
                             max={20}
                             icon={ui.armor}
-                            color="#2196F3"
-                            record={state}
-                            onChange={onChange}
+                            color="#145982"
+                            record={armor}
+                            path="armor"
+                            onChange={setFilterValue}
+                            lock={this.lock}
                         />
                     </ListHeader>
-                    <ListHeader hide={!heroes}>
+                    <ListHeader hide={!hasHero}>
                         <Slider
-                            label="health"
                             max={20}
                             icon={ui.accessory}
-                            color="#4CAF50"
-                            record={state}
-                            onChange={onChange}
+                            color="#4C733C"
+                            record={hit_points}
+                            path="hit_points"
+                            onChange={setFilterValue}
+                            lock={this.lock}
                         />
                     </ListHeader>
                 </Content>
@@ -165,4 +186,4 @@ class Filter extends Component {
     }
 }
 
-export default Filter;
+export default connect(state => ({ filterState: state.filters }), filters)(Filter);
