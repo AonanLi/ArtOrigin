@@ -100,7 +100,7 @@ const filter = (cards, filters, language) => {
     const cardTypeEx = allSelected(card_type)
         ? c => c
         : c => _.find(card_type, t => c.card_type === t);
-    const subTypeEx = allSelected(sub_type) ? c => c : c => _.find(sub_type, t => c.sub_type === t);
+    const subTypeEx = sub_type.length === 0 ? c => c : c => _.find(sub_type, t => c.sub_type === t);
     const manaEx = rangeEx('mana_cost', filters);
     const goldEx = rangeEx('gold_cost', filters);
     const attackEx = heroRangeEx('attack', filters);
