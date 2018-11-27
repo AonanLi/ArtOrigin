@@ -1,6 +1,7 @@
 import React from 'react';
 import { View } from 'react-native';
 import { ListItem, ListHeader, Body, Right, Text } from 'native-base';
+import _ from 'lodash';
 
 import FullWidthImage from './FullWidthImage';
 import ShowIf from '../../components/ShowIf';

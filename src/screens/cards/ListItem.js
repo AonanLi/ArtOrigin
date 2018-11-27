@@ -82,7 +82,6 @@ const ListItem = ({ item, language, navigate }) => {
                         marginTop: 12
                     }}
                 >
-                    >
                     <NativeImage
                         source={type}
                         style={{
