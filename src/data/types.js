@@ -12,14 +12,18 @@ const {
     red,
     green,
     blue,
-    black
+    black,
+    red_his,
+    green_his,
+    blue_his,
+    black_his
 } = ui;
 
 export const colors = [
-    { label: 'is_red', icon: red, value: '#7B2435', unselected: '#4f1722' },
-    { label: 'is_green', icon: green, value: '#4C733C', unselected: '#2c4323' },
-    { label: 'is_blue', icon: blue, value: '#145982', unselected: '#0a2e42' },
-    { label: 'is_black', icon: black, value: '#25242A', unselected: '#0c0c0e' }
+    { label: 'is_red', icon: red, his: red_his, value: '#7B2435', unselected: '#4f1722' },
+    { label: 'is_green', icon: green, his: green_his, value: '#4C733C', unselected: '#2c4323' },
+    { label: 'is_blue', icon: blue, his: blue_his, value: '#145982', unselected: '#0a2e42' },
+    { label: 'is_black', icon: black, his: black_his, value: '#25242A', unselected: '#0c0c0e' }
 ];
 
 export const rarities = [

@@ -7,20 +7,20 @@ import { colors } from '../data/types';
 
 const ColorBar = ({ cards, max }) =>
     colors.map(color => {
-        const { icon, label } = color;
+        const { icon, label, his } = color;
         const count = cards.filter(c => c[label]).length;
         if (count === 0) {
             return false;
         }
         if (_.isUndefined(max)) {
             return (
-                <ImageBackground source={icon} style={{ width: '100%' }} key={label}>
+                <ImageBackground source={his} style={{ width: '100%' }} key={label}>
                     <Text style={{ textAlign: 'center', fontSize: 12 }}>{count}</Text>
                 </ImageBackground>
             );
         }
-        const height = `${(count / max) * 100}%`;
-        return <Image source={icon} style={{ width: '100%', height }} key={label} />;
+        const height = `${Math.round((count / max) * 100)}%`;
+        return <Image source={his} style={{ width: '100%', height }} key={label} />;
     });
 
 export default ColorBar;
