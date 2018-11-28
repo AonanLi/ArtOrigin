@@ -8,7 +8,9 @@ import Deck from './Deck';
 import CardList from '../../components/CardList';
 
 import cardsSelector from './cardsSelector';
+import isBigScreen from '../../utils/isBigScreen';
 
+const margin = isBigScreen ? 128 : 0;
 const tabs = ['Cards', 'Deck'];
 
 class Cards extends PureComponent {
@@ -43,7 +45,12 @@ class Cards extends PureComponent {
                     prerenderingSiblingsNumber={1}
                 >
                     <Tab heading="Cards">
-                        <CardList cards={cards} language={language} navigate={navigate} />
+                        <CardList
+                            cards={cards}
+                            language={language}
+                            navigate={navigate}
+                            style={{ marginLeft: margin, marginRight: margin }}
+                        />
                     </Tab>
                     <Tab heading="Deck">
                         <Deck deck={deck} language={language} navigate={navigate} />

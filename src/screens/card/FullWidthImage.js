@@ -3,8 +3,10 @@ import { View, Dimensions } from 'react-native';
 import { Image } from 'react-native-expo-image-cache';
 
 import defaultGet from '../../utils/defaultGet';
+import isBigScreen from '../../utils/isBigScreen';
 
-const width = Dimensions.get('window').width - 36;
+const margin = isBigScreen ? 128 : 18;
+const width = Dimensions.get('window').width - 2 * margin;
 const height = 1.69 * width;
 
 const FullWidthImage = ({ uri }) => (

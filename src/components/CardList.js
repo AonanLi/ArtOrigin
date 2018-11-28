@@ -3,8 +3,8 @@ import { FlatList, View } from 'react-native';
 
 import ListItem from './ListItem';
 
-const CardList = ({ cards, language, navigate, color }) => (
-    <View style={{ backgroundColor: color || 'transparent' }}>
+const CardList = ({ cards, language, navigate, style }) => (
+    <View style={{ backgroundColor: 'transparent', ...(style ? style : {}) }}>
         <FlatList
             style={{ padding: 8 }}
             data={cards}

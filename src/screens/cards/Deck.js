@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, ImageBackground } from 'react-native';
+import { View, ImageBackground, Dimensions } from 'react-native';
 import { Text } from 'native-base';
 import _ from 'lodash';
 
@@ -12,6 +12,7 @@ import CostCounter from '../../components/CostCounter';
 import CardList from '../../components/CardList';
 
 import ui from '../../data/ui';
+import isBigScreen from '../../utils/isBigScreen';
 
 const height = 48;
 
@@ -31,16 +32,16 @@ const Deck = ({ deck, ...passProps }) => {
     return (
         <Background path="sidebar">
             <ImageBackground source={ui.header} style={style.header}>
-                <Text style={{ fontSize: 14, marginTop: 5, ...style.view }}>{name}</Text>
+                <Text style={style.text}>{name}</Text>
             </ImageBackground>
             <View style={style.view}>
                 <AlertText
                     condition={hero_count !== 5}
                     text={hero_text}
                     align="flex-start"
-                    style={{ marginTop: 12, marginBottom: -10 }}
+                    style={style.alertText}
                 />
-                <View style={style.between}>
+                <View style={style.avatar}>
                     {heroes
                         .slice(0, 3)
                         .map((hero, i) => <Avatar key={i} item={hero} height={height} round={1} />)}
@@ -49,15 +50,15 @@ const Deck = ({ deck, ...passProps }) => {
                     <Divider length={height} />
                     <Avatar item={heroes[4]} height={height} round={3} />
                 </View>
-                <View style={style.around}>
+                <View style={style.type}>
                     <TypeCounter cards cards={partition[1]} />
                     <TypeCounter item cards={partition[0]} />
                 </View>
-                <View style={style.between}>
+                <View style={style.cost}>
                     {costs.map(c => <CostCounter item={c} max={max_count} key={c.cost} />)}
                     <CostCounter item={{ cost: 'All', records: partition[1] }} />
                 </View>
-                <CardList cards={cards} color="#150f19" {...passProps} />
+                <CardList cards={cards} style={style.list} {...passProps} />
             </View>
         </Background>
     );
@@ -65,23 +66,46 @@ const Deck = ({ deck, ...passProps }) => {
 
 export default Deck;
 
+const marginLeftRight = isBigScreen ? 128 : 16;
+const marginBottom = isBigScreen ? 16 : 12;
+const listHeight = Dimensions.get('window').height - 3 * marginBottom - 325;
+
 const style = {
     header: {
         height: 30,
         width: '100%'
     },
-    view: {
-        marginLeft: 16,
-        marginRight: 16
+    alertText: {
+        marginTop: 8,
+        marginBottom: 4
     },
-    between: {
+    text: {
+        fontSize: 14,
+        marginTop: 5,
+        marginLeft: marginLeftRight,
+        marginRight: marginLeftRight
+    },
+    view: {
+        marginLeft: marginLeftRight,
+        marginRight: marginLeftRight
+    },
+    avatar: {
         flexDirection: 'row',
         justifyContent: 'space-between',
-        marginTop: 16,
-        marginBottom: 16
+        marginBottom: marginBottom
     },
-    around: {
+    type: {
         flexDirection: 'row',
-        justifyContent: 'space-around'
+        justifyContent: 'space-around',
+        marginBottom: marginBottom
+    },
+    cost: {
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+        marginBottom: marginBottom
+    },
+    list: {
+        backgroundColor: '#150f19',
+        height: listHeight
     }
 };

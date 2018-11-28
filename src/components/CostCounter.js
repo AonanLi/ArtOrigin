@@ -4,8 +4,12 @@ import { Text } from 'native-base';
 
 import ColorBar from './ColorBar';
 
+import isBigScreen from '../utils/isBigScreen';
+
+const width = isBigScreen ? 40 : 28;
+
 const CostCounter = ({ item, max }) => (
-    <View style={{ width: 28, height: 88 }}>
+    <View style={{ width, height: 88 }}>
         <View
             style={{
                 backgroundColor: '#150f19',
