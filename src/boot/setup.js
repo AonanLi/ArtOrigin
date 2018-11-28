@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { AppLoading, Asset, Font } from 'expo';
 import { connect } from 'react-redux';
 import { StyleProvider } from 'native-base';
+import _ from 'lodash';
 
 import App from '../App';
 
@@ -38,7 +39,7 @@ class Setup extends Component {
     }
 
     async _loadAssetsAsync() {
-        const imageAssets = cacheImages(ui);
+        const imageAssets = cacheImages(_.toArray(ui));
         const fontAssets = cacheFonts([
             {
                 Roboto: require('native-base/Fonts/Roboto.ttf'),

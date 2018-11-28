@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
-import { View, Text, Image } from 'react-native';
+import { View, Image } from 'react-native';
+import { Text } from 'native-base';
 import MultiSlider from '@ptomasroos/react-native-multi-slider';
 
 import styles from './style';
@@ -39,7 +40,7 @@ class Slider extends Component {
                                 backgroundColor: color
                             }}
                         />
-                        <Text style={styles.left}>{values[0]}</Text>
+                        <Text>{values[0]}</Text>
                     </View>
                 )}
                 customMarkerRight={() => (
@@ -52,7 +53,7 @@ class Slider extends Component {
                                 backgroundColor: color
                             }}
                         />
-                        <Text style={styles.right}>{values[1]}</Text>
+                        <Text>{values[1]}</Text>
                     </View>
                 )}
             />

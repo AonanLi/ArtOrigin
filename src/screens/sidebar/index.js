@@ -4,7 +4,7 @@ import { Content, Text, ListItem, Icon, Left } from 'native-base';
 
 import Background from '../../components/Background';
 
-import { ui } from '../../data/ui';
+import ui from '../../data/ui';
 import styles from './style';
 
 const datas = [

@@ -1,6 +1,6 @@
 import _ from 'lodash';
 
-export const ui = {
+export default {
     heroes: require('../../assets/ui/heroes.png'),
     creeps: require('../../assets/ui/creeps.png'),
     improve: require('../../assets/ui/improve.png'),
@@ -18,7 +18,7 @@ export const ui = {
     background: require('../../assets/ui/deck_list_fullbg.png'),
     drawerCover: require('../../assets/ui/drawer-cover.png'),
     drawerImage: require('../../assets/ui/artifact_logo_top.png'),
-    sidebar: require('../../assets/ui/sidebar.jpg')
+    sidebar: require('../../assets/ui/sidebar.jpg'),
+    header: require('../../assets/ui/header.png'),
+    alert: require('../../assets/ui/alert.png')
 };
-
-export default _.toArray(ui);

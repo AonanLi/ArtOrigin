@@ -18,7 +18,7 @@ import _ from 'lodash';
 import Background from '../../components/Background';
 
 import { editSetting } from '../../actions/settings';
-import languages from '../../utils/languages';
+import languages from '../../data/languages';
 
 const Settings = ({ navigation, settings, editSetting }) => {
     const { label, path, options } = navigation.state.params.s;

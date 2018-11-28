@@ -2,7 +2,7 @@ import React from 'react';
 import { Container } from 'native-base';
 import { ImageBackground } from 'react-native';
 
-import { ui } from '../data/ui';
+import ui from '../data/ui';
 
 const Background = ({ children, path }) => (
     <Container>

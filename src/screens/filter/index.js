@@ -10,37 +10,10 @@ import SmallButton from './SmallButton';
 import Slider from './Slider';
 import Background from '../../components/Background';
 
-import { ui } from '../../data/ui';
+import ui from '../../data/ui';
+import { colors, rarities, card_types, sub_types } from '../../data/types';
 import styles from './style';
 import * as filters from '../../actions/filters';
-
-const colors = [
-    { label: 'is_red', value: '#7B2435', unselected: '#4f1722' },
-    { label: 'is_green', value: '#4C733C', unselected: '#2c4323' },
-    { label: 'is_blue', value: '#145982', unselected: '#0a2e42' },
-    { label: 'is_black', value: '#25242A', unselected: '#0c0c0e' }
-];
-
-const rarities = [
-    { label: 'Basic', value: '#E0E0E0', unselected: '#999999' },
-    { label: 'Common', value: '#5D4037', unselected: '#30211c' },
-    { label: 'Uncommon', value: '#424242', unselected: '#262626' },
-    { label: 'Rare', value: '#FFD740', unselected: '#b38c00' }
-];
-
-const card_types = [
-    { label: 'Hero', icon: ui.heroes },
-    { label: 'Spell', icon: ui.spells },
-    { label: 'Creep', icon: ui.creeps },
-    { label: 'Improvement', icon: ui.improve }
-];
-
-const sub_types = [
-    { label: 'Weapon', icon: ui.weapon },
-    { label: 'Armor', icon: ui.armor },
-    { label: 'Accessory', icon: ui.accessory },
-    { label: 'Consumable', icon: ui.consumable }
-];
 
 class Filter extends Component {
     constructor() {
@@ -186,4 +159,7 @@ class Filter extends Component {
     }
 }
 
-export default connect(state => ({ filterState: state.filters }), filters)(Filter);
+export default connect(
+    state => ({ filterState: state.filters }),
+    filters
+)(Filter);

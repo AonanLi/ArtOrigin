@@ -17,7 +17,7 @@ import _ from 'lodash';
 
 import Background from '../../components/Background';
 
-import languages from '../../utils/languages';
+import languages from '../../data/languages';
 
 const lists = [
     {

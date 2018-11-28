@@ -1,27 +1,13 @@
 import React, { PureComponent } from 'react';
 import { connect } from 'react-redux';
-import {
-    Container,
-    Header,
-    Title,
-    Content,
-    Button,
-    Icon,
-    Left,
-    Right,
-    Body,
-    Tab,
-    Tabs
-} from 'native-base';
-import { FlatList, View } from 'react-native';
+import { Container, Header, Title, Button, Icon, Left, Right, Body, Tab, Tabs } from 'native-base';
+import { View } from 'react-native';
 import _ from 'lodash';
 
-import ListItem from './ListItem';
 import Deck from './Deck';
+import CardList from '../../components/CardList';
 
 import cardsSelector from './cardsSelector';
-import { ui } from '../../data/ui';
-import defaultGet from '../../utils/defaultGet';
 
 const tabs = ['Cards', 'Deck'];
 
@@ -32,7 +18,7 @@ class Cards extends PureComponent {
     }
 
     render() {
-        const { cards, language, navigation } = this.props;
+        const { deck, cards, language, navigation } = this.props;
         const { navigate } = navigation;
         return (
             <Container>
@@ -57,21 +43,10 @@ class Cards extends PureComponent {
                     prerenderingSiblingsNumber={1}
                 >
                     <Tab heading="Cards">
-                        <FlatList
-                            style={{ padding: 8 }}
-                            data={cards}
-                            renderItem={({ item }) => (
-                                <ListItem item={item} language={language} navigate={navigate} />
-                            )}
-                            getItemLayout={(data, index) => ({
-                                length: 45,
-                                offset: 45 * index,
-                                index
-                            })}
-                        />
+                        <CardList cards={cards} language={language} navigate={navigate} />
                     </Tab>
                     <Tab heading="Deck">
-                        <Deck />
+                        <Deck deck={deck} language={language} navigate={navigate} />
                     </Tab>
                 </Tabs>
             </Container>
@@ -79,4 +54,7 @@ class Cards extends PureComponent {
     }
 }
 
-export default connect(cardsSelector, {})(Cards);
+export default connect(
+    cardsSelector,
+    {}
+)(Cards);
