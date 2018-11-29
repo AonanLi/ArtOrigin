@@ -15,6 +15,7 @@
     "dependencies": {
         "@ptomasroos/react-native-multi-slider": "^1.0.0",
         "axios": "^0.18.0",
+        "base-64": "^0.1.0",
         "color": "1.0.3",
         "expo": "^31.0.4",
         "lodash": "^4.17.11",
