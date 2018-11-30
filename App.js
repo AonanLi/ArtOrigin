@@ -11,7 +11,8 @@ import rootReducer, { defaultState } from './src/reducers/root';
 
 const persistConfig = {
     key: 'root',
-    storage
+    storage,
+    blacklist: ['decks', 'filters']
 };
 
 const persistedReducer = persistReducer(persistConfig, rootReducer);
