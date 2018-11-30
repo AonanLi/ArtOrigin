@@ -7,6 +7,7 @@ import _ from 'lodash';
 import Deck from './Deck';
 import DeckSelector from './DeckSelector';
 import CardList from '../../components/CardList';
+import ShowIf from '../../components/ShowIf';
 
 import cardsSelector from './cardsSelector';
 import isBigScreen from '../../utils/isBigScreen';
@@ -24,7 +25,15 @@ class Cards extends PureComponent {
     setVisible = visible => this.setState({ visible });
 
     render() {
-        const { cards, current_deck, language, decks, navigation, ...passProps } = this.props;
+        const {
+            cards,
+            current_deck,
+            language,
+            decks,
+            navigation,
+            resetDeck,
+            ...passProps
+        } = this.props;
         const { navigate } = navigation;
         const { tab, visible } = this.state;
         return (
@@ -39,15 +48,21 @@ class Cards extends PureComponent {
                         <Title>{tabs[tab]}</Title>
                     </Body>
                     <Right>
-                        {tab ? (
+                        <ShowIf condition={tab}>
+                            <Button transparent onPress={resetDeck}>
+                                <Icon name="md-refresh" />
+                            </Button>
+                        </ShowIf>
+                        <ShowIf condition={tab}>
                             <Button transparent onPress={() => this.setVisible(true)}>
                                 <Icon name="ios-folder-open" />
                             </Button>
-                        ) : (
+                        </ShowIf>
+                        <ShowIf condition={!tab}>
                             <Button transparent onPress={() => navigate('Filter')}>
                                 <Icon name="ios-options" />
                             </Button>
-                        )}
+                        </ShowIf>
                     </Right>
                 </Header>
                 <Tabs
@@ -78,4 +93,7 @@ class Cards extends PureComponent {
     }
 }
 
-export default connect(cardsSelector, { ...decks })(Cards);
+export default connect(
+    cardsSelector,
+    { ...decks }
+)(Cards);

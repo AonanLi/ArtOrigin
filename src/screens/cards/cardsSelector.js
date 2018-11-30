@@ -47,19 +47,17 @@ const filter = createSelector(cards, filters, language, (cards, filters, languag
 });
 
 const current_deck = createSelector(cardByKey, old_deck, (cardByKey, old_deck) => {
-    const { id, deck } = old_deck;
+    const { id, name, heroes, cards } = old_deck;
     return {
         id,
-        deck: {
-            name: deck.name,
-            heroes: deck.heroes.map(h => {
-                if (!h.id) {
-                    return h;
-                }
-                return { ...h, ...cardByKey[h.id] };
-            }),
-            cards: sort(deck.cards.map(c => ({ ...c, ...cardByKey[c.id] })))
-        }
+        name,
+        heroes: heroes.map(h => {
+            if (!h.id) {
+                return h;
+            }
+            return { ...h, ...cardByKey[h.id] };
+        }),
+        cards: sort(cards.map(c => ({ ...c, ...cardByKey[c.id] })))
     };
 });
 

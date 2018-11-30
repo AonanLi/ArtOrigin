@@ -2,14 +2,13 @@ import uuid from 'uuid';
 
 import decoder from '../utils/decoder';
 
-export const addDeck = deck => ({
-    type: 'SAVE_DECK',
-    payload: { id: uuid.v4(), deck }
-});
+export const addDeck = rawDeck => dispatch => {
+    dispatch(saveDeck({ ...rawDeck, id: uuid.v4() }));
+};
 
-export const saveDeck = (id, deck) => ({
+export const saveDeck = deck => ({
     type: 'SAVE_DECK',
-    payload: { id, deck }
+    payload: deck
 });
 
 export const activeDeck = id => ({
@@ -23,6 +22,10 @@ export const removeDeck = id => ({
 });
 
 export const addDeckFromCode = code => dispatch => {
-    const deck = decoder.ParseDeck(code);
-    dispatch(addDeck(deck));
+    const rawDeck = decoder.ParseDeck(code);
+    dispatch(addDeck(rawDeck));
 };
+
+export const resetDeck = () => ({
+    type: 'RESET_DECK'
+});

@@ -18,7 +18,7 @@ import countCards from '../../utils/countCards';
 const height = 48;
 
 const Deck = ({ current_deck, ...passProps }) => {
-    const { heroes, cards, name } = current_deck.deck;
+    const { heroes, cards, name } = current_deck;
     const hero_count = heroes.filter(h => h.id).length;
     const hero_text = `${hero_count} HEROES`;
     const partition = _.partition(cards, c => c.card_type === 'Item');
