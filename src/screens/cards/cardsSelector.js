@@ -3,7 +3,7 @@ import _ from 'lodash';
 
 import defaultGet from '../../utils/defaultGet';
 
-const cards = state => state.cardsets.cards;
+const cards = state => state.cardsets.cards.filter(c => !c.isSig);
 const filters = state => state.filters;
 const language = state => state.settings.language;
 
@@ -54,16 +54,7 @@ const sort = createSelector(filter, cards => {
 
 const cardsSelector = createSelector(sort, language, (cards, language) => ({
     cards,
-    language,
-    deck: {
-        //test data for now
-        heroes: cards
-            .filter(c => c.card_type === 'Hero')
-            .concat([undefined, undefined, undefined, undefined, undefined])
-            .slice(0, 5),
-        cards: cards.filter(c => c.card_type !== 'Hero').slice(20, 61),
-        name: 'Green/Black Example'
-    }
+    language
 }));
 
 export default cardsSelector;

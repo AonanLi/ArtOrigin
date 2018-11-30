@@ -19,7 +19,10 @@ const ListItem = ({ item, language, navigate }) => {
                 <View style={style.desciption}>
                     <NativeImage source={type} style={style.type} />
                     <Text style={style.cost}>{cost}</Text>
-                    <Text style={style.name}>{text}</Text>
+                    <View style={style.name_view}>
+                        <Text style={style.name}>{text}</Text>
+                        {item.isSig && <Text style={style.sig}>Signature Card</Text>}
+                    </View>
                     <Text style={style.number}>x3</Text>
                 </View>
             </ImageBackground>
@@ -57,12 +60,18 @@ const style = {
         color: 'white',
         marginLeft: 10
     },
+    name_view: {
+        flex: 5
+    },
     name: {
-        flex: 5,
         color: 'white',
         textShadowColor: '#585858',
         textShadowOffset: { width: 5, height: 5 },
         textShadowRadius: 10
+    },
+    sig: {
+        fontSize: 8,
+        marginTop: -3
     },
     number: { flex: 1, color: 'white' }
 };

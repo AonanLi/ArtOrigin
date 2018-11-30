@@ -11,6 +11,7 @@ const CardList = ({ cards, language, navigate, style }) => (
             renderItem={({ item }) => (
                 <ListItem item={item} language={language} navigate={navigate} />
             )}
+            keyExtractor={item => item.card_id.toString()}
             getItemLayout={(data, index) => ({
                 length: 45,
                 offset: 45 * index,

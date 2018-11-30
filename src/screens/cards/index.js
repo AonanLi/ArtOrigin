@@ -20,7 +20,7 @@ class Cards extends PureComponent {
     }
 
     render() {
-        const { deck, cards, language, navigation } = this.props;
+        const { cards, language, navigation } = this.props;
         const { navigate } = navigation;
         return (
             <Container>
@@ -53,7 +53,7 @@ class Cards extends PureComponent {
                         />
                     </Tab>
                     <Tab heading="Deck">
-                        <Deck deck={deck} language={language} navigate={navigate} />
+                        <Deck navigate={navigate} />
                     </Tab>
                 </Tabs>
             </Container>

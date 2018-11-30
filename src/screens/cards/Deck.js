@@ -1,4 +1,5 @@
 import React from 'react';
+import { connect } from 'react-redux';
 import { View, ImageBackground, Dimensions } from 'react-native';
 import { Text } from 'native-base';
 import _ from 'lodash';
@@ -11,13 +12,14 @@ import TypeCounter from '../../components/TypeCounter';
 import CostCounter from '../../components/CostCounter';
 import CardList from '../../components/CardList';
 
+import deckSelector from './deckSelector';
 import ui from '../../data/ui';
 import isBigScreen from '../../utils/isBigScreen';
 
 const height = 48;
 
-const Deck = ({ deck, ...passProps }) => {
-    const { heroes, cards, name } = deck;
+const Deck = ({ current_deck, ...passProps }) => {
+    const { heroes, cards, name } = current_deck.deck;
     const hero_count = _.compact(heroes).length;
     const hero_text = `${hero_count} HEROES`;
     const partition = _.partition(cards, c => c.card_type === 'Item');
@@ -64,7 +66,10 @@ const Deck = ({ deck, ...passProps }) => {
     );
 };
 
-export default Deck;
+export default connect(
+    deckSelector,
+    {}
+)(Deck);
 
 const marginLeftRight = isBigScreen ? 128 : 16;
 const marginBottom = isBigScreen ? 16 : 12;
