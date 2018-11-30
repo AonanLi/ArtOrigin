@@ -7,7 +7,13 @@ const reducers = {
 };
 
 const default_deck = {
-    heroes: [undefined, undefined, undefined, undefined, undefined],
+    heroes: [
+        { id: undefined, turn: 1 },
+        { id: undefined, turn: 1 },
+        { id: undefined, turn: 1 },
+        { id: undefined, turn: 2 },
+        { id: undefined, turn: 3 }
+    ],
     cards: [],
     name: 'Unnamed Deck'
 };
@@ -17,7 +23,12 @@ const defaultState = { decks: {}, current_deck: { id: undefined, deck: default_d
 export default { reducers, defaultState };
 
 function saveDeck(state, { id, deck }) {
-    return { ...state, decks: { ...state.decks, [id]: deck } };
+    const { decks, current_deck } = state;
+    return {
+        ...state,
+        decks: { ...decks, [id]: deck },
+        current_deck: current_deck.id === id ? current_deck : { id, deck }
+    };
 }
 
 function activeDeck(state, id) {

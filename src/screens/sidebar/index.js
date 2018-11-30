@@ -23,7 +23,7 @@ const datas = [
 class SideBar extends Component {
     render() {
         return (
-            <Background path="sidebar">
+            <Background>
                 <Content bounces={false}>
                     <Image source={ui.drawerCover} style={styles.drawerCover} />
                     <Image square source={ui.drawerImage} style={styles.drawerImage} />

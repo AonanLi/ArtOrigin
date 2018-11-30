@@ -7,7 +7,7 @@ import ui from '../data/ui';
 const Background = ({ children, path }) => (
     <Container>
         <ImageBackground
-            source={path ? ui[path] : ui.background}
+            source={path ? ui[path] : ui.sidebar}
             style={{ width: '100%', height: '100%' }}
         >
             {children}

@@ -24,7 +24,7 @@ const Settings = ({ navigation, settings, editSetting }) => {
     const { label, path, options } = navigation.state.params.s;
     const value = _.get(settings, path, '');
     return (
-        <Background path="sidebar">
+        <Background>
             <Header>
                 <Left>
                     <Button transparent onPress={() => navigation.goBack()}>
@@ -58,7 +58,4 @@ const Settings = ({ navigation, settings, editSetting }) => {
     );
 };
 
-export default connect(
-    state => ({ settings: state.settings }),
-    { editSetting }
-)(Settings);
+export default connect(state => ({ settings: state.settings }), { editSetting })(Settings);

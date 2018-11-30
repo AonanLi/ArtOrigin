@@ -30,7 +30,7 @@ const lists = [
 
 const Settings = ({ navigation, settings, editSetting }) => {
     return (
-        <Background path="sidebar">
+        <Background>
             <Header>
                 <Left>
                     <Button transparent onPress={() => navigation.navigate('DrawerOpen')}>
@@ -72,7 +72,4 @@ const Settings = ({ navigation, settings, editSetting }) => {
     );
 };
 
-export default connect(
-    state => ({ settings: state.settings }),
-    {}
-)(Settings);
+export default connect(state => ({ settings: state.settings }), {})(Settings);

@@ -12,7 +12,7 @@ import defaultGet from '../../utils/defaultGet';
 const Card = ({ navigation, language, refs }) => {
     const { card_name, large_image } = navigation.state.params.item;
     return (
-        <Background>
+        <Background path="background">
             <Header>
                 <Left>
                     <Button transparent onPress={() => navigation.goBack()}>

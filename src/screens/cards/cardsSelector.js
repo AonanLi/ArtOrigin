@@ -4,8 +4,11 @@ import _ from 'lodash';
 import defaultGet from '../../utils/defaultGet';
 
 const cards = state => state.cardsets.cards.filter(c => !c.isSig);
+const cardByKey = state => _.keyBy(state.cardsets.cards, c => c.card_id);
+const old_deck = state => state.decks.current_deck;
 const filters = state => state.filters;
 const language = state => state.settings.language;
+const decks = state => state.decks.decks;
 
 const filter = createSelector(cards, filters, language, (cards, filters, language) => {
     const { color, rarity, card_type, sub_type, keyword } = filters;
@@ -43,19 +46,35 @@ const filter = createSelector(cards, filters, language, (cards, filters, languag
     );
 });
 
-const sort = createSelector(filter, cards => {
-    const heroParts = _.partition(cards, c => c.card_type === 'Hero');
-    const itemParts = _.partition(heroParts[1], c => c.card_type === 'Item');
-    const first = _.sortBy(heroParts[0], c => colorOrder(c));
-    const second = _.sortBy(itemParts[1], c => colorOrder(c), c => c.mana_cost);
-    const third = _.sortBy(itemParts[0], c => c.gold_cost);
-    return _.flatten([first, second, third]);
+const current_deck = createSelector(cardByKey, old_deck, (cardByKey, old_deck) => {
+    const { id, deck } = old_deck;
+    return {
+        id,
+        deck: {
+            name: deck.name,
+            heroes: deck.heroes.map(h => {
+                if (!h.id) {
+                    return h;
+                }
+                return { ...h, ...cardByKey[h.id] };
+            }),
+            cards: sort(deck.cards.map(c => ({ ...c, ...cardByKey[c.id] })))
+        }
+    };
 });
 
-const cardsSelector = createSelector(sort, language, (cards, language) => ({
-    cards,
-    language
-}));
+const cardsSelector = createSelector(
+    filter,
+    current_deck,
+    language,
+    decks,
+    (filter, current_deck, language, decks) => ({
+        cards: sort(filter),
+        current_deck,
+        language,
+        decks
+    })
+);
 
 export default cardsSelector;
 
@@ -81,4 +100,13 @@ const colorOrder = ({ is_red, is_green, is_blue, is_black }) => {
     if (is_black) {
         return 3;
     }
+};
+
+const sort = cards => {
+    const heroParts = _.partition(cards, c => c.card_type === 'Hero');
+    const itemParts = _.partition(heroParts[1], c => c.card_type === 'Item');
+    const first = _.sortBy(heroParts[0], c => colorOrder(c));
+    const second = _.sortBy(itemParts[1], c => c.mana_cost, c => colorOrder(c));
+    const third = _.sortBy(itemParts[0], c => c.gold_cost);
+    return _.flatten([first, second, third]);
 };

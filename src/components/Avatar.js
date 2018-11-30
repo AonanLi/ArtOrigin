@@ -12,7 +12,7 @@ const Avatar = ({ item, height, round }) => (
             height
         }}
     >
-        {item ? (
+        {item.id ? (
             <Image uri={item.ingame_image.default} style={{ height: '100%', width: '100%' }} />
         ) : (
             <View style={{ paddingTop: 2 }}>

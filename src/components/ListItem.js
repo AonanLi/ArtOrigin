@@ -2,6 +2,7 @@ import React from 'react';
 import { Text } from 'native-base';
 import { View, ImageBackground, TouchableOpacity, Image as NativeImage } from 'react-native';
 import { Image } from 'react-native-expo-image-cache';
+import _ from 'lodash';
 
 import ui from '../data/ui';
 import defaultGet from '../utils/defaultGet';
@@ -12,6 +13,7 @@ const ListItem = ({ item, language, navigate }) => {
     const background = getBackground(item);
     const type = getType(item);
     const cost = getCost(item);
+    const count = getCount(item);
     return (
         <TouchableOpacity onPress={() => navigate('Card', { item })} activeOpacity={0.8}>
             <ImageBackground source={background} style={style.color}>
@@ -23,7 +25,7 @@ const ListItem = ({ item, language, navigate }) => {
                         <Text style={style.name}>{text}</Text>
                         {item.isSig && <Text style={style.sig}>Signature Card</Text>}
                     </View>
-                    <Text style={style.number}>x3</Text>
+                    <Text style={style.number}>{count}</Text>
                 </View>
             </ImageBackground>
         </TouchableOpacity>
@@ -64,14 +66,12 @@ const style = {
         flex: 5
     },
     name: {
-        color: 'white',
-        textShadowColor: '#585858',
-        textShadowOffset: { width: 5, height: 5 },
-        textShadowRadius: 10
+        color: 'white'
     },
     sig: {
         fontSize: 8,
-        marginTop: -3
+        marginTop: -3,
+        color: 'white'
     },
     number: { flex: 1, color: 'white' }
 };
@@ -125,3 +125,5 @@ const getType = ({ card_type, sub_type }) => {
 };
 
 const getCost = ({ mana_cost, gold_cost }) => mana_cost || gold_cost || '-';
+
+const getCount = item => (item.card_type === 'Hero' ? 1 : _.get(item, 'count', 3));

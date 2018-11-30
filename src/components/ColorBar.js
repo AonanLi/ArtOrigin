@@ -4,11 +4,12 @@ import { Text } from 'native-base';
 import _ from 'lodash';
 
 import { colors } from '../data/types';
+import countCards from '../utils/countCards';
 
 const ColorBar = ({ cards, max }) =>
     colors.map(color => {
         const { icon, label, his } = color;
-        const count = cards.filter(c => c[label]).length;
+        const count = countCards(cards.filter(c => c[label]));
         if (count === 0) {
             return false;
         }
@@ -19,7 +20,7 @@ const ColorBar = ({ cards, max }) =>
                 </ImageBackground>
             );
         }
-        const height = `${Math.round((count / max) * 100)}%`;
+        const height = `${Math.round(count / max * 100)}%`;
         return <Image source={his} style={{ width: '100%', height }} key={label} />;
     });
 

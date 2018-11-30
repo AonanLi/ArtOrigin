@@ -1,5 +1,4 @@
 import React from 'react';
-import { connect } from 'react-redux';
 import { View, ImageBackground, Dimensions } from 'react-native';
 import { Text } from 'native-base';
 import _ from 'lodash';
@@ -12,15 +11,15 @@ import TypeCounter from '../../components/TypeCounter';
 import CostCounter from '../../components/CostCounter';
 import CardList from '../../components/CardList';
 
-import deckSelector from './deckSelector';
 import ui from '../../data/ui';
 import isBigScreen from '../../utils/isBigScreen';
+import countCards from '../../utils/countCards';
 
 const height = 48;
 
 const Deck = ({ current_deck, ...passProps }) => {
     const { heroes, cards, name } = current_deck.deck;
-    const hero_count = _.compact(heroes).length;
+    const hero_count = heroes.filter(h => h.id).length;
     const hero_text = `${hero_count} HEROES`;
     const partition = _.partition(cards, c => c.card_type === 'Item');
     const costs = _.times(8).map(i => {
@@ -30,9 +29,9 @@ const Deck = ({ current_deck, ...passProps }) => {
         );
         return { cost, records };
     });
-    const max_count = _.max(costs.map(c => c.records.length));
+    const max_count = _.max(costs.map(c => countCards(c.records)));
     return (
-        <Background path="sidebar">
+        <Background>
             <ImageBackground source={ui.header} style={style.header}>
                 <Text style={style.text}>{name}</Text>
             </ImageBackground>
@@ -45,12 +44,12 @@ const Deck = ({ current_deck, ...passProps }) => {
                 />
                 <View style={style.avatar}>
                     {heroes
-                        .slice(0, 3)
-                        .map((hero, i) => <Avatar key={i} item={hero} height={height} round={1} />)}
+                        .filter(h => h.turn === 1)
+                        .map((h, i) => <Avatar key={i} item={h} height={height} round={1} />)}
                     <Divider length={height} />
-                    <Avatar item={heroes[3]} height={height} round={2} />
+                    <Avatar item={_.find(heroes, h => h.turn === 2)} height={height} round={2} />
                     <Divider length={height} />
-                    <Avatar item={heroes[4]} height={height} round={3} />
+                    <Avatar item={_.find(heroes, h => h.turn === 3)} height={height} round={3} />
                 </View>
                 <View style={style.type}>
                     <TypeCounter cards cards={partition[1]} />
@@ -66,10 +65,7 @@ const Deck = ({ current_deck, ...passProps }) => {
     );
 };
 
-export default connect(
-    deckSelector,
-    {}
-)(Deck);
+export default Deck;
 
 const marginLeftRight = isBigScreen ? 128 : 16;
 const marginBottom = isBigScreen ? 16 : 12;

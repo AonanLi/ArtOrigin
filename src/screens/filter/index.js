@@ -53,7 +53,7 @@ class Filter extends Component {
         const hasHero = card_type.includes('Hero');
 
         return (
-            <Background path="sidebar">
+            <Background>
                 <SearchBar onChange={setFilterValue} reset={resetFilter} keyword={keyword} />
                 <Content scrollEnabled={!this.state.locked} keyboardShouldPersistTaps="never">
                     <ListHeader text="COLOR">
@@ -159,7 +159,4 @@ class Filter extends Component {
     }
 }
 
-export default connect(
-    state => ({ filterState: state.filters }),
-    filters
-)(Filter);
+export default connect(state => ({ filterState: state.filters }), filters)(Filter);
