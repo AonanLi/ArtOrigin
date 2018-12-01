@@ -56,6 +56,7 @@ class ImportDeck extends Component {
                     <FullButton
                         onPress={() => {
                             addDeckFromCode(code);
+                            this.setState({ code: '' });
                             setVisible(false);
                         }}
                         disabled={code.length < 60}

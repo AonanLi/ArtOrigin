@@ -33,6 +33,7 @@ class Cards extends PureComponent {
             decks,
             navigation,
             resetDeck,
+            saveCurrentDeck,
             ...passProps
         } = this.props;
         const { navigate } = navigation;
@@ -47,6 +48,9 @@ class Cards extends PureComponent {
                         <Title>{tabs[tab]}</Title>
                     </Body>
                     <Right>
+                        <ShowIf condition={tab}>
+                            <IconButton onPress={() => saveCurrentDeck()} icon="ios-save" />
+                        </ShowIf>
                         <ShowIf condition={tab}>
                             <IconButton onPress={resetDeck} icon="md-refresh" />
                         </ShowIf>

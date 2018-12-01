@@ -2,7 +2,9 @@ import uuid from 'uuid';
 import { decodeDeck } from 'node-artifact-api';
 
 export const addDeck = rawDeck => dispatch => {
-    dispatch(saveDeck({ ...rawDeck, id: uuid.v4() }));
+    const id = uuid.v4();
+    dispatch(saveDeck({ ...rawDeck, id }));
+    dispatch(activeDeck(id));
 };
 
 export const saveDeck = deck => ({
@@ -29,3 +31,8 @@ export const addDeckFromCode = code => dispatch => {
 export const resetDeck = () => ({
     type: 'RESET_DECK'
 });
+
+export const saveCurrentDeck = () => (dispatch, getState) => {
+    const { current_deck } = getState().decks;
+    dispatch(saveDeck({ ...current_deck, id: uuid.v4() }));
+};

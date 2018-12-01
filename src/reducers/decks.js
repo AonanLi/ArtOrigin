@@ -32,11 +32,9 @@ const persistConfig = {
 export default { reducers, defaultState, persistConfig };
 
 function saveDeck(state, deck) {
-    const { decks, current_deck } = state;
     return {
         ...state,
-        decks: { ...decks, [deck.id]: deck },
-        current_deck: current_deck.id === deck.id ? current_deck : deck
+        decks: { ...state.decks, [deck.id]: deck }
     };
 }
 
