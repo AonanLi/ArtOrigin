@@ -64,9 +64,7 @@ class DeckSelector extends Component {
                         full
                         warning
                         onPress={() => {
-                            addDeckFromCode(
-                                'ADCJWkTZX05uwGDCRV4XQGy3QGLmqUBg4GQJgGLGgO7AaABR3JlZW4vQmxhY2sgRXhhbXBsZQ__' //hardcode for now
-                            );
+                            addDeckFromCode(code);
                             setVisible(false);
                         }}
                         disabled={code.length < 60}

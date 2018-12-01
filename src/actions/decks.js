@@ -1,6 +1,5 @@
 import uuid from 'uuid';
-
-import decoder from '../utils/decoder';
+import { decodeDeck } from 'node-artifact-api';
 
 export const addDeck = rawDeck => dispatch => {
     dispatch(saveDeck({ ...rawDeck, id: uuid.v4() }));
@@ -22,7 +21,8 @@ export const removeDeck = id => ({
 });
 
 export const addDeckFromCode = code => dispatch => {
-    const rawDeck = decoder.ParseDeck(code);
+    const extract = code.replace('https://playartifact.com/d/', '');
+    const rawDeck = decodeDeck(extract);
     dispatch(addDeck(rawDeck));
 };
 

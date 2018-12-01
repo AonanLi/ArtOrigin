@@ -12,13 +12,17 @@ function saveCardSets(state, payload) {
         .flatten(payload)
         .filter(c => c.card_type !== 'Pathing' && c.card_type !== 'Stronghold');
     const references = _.flatten(cards.map(c => c.references.map(r => r.card_id)));
+    const signatures = _.flatten(
+        cards.map(c => c.references.filter(r => r.ref_type === 'includes').map(r => r.card_id))
+    );
     const marked = cards.map(c => ({
         ...c,
-        isSig: c.card_type !== 'Hero' && references.includes(c.card_id)
+        isRef: c.card_type !== 'Hero' && references.includes(c.card_id),
+        isSig: signatures.includes(c.card_id)
     }));
     return {
         ...state,
         cards: marked,
-        refs: _.keyBy(marked.filter(m => m.isSig), c => c.card_id)
+        refs: _.keyBy(marked.filter(m => m.isRef), c => c.card_id)
     };
 }

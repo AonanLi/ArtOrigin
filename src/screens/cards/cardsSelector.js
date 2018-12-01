@@ -3,7 +3,7 @@ import _ from 'lodash';
 
 import defaultGet from '../../utils/defaultGet';
 
-const cards = state => state.cardsets.cards.filter(c => !c.isSig);
+const cards = state => state.cardsets.cards.filter(c => !c.isRef);
 const cardByKey = state => _.keyBy(state.cardsets.cards, c => c.card_id);
 const old_deck = state => state.decks.current_deck;
 const filters = state => state.filters;
@@ -48,16 +48,17 @@ const filter = createSelector(cards, filters, language, (cards, filters, languag
 
 const current_deck = createSelector(cardByKey, old_deck, (cardByKey, old_deck) => {
     const { id, name, heroes, cards } = old_deck;
+    const newHeroes = heroes.map(h => {
+        if (!h.id) {
+            return h;
+        }
+        return { ...h, ...cardByKey[h.id] };
+    });
     return {
         id,
         name,
-        heroes: heroes.map(h => {
-            if (!h.id) {
-                return h;
-            }
-            return { ...h, ...cardByKey[h.id] };
-        }),
-        cards: sort(cards.map(c => ({ ...c, ...cardByKey[c.id] })))
+        heroes: newHeroes,
+        cards: sort(cards.concat(signatures(newHeroes)).map(c => ({ ...c, ...cardByKey[c.id] })))
     };
 });
 
@@ -108,3 +109,10 @@ const sort = cards => {
     const third = _.sortBy(itemParts[0], c => c.gold_cost);
     return _.flatten([first, second, third]);
 };
+
+const signatures = heroes =>
+    heroes.filter(h => h.id).map(h => {
+        const includes = _.find(h.references, r => r.ref_type === 'includes');
+        const { card_id, count } = includes;
+        return { id: card_id, count };
+    });
