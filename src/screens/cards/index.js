@@ -1,6 +1,6 @@
 import React, { PureComponent } from 'react';
 import { connect } from 'react-redux';
-import { Container, Header, Title, Left, Right, Body, Tab, Tabs } from 'native-base';
+import { Container, Header, Title, Left, Right, Body, Tab, Tabs, Toast } from 'native-base';
 import { View } from 'react-native';
 import _ from 'lodash';
 
@@ -49,7 +49,15 @@ class Cards extends PureComponent {
                     </Body>
                     <Right>
                         <ShowIf condition={tab}>
-                            <IconButton onPress={() => saveCurrentDeck()} icon="ios-save" />
+                            <IconButton
+                                onPress={() => {
+                                    saveCurrentDeck();
+                                    Toast.show({
+                                        text: `Deck saved: ${current_deck.name}`
+                                    });
+                                }}
+                                icon="ios-save"
+                            />
                         </ShowIf>
                         <ShowIf condition={tab}>
                             <IconButton onPress={resetDeck} icon="md-refresh" />

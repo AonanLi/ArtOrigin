@@ -1,11 +1,26 @@
 import React, { Component } from 'react';
-import { Header, Title, Button, Left, Right, Body, Text, ListItem, Item, Input } from 'native-base';
+import {
+    Header,
+    Title,
+    Button,
+    Left,
+    Right,
+    Body,
+    Text,
+    ListItem,
+    Item,
+    Input,
+    Toast
+} from 'native-base';
 import { View, Modal, Clipboard, FlatList } from 'react-native';
 import _ from 'lodash';
 
 import Background from '../../components/Background';
 import IconButton from '../../components/IconButton';
 import FullButton from '../../components/FullButton';
+import ModalToast from '../../components/ModalToast';
+
+import decode from '../../utils/decode';
 
 class ImportDeck extends Component {
     constructor(props) {
@@ -19,7 +34,7 @@ class ImportDeck extends Component {
     }
 
     render() {
-        const { visible, decks, setVisible, addDeckFromCode, activeDeck, removeDeck } = this.props;
+        const { visible, decks, setVisible, addDeck, activeDeck, removeDeck } = this.props;
         const { code, deckId } = this.state;
         return (
             <Modal animationType="slide" transparent={false} visible={visible}>
@@ -37,7 +52,7 @@ class ImportDeck extends Component {
                         </Right>
                     </Header>
                     <ListItem itemHeader noBorder>
-                        <Text>From Deck Link</Text>
+                        <Text>From Deck Code</Text>
                     </ListItem>
                     <ListItem noBorder>
                         <Item>
@@ -55,11 +70,22 @@ class ImportDeck extends Component {
                     </ListItem>
                     <FullButton
                         onPress={() => {
-                            addDeckFromCode(code);
-                            this.setState({ code: '' });
-                            setVisible(false);
+                            const deck = decode(code);
+                            if (deck) {
+                                addDeck(deck);
+                                this.setState({ code: '' });
+                                setVisible(false);
+                                Toast.show({
+                                    text: 'Imported deck from code'
+                                });
+                            } else {
+                                ModalToast.show({
+                                    text: 'Deck code is invalid',
+                                    type: 'danger'
+                                });
+                            }
                         }}
-                        disabled={code.length < 60}
+                        disabled={code.length === 0}
                         text="Import"
                     />
                     <ListItem itemHeader noBorder>
@@ -90,6 +116,9 @@ class ImportDeck extends Component {
                                                     if (selected) {
                                                         this.setState({ deckId: undefined });
                                                     }
+                                                    ModalToast.show({
+                                                        text: `Deck Deleted: ${name}`
+                                                    });
                                                 }}
                                                 icon="ios-trash"
                                                 style={style.icon}
@@ -108,6 +137,11 @@ class ImportDeck extends Component {
                         disabled={!deckId}
                         style={style.select}
                         text="Select"
+                    />
+                    <ModalToast
+                        ref={c => {
+                            if (c) ModalToast.toastInstance = c;
+                        }}
                     />
                 </Background>
             </Modal>
