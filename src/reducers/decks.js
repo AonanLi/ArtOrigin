@@ -1,4 +1,5 @@
 import _ from 'lodash';
+import storage from 'redux-persist/lib/storage';
 
 const reducers = {
     SAVE_DECK: saveDeck,
@@ -22,7 +23,13 @@ const default_deck = {
 
 const defaultState = { decks: {}, current_deck: default_deck };
 
-export default { reducers, defaultState };
+const persistConfig = {
+    key: 'decks',
+    storage: storage,
+    blacklist: ['current_deck']
+};
+
+export default { reducers, defaultState, persistConfig };
 
 function saveDeck(state, deck) {
     const { decks, current_deck } = state;

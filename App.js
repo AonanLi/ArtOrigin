@@ -12,7 +12,7 @@ import rootReducer, { defaultState } from './src/reducers/root';
 const persistConfig = {
     key: 'root',
     storage,
-    blacklist: ['decks', 'filters']
+    blacklist: ['filters']
 };
 
 const persistedReducer = persistReducer(persistConfig, rootReducer);

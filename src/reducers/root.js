@@ -1,4 +1,5 @@
 import { combineReducers } from 'redux';
+import { persistReducer } from 'redux-persist';
 import _ from 'lodash';
 
 import cardsets from './cardsets';
@@ -23,12 +24,16 @@ export const defaultState = _.merge.apply(
 );
 
 function getReducer(config) {
-    const { defaultState, reducers } = config;
-    return (state = defaultState, action) => {
+    const { defaultState, reducers, persistConfig } = config;
+    const reducer = (state = defaultState, action) => {
         var reducer = reducers[action.type];
         if (reducer) {
             return reducer(state, action.payload);
         }
         return state;
     };
+    if (persistConfig) {
+        return persistReducer(persistConfig, reducer);
+    }
+    return reducer;
 }
