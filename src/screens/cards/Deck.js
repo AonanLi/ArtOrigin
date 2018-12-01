@@ -1,6 +1,7 @@
 import React from 'react';
-import { View, ImageBackground, Dimensions } from 'react-native';
+import { View, ImageBackground, Dimensions, Clipboard } from 'react-native';
 import { Text } from 'native-base';
+import { encodeDeck } from 'node-artifact-api';
 import _ from 'lodash';
 
 import Background from '../../components/Background';
@@ -10,12 +11,28 @@ import Divider from '../../components/Divider';
 import TypeCounter from '../../components/TypeCounter';
 import CostCounter from '../../components/CostCounter';
 import CardList from '../../components/CardList';
+import IconButton from '../../components/IconButton';
 
 import ui from '../../data/ui';
 import isBigScreen from '../../utils/isBigScreen';
 import countCards from '../../utils/countCards';
 
 const height = 48;
+
+const encode = current_deck => {
+    const { heroes, cards, name } = current_deck;
+    const rawDeck = {
+        heroes: heroes.map(h => _.pick(h, ['id', 'turn'])),
+        cards: cards.filter(c => !c.isSig).map(c => _.pick(c, ['id', 'count'])),
+        name
+    };
+    const code = encodeDeck(rawDeck);
+    if (code !== 'Invalid deck object') {
+        Clipboard.setString(code);
+    } else {
+        //todo
+    }
+};
 
 const Deck = ({ current_deck, ...passProps }) => {
     const { heroes, cards, name } = current_deck;
@@ -34,6 +51,12 @@ const Deck = ({ current_deck, ...passProps }) => {
         <Background>
             <ImageBackground source={ui.header} style={style.header}>
                 <Text style={style.text}>{name}</Text>
+                <IconButton
+                    onPress={() => encode(current_deck)}
+                    icon="ios-copy"
+                    style={style.icon}
+                    buttonStyle={style.copy}
+                />
             </ImageBackground>
             <View style={style.view}>
                 <AlertText
@@ -74,8 +97,15 @@ const listHeight = Dimensions.get('window').height - 3 * marginBottom - 325;
 const style = {
     header: {
         height: 30,
-        width: '100%'
+        width: '100%',
+        flexDirection: 'row',
+        justifyContent: 'space-between'
     },
+    icon: {
+        color: '#cad4ff',
+        fontSize: 18
+    },
+    copy: { marginRight: 5, marginTop: -6 },
     alertText: {
         marginTop: 8,
         marginBottom: 4
