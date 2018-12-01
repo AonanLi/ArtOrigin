@@ -1,9 +1,10 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { Header, Title, Content, Text, Button, Icon, Left, Body } from 'native-base';
+import { Header, Title, Content, Text, Left, Body } from 'native-base';
 import _ from 'lodash';
 
 import Background from '../../components/Background';
+import IconButton from '../../components/IconButton';
 import FullWidthImage from './FullWidthImage';
 import References from './References';
 
@@ -15,9 +16,7 @@ const Card = ({ navigation, language, refs }) => {
         <Background path="background">
             <Header>
                 <Left>
-                    <Button transparent onPress={() => navigation.goBack()}>
-                        <Icon name="arrow-back" />
-                    </Button>
+                    <IconButton onPress={() => navigation.goBack()} icon="arrow-back" />
                 </Left>
                 <Body>
                     <Title>{defaultGet(card_name, language, 'english')}</Title>

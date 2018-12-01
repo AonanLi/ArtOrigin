@@ -1,21 +1,10 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import {
-    Header,
-    Title,
-    Content,
-    Button,
-    Icon,
-    Left,
-    Right,
-    Body,
-    View,
-    ListItem,
-    Text
-} from 'native-base';
+import { Header, Title, Content, Icon, Left, Right, Body, ListItem, Text } from 'native-base';
 import _ from 'lodash';
 
 import Background from '../../components/Background';
+import IconButton from '../../components/IconButton';
 
 import { editSetting } from '../../actions/settings';
 import languages from '../../data/languages';
@@ -27,32 +16,28 @@ const Settings = ({ navigation, settings, editSetting }) => {
         <Background>
             <Header>
                 <Left>
-                    <Button transparent onPress={() => navigation.goBack()}>
-                        <Icon name="arrow-back" />
-                    </Button>
+                    <IconButton onPress={() => navigation.goBack()} icon="arrow-back" />
                 </Left>
                 <Body>
                     <Title>{label}</Title>
                 </Body>
             </Header>
-            <Content>
-                <View style={{ paddingTop: 8 }}>
-                    {options.filter(o => o.value !== '').map((o, i) => (
-                        <ListItem
-                            underlayColor="#150f19"
-                            key={i}
-                            selected={o.value === value}
-                            onPress={() => editSetting(path, o.value)}
-                        >
-                            <Body>
-                                <Text>{o.label}</Text>
-                            </Body>
-                            <Right>
-                                <Icon active name="arrow-forward" />
-                            </Right>
-                        </ListItem>
-                    ))}
-                </View>
+            <Content style={{ paddingTop: 8 }}>
+                {options.filter(o => o.value !== '').map((o, i) => (
+                    <ListItem
+                        underlayColor="#150f19"
+                        key={i}
+                        selected={o.value === value}
+                        onPress={() => editSetting(path, o.value)}
+                    >
+                        <Body>
+                            <Text>{o.label}</Text>
+                        </Body>
+                        <Right>
+                            <Icon active name="arrow-forward" />
+                        </Right>
+                    </ListItem>
+                ))}
             </Content>
         </Background>
     );

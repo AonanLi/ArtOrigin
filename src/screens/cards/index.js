@@ -1,13 +1,14 @@
 import React, { PureComponent } from 'react';
 import { connect } from 'react-redux';
-import { Container, Header, Title, Button, Icon, Left, Right, Body, Tab, Tabs } from 'native-base';
+import { Container, Header, Title, Left, Right, Body, Tab, Tabs } from 'native-base';
 import { View } from 'react-native';
 import _ from 'lodash';
 
 import Deck from './Deck';
-import DeckSelector from './DeckSelector';
+import ImportDeck from './ImportDeck';
 import CardList from '../../components/CardList';
 import ShowIf from '../../components/ShowIf';
+import IconButton from '../../components/IconButton';
 
 import cardsSelector from './cardsSelector';
 import isBigScreen from '../../utils/isBigScreen';
@@ -40,28 +41,23 @@ class Cards extends PureComponent {
             <Container>
                 <Header hasTabs>
                     <Left>
-                        <Button transparent onPress={() => navigate('DrawerOpen')}>
-                            <Icon name="ios-menu" />
-                        </Button>
+                        <IconButton onPress={() => navigate('DrawerOpen')} icon="ios-menu" />
                     </Left>
                     <Body>
                         <Title>{tabs[tab]}</Title>
                     </Body>
                     <Right>
                         <ShowIf condition={tab}>
-                            <Button transparent onPress={resetDeck}>
-                                <Icon name="md-refresh" />
-                            </Button>
+                            <IconButton onPress={resetDeck} icon="md-refresh" />
                         </ShowIf>
                         <ShowIf condition={tab}>
-                            <Button transparent onPress={() => this.setVisible(true)}>
-                                <Icon name="ios-folder-open" />
-                            </Button>
+                            <IconButton
+                                onPress={() => this.setVisible(true)}
+                                icon="ios-folder-open"
+                            />
                         </ShowIf>
                         <ShowIf condition={!tab}>
-                            <Button transparent onPress={() => navigate('Filter')}>
-                                <Icon name="ios-options" />
-                            </Button>
+                            <IconButton onPress={() => navigate('Filter')} icon="ios-options" />
                         </ShowIf>
                     </Right>
                 </Header>
@@ -82,7 +78,7 @@ class Cards extends PureComponent {
                         <Deck current_deck={current_deck} language={language} navigate={navigate} />
                     </Tab>
                 </Tabs>
-                <DeckSelector
+                <ImportDeck
                     visible={visible}
                     decks={decks}
                     setVisible={this.setVisible}
@@ -93,7 +89,4 @@ class Cards extends PureComponent {
     }
 }
 
-export default connect(
-    cardsSelector,
-    { ...decks }
-)(Cards);
+export default connect(cardsSelector, { ...decks })(Cards);
