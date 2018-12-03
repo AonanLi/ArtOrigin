@@ -1,7 +1,7 @@
 import React, { PureComponent } from 'react';
 import { connect } from 'react-redux';
 import { Container, Header, Title, Left, Right, Body, Tab, Tabs, Toast } from 'native-base';
-import { View } from 'react-native';
+import { View, Dimensions } from 'react-native';
 import _ from 'lodash';
 
 import Deck from './Deck';
@@ -83,7 +83,11 @@ class Cards extends PureComponent {
                             cards={cards}
                             language={language}
                             navigate={navigate}
-                            style={{ marginLeft: margin, marginRight: margin }}
+                            style={{
+                                marginLeft: margin,
+                                marginRight: margin,
+                                height: Dimensions.get('window').height - 56
+                            }}
                         />
                     </Tab>
                     <Tab heading="Deck">
