@@ -8,7 +8,6 @@ const cardByKey = state => _.keyBy(state.cardsets.cards, c => c.card_id);
 const old_deck = state => state.decks.current_deck;
 const filters = state => state.filters;
 const language = state => state.settings.language;
-const decks = state => state.decks.decks;
 
 const filter = createSelector(cards, filters, language, (cards, filters, language) => {
     const { color, rarity, card_type, sub_type, keyword } = filters;
@@ -66,12 +65,10 @@ const cardsSelector = createSelector(
     filter,
     current_deck,
     language,
-    decks,
-    (filter, current_deck, language, decks) => ({
+    (filter, current_deck, language) => ({
         cards: sort(filter),
         current_deck,
-        language,
-        decks
+        language
     })
 );
 

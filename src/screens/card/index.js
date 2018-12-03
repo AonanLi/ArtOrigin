@@ -12,7 +12,6 @@ import defaultGet from '../../utils/defaultGet';
 
 class Card extends Component {
     static navigationOptions = {
-        title: 'Home',
         swipeEnabled: false
     };
 

@@ -9,6 +9,7 @@ import Card from './screens/card';
 import Settings from './screens/settings';
 import Setting from './screens/setting';
 import Deck from './screens/deck';
+import Import from './screens/import';
 
 const AppNavigator = StackNavigator(
     {
@@ -24,7 +25,8 @@ const AppNavigator = StackNavigator(
 const DeckNavigator = StackNavigator(
     {
         Deck: { screen: Deck },
-        Card: { screen: Card }
+        Card: { screen: Card },
+        Import: { screen: Import }
     },
     {
         initialRouteName: 'Deck',
