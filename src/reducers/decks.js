@@ -1,6 +1,8 @@
 import _ from 'lodash';
 import storage from 'redux-persist/lib/storage';
 
+import default_decks from '../data/default_decks';
+
 const reducers = {
     SAVE_DECK: saveDeck,
     ACTIVE_DECK: activeDeck,
@@ -21,7 +23,7 @@ const default_deck = {
     name: 'Unnamed Deck'
 };
 
-const defaultState = { decks: {}, current_deck: default_deck };
+const defaultState = { decks: default_decks, current_deck: default_deck };
 
 const persistConfig = {
     key: 'decks',

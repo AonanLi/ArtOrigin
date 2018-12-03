@@ -1,7 +1,7 @@
 import { decodeDeck } from 'node-artifact-api';
 import _ from 'lodash';
 
-const encode = code => {
+const decode = code => {
     const extract = code.replace('https://playartifact.com/d/', '');
     const rawDeck = decodeDeck(extract);
     if (isInvalid(rawDeck)) {
@@ -10,7 +10,7 @@ const encode = code => {
     return rawDeck;
 };
 
-export default encode;
+export default decode;
 
 const isInvalid = ({ cards, heroes, name }) =>
     name === 'Invalid Code' && _.isEmpty(cards) && _.isEmpty(heroes);

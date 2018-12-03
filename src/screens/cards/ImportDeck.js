@@ -106,7 +106,7 @@ class ImportDeck extends Component {
                                         }
                                         underlayColor="#150f19"
                                     >
-                                        <Body style>
+                                        <Body>
                                             <Text>{name}</Text>
                                         </Body>
                                         <Right>
