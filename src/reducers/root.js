@@ -25,7 +25,7 @@ export const defaultState = _.merge.apply(
 
 function getReducer(config) {
     const { defaultState, reducers, persistConfig } = config;
-    const reducer = (state = defaultState, action) => {
+    const result = (state = defaultState, action) => {
         var reducer = reducers[action.type];
         if (reducer) {
             return reducer(state, action.payload);
@@ -33,7 +33,7 @@ function getReducer(config) {
         return state;
     };
     if (persistConfig) {
-        return persistReducer(persistConfig, reducer);
+        return persistReducer(persistConfig, result);
     }
-    return reducer;
+    return result;
 }
