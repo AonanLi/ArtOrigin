@@ -32,10 +32,7 @@ class Setup extends Component {
     }
 
     componentDidMount() {
-        const { cards, saveCardsets } = this.props;
-        if (!cards) {
-            this.props.saveCardsets();
-        }
+        this.props.saveCardsets();
     }
 
     async _loadAssetsAsync() {
