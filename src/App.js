@@ -1,6 +1,6 @@
 import React from 'react';
 import { Root } from 'native-base';
-import { StackNavigator, DrawerNavigator } from 'react-navigation';
+import { StackNavigator, DrawerNavigator, TabNavigator } from 'react-navigation';
 
 import SideBar from './screens/sidebar';
 import Filter from './screens/filter';
@@ -8,6 +8,7 @@ import Cards from './screens/cards';
 import Card from './screens/card';
 import Settings from './screens/settings';
 import Setting from './screens/setting';
+import Deck from './screens/deck';
 
 const AppNavigator = StackNavigator(
     {
@@ -16,6 +17,17 @@ const AppNavigator = StackNavigator(
     },
     {
         initialRouteName: 'Cards',
+        headerMode: 'none'
+    }
+);
+
+const DeckNavigator = StackNavigator(
+    {
+        Deck: { screen: Deck },
+        Card: { screen: Card }
+    },
+    {
+        initialRouteName: 'Deck',
         headerMode: 'none'
     }
 );
@@ -31,13 +43,27 @@ const SettingsNavigator = StackNavigator(
     }
 );
 
-const RightDrawer = DrawerNavigator(
+const Tab = TabNavigator(
     {
-        App: AppNavigator,
-        Set: SettingsNavigator
+        App: { screen: AppNavigator },
+        DeckApp: { screen: DeckNavigator }
     },
     {
-        initialRouteName: 'App',
+        swipeEnabled: true,
+        lazy: false,
+        navigationOptions: {
+            tabBarVisible: false
+        }
+    }
+);
+
+const RightDrawer = DrawerNavigator(
+    {
+        Set: SettingsNavigator,
+        Tab: Tab
+    },
+    {
+        initialRouteName: 'Tab',
         drawerPosition: 'right',
         drawerOpenRoute: 'Filter',
         navigationOptions: { drawerLockMode: 'locked-closed' },

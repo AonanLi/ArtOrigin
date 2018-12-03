@@ -1,7 +1,7 @@
 import { createSelector } from 'reselect';
 import _ from 'lodash';
 
-import defaultGet from '../../utils/defaultGet';
+import defaultGet from '../utils/defaultGet';
 
 const cards = state => state.cardsets.cards.filter(c => !c.isRef);
 const cardByKey = state => _.keyBy(state.cardsets.cards, c => c.card_id);

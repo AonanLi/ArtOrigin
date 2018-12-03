@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { Header, Title, Content, Text, Left, Body } from 'native-base';
+import { Header, Title, Content, Left, Body } from 'native-base';
 import _ from 'lodash';
 
 import Background from '../../components/Background';
@@ -10,25 +10,33 @@ import References from './References';
 
 import defaultGet from '../../utils/defaultGet';
 
-const Card = ({ navigation, language, refs }) => {
-    const { card_name, large_image } = navigation.state.params.item;
-    return (
-        <Background path="background">
-            <Header>
-                <Left>
-                    <IconButton onPress={() => navigation.goBack()} icon="arrow-back" />
-                </Left>
-                <Body>
-                    <Title>{defaultGet(card_name, language, 'english')}</Title>
-                </Body>
-            </Header>
-            <Content>
-                <FullWidthImage uri={defaultGet(large_image, language, 'default')} />
-                <References refs={refs} language={language} />
-            </Content>
-        </Background>
-    );
-};
+class Card extends Component {
+    static navigationOptions = {
+        title: 'Home',
+        swipeEnabled: false
+    };
+
+    render() {
+        const { navigation, language, refs } = this.props;
+        const { card_name, large_image } = navigation.state.params.item;
+        return (
+            <Background path="background">
+                <Header>
+                    <Left>
+                        <IconButton onPress={() => navigation.goBack()} icon="arrow-back" />
+                    </Left>
+                    <Body>
+                        <Title>{defaultGet(card_name, language, 'english')}</Title>
+                    </Body>
+                </Header>
+                <Content>
+                    <FullWidthImage uri={defaultGet(large_image, language, 'default')} />
+                    <References refs={refs} language={language} />
+                </Content>
+            </Background>
+        );
+    }
+}
 
 const getRefs = (item, refs, origin) =>
     item.references.map(r => {

@@ -7,11 +7,16 @@ import Background from '../../components/Background';
 import ui from '../../data/ui';
 import styles from './style';
 
-const datas = [
+const data = [
     {
         name: 'Cards',
         route: 'App',
         icon: 'ios-albums'
+    },
+    {
+        name: 'Deck',
+        route: 'DeckApp',
+        icon: 'ios-journal'
     },
     {
         name: 'Settings',
@@ -27,21 +32,21 @@ class SideBar extends Component {
                 <Content bounces={false}>
                     <Image source={ui.drawerCover} style={styles.drawerCover} />
                     <Image square source={ui.drawerImage} style={styles.drawerImage} />
-                    {datas.map(data => (
+                    {data.map(d => (
                         <ListItem
-                            key={data.route}
+                            key={d.route}
                             underlayColor="#150f19"
                             button
                             noBorder
-                            onPress={() => this.props.navigation.navigate(data.route)}
+                            onPress={() => this.props.navigation.navigate(d.route)}
                         >
                             <Left>
                                 <Icon
-                                    active
-                                    name={data.icon}
+                                    d
+                                    name={d.icon}
                                     style={{ color: '#cad4ff', fontSize: 26, width: 30 }}
                                 />
-                                <Text style={styles.text}>{data.name}</Text>
+                                <Text style={styles.text}>{d.name}</Text>
                             </Left>
                         </ListItem>
                     ))}

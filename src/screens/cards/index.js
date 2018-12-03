@@ -1,21 +1,18 @@
 import React, { PureComponent } from 'react';
 import { connect } from 'react-redux';
-import { Container, Header, Title, Left, Right, Body, Tab, Tabs, Toast } from 'native-base';
-import { View, Dimensions } from 'react-native';
+import { Container, Header, Title, Left, Right, Body, Toast } from 'native-base';
+import { Dimensions } from 'react-native';
 import _ from 'lodash';
 
-import Deck from './Deck';
 import ImportDeck from './ImportDeck';
 import CardList from '../../components/CardList';
-import ShowIf from '../../components/ShowIf';
 import IconButton from '../../components/IconButton';
 
-import cardsSelector from './cardsSelector';
+import cardsSelector from '../../selectors/cardsSelector';
 import isBigScreen from '../../utils/isBigScreen';
 import * as decks from '../../actions/decks';
 
 const margin = isBigScreen ? 128 : 0;
-const tabs = ['Cards', 'Deck'];
 
 class Cards extends PureComponent {
     constructor(props) {
@@ -26,16 +23,7 @@ class Cards extends PureComponent {
     setVisible = visible => this.setState({ visible });
 
     render() {
-        const {
-            cards,
-            current_deck,
-            language,
-            decks,
-            navigation,
-            resetDeck,
-            saveCurrentDeck,
-            ...passProps
-        } = this.props;
+        const { cards, current_deck, language, decks, navigation, ...passProps } = this.props;
         const { navigate } = navigation;
         const { tab, visible } = this.state;
         return (
@@ -45,55 +33,22 @@ class Cards extends PureComponent {
                         <IconButton onPress={() => navigate('DrawerOpen')} icon="ios-menu" />
                     </Left>
                     <Body>
-                        <Title>{tabs[tab]}</Title>
+                        <Title>Cards</Title>
                     </Body>
                     <Right>
-                        <ShowIf condition={tab}>
-                            <IconButton
-                                onPress={() => {
-                                    saveCurrentDeck();
-                                    Toast.show({
-                                        text: `Deck saved: ${current_deck.name}`
-                                    });
-                                }}
-                                icon="ios-save"
-                            />
-                        </ShowIf>
-                        <ShowIf condition={tab}>
-                            <IconButton onPress={resetDeck} icon="md-refresh" />
-                        </ShowIf>
-                        <ShowIf condition={tab}>
-                            <IconButton
-                                onPress={() => this.setVisible(true)}
-                                icon="ios-folder-open"
-                            />
-                        </ShowIf>
-                        <ShowIf condition={!tab}>
-                            <IconButton onPress={() => navigate('Filter')} icon="ios-options" />
-                        </ShowIf>
+                        <IconButton onPress={() => navigate('Filter')} icon="ios-options" />
                     </Right>
                 </Header>
-                <Tabs
-                    onChangeTab={({ i }) => this.setState({ tab: i })}
-                    renderTabBar={() => <View />}
-                    prerenderingSiblingsNumber={1}
-                >
-                    <Tab heading="Cards">
-                        <CardList
-                            cards={cards}
-                            language={language}
-                            navigate={navigate}
-                            style={{
-                                marginLeft: margin,
-                                marginRight: margin,
-                                height: Dimensions.get('window').height - 56
-                            }}
-                        />
-                    </Tab>
-                    <Tab heading="Deck">
-                        <Deck current_deck={current_deck} language={language} navigate={navigate} />
-                    </Tab>
-                </Tabs>
+                <CardList
+                    cards={cards}
+                    language={language}
+                    navigate={navigate}
+                    style={{
+                        marginLeft: margin,
+                        marginRight: margin,
+                        height: Dimensions.get('window').height - 56
+                    }}
+                />
                 <ImportDeck
                     visible={visible}
                     decks={decks}
@@ -105,4 +60,4 @@ class Cards extends PureComponent {
     }
 }
 
-export default connect(cardsSelector, { ...decks })(Cards);
+export default connect(cardsSelector, decks)(Cards);
