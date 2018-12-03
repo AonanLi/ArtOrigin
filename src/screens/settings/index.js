@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Header, Title, Content, Icon, Left, Right, Body, ListItem, Text } from 'native-base';
+import { DrawerActions } from 'react-navigation';
 import _ from 'lodash';
 
 import Background from '../../components/Background';
@@ -22,7 +23,10 @@ const Settings = ({ navigation, settings, editSetting }) => {
         <Background>
             <Header>
                 <Left>
-                    <IconButton onPress={() => navigation.navigate('DrawerOpen')} icon="ios-menu" />
+                    <IconButton
+                        onPress={() => navigation.dispatch(DrawerActions.openDrawer())}
+                        icon="ios-menu"
+                    />
                 </Left>
                 <Body>
                     <Title>Settings</Title>
@@ -57,4 +61,7 @@ const Settings = ({ navigation, settings, editSetting }) => {
     );
 };
 
-export default connect(state => ({ settings: state.settings }), {})(Settings);
+export default connect(
+    state => ({ settings: state.settings }),
+    {}
+)(Settings);

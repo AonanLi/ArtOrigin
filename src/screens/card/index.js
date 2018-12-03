@@ -11,10 +11,6 @@ import References from './References';
 import defaultGet from '../../utils/defaultGet';
 
 class Card extends Component {
-    static navigationOptions = {
-        swipeEnabled: false
-    };
-
     render() {
         const { navigation, language, refs } = this.props;
         const { card_name, large_image } = navigation.state.params.item;
@@ -49,15 +45,18 @@ const getRefs = (item, refs, origin) =>
         return false;
     });
 
-export default connect((state, props) => {
-    const { item } = props.navigation.state.params;
-    const { refs } = state.cardsets;
+export default connect(
+    (state, props) => {
+        const { item } = props.navigation.state.params;
+        const { refs } = state.cardsets;
 
-    const first = getRefs(item, refs, item);
-    const second = _.flatten(first.map(i => getRefs(i, refs, item)));
-    const combine = _.uniq(_.compact(first.concat(second)));
-    return {
-        refs: combine,
-        language: state.settings.language
-    };
-}, {})(Card);
+        const first = getRefs(item, refs, item);
+        const second = _.flatten(first.map(i => getRefs(i, refs, item)));
+        const combine = _.uniq(_.compact(first.concat(second)));
+        return {
+            refs: combine,
+            language: state.settings.language
+        };
+    },
+    {}
+)(Card);

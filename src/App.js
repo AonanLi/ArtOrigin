@@ -1,6 +1,10 @@
 import React from 'react';
-import { Root } from 'native-base';
-import { StackNavigator, DrawerNavigator, TabNavigator } from 'react-navigation';
+import {
+    createAppContainer,
+    createStackNavigator,
+    createDrawerNavigator,
+    createMaterialTopTabNavigator
+} from 'react-navigation';
 
 import SideBar from './screens/sidebar';
 import Filter from './screens/filter';
@@ -11,7 +15,7 @@ import Setting from './screens/setting';
 import Deck from './screens/deck';
 import Import from './screens/import';
 
-const AppNavigator = StackNavigator(
+const AppNavigator = createStackNavigator(
     {
         Cards: { screen: Cards },
         Card: { screen: Card }
@@ -22,7 +26,12 @@ const AppNavigator = StackNavigator(
     }
 );
 
-const DeckNavigator = StackNavigator(
+AppNavigator.navigationOptions = ({ navigation }) => ({
+    swipeEnabled: navigation.state.index === 0,
+    tabBarVisible: false
+});
+
+const DeckNavigator = createStackNavigator(
     {
         Deck: { screen: Deck },
         Card: { screen: Card },
@@ -30,11 +39,14 @@ const DeckNavigator = StackNavigator(
     },
     {
         initialRouteName: 'Deck',
-        headerMode: 'none'
+        headerMode: 'none',
+        navigationOptions: {
+            tabBarVisible: false
+        }
     }
 );
 
-const SettingsNavigator = StackNavigator(
+const SettingsNavigator = createStackNavigator(
     {
         Settings: { screen: Settings },
         Setting: { screen: Setting }
@@ -45,7 +57,7 @@ const SettingsNavigator = StackNavigator(
     }
 );
 
-const Tab = TabNavigator(
+const Tab = createMaterialTopTabNavigator(
     {
         App: { screen: AppNavigator },
         DeckApp: { screen: DeckNavigator }
@@ -59,7 +71,7 @@ const Tab = TabNavigator(
     }
 );
 
-const RightDrawer = DrawerNavigator(
+const RightDrawer = createDrawerNavigator(
     {
         Set: SettingsNavigator,
         Tab: Tab
@@ -67,26 +79,19 @@ const RightDrawer = DrawerNavigator(
     {
         initialRouteName: 'Tab',
         drawerPosition: 'right',
-        drawerOpenRoute: 'Filter',
         navigationOptions: { drawerLockMode: 'locked-closed' },
-        contentComponent: props => <Filter {...props} />,
-        drawerBackgroundColor: 'rgba(0, 0, 0, 0.9)'
+        contentComponent: props => <Filter {...props} />
     }
 );
 
-const Drawer = DrawerNavigator(
+const Drawer = createDrawerNavigator(
     {
         RightDrawer: { screen: RightDrawer }
     },
     {
         navigationOptions: { drawerLockMode: 'locked-closed' },
-        contentComponent: props => <SideBar {...props} />,
-        drawerBackgroundColor: 'rgba(0, 0, 0, 0.9)'
+        contentComponent: props => <SideBar {...props} />
     }
 );
 
-export default () => (
-    <Root>
-        <Drawer />
-    </Root>
-);
+export default createAppContainer(Drawer);

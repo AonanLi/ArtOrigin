@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { AppLoading, Asset, Font } from 'expo';
 import { connect } from 'react-redux';
-import { StyleProvider } from 'native-base';
+import { Root, StyleProvider } from 'native-base';
 import _ from 'lodash';
 
 import App from '../App';
@@ -58,9 +58,11 @@ class Setup extends Component {
             );
         }
         return (
-            <StyleProvider style={getTheme(material)}>
-                <App />
-            </StyleProvider>
+            <Root>
+                <StyleProvider style={getTheme(material)}>
+                    <App />
+                </StyleProvider>
+            </Root>
         );
     }
 }

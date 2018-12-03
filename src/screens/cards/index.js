@@ -2,6 +2,7 @@ import React, { PureComponent } from 'react';
 import { connect } from 'react-redux';
 import { Container, Header, Title, Left, Right, Body, Toast } from 'native-base';
 import { Dimensions } from 'react-native';
+import { DrawerActions } from 'react-navigation';
 import _ from 'lodash';
 
 import CardList from '../../components/CardList';
@@ -13,22 +14,23 @@ import isBigScreen from '../../utils/isBigScreen';
 const margin = isBigScreen ? 128 : 0;
 
 class Cards extends PureComponent {
-    setVisible = visible => this.setState({ visible });
-
     render() {
         const { cards, language, navigation } = this.props;
-        const { navigate } = navigation;
+        const { navigate, dispatch, openDrawer } = navigation;
         return (
             <Container>
                 <Header hasTabs>
                     <Left>
-                        <IconButton onPress={() => navigate('DrawerOpen')} icon="ios-menu" />
+                        <IconButton
+                            onPress={() => dispatch(DrawerActions.openDrawer())}
+                            icon="ios-menu"
+                        />
                     </Left>
                     <Body>
                         <Title>Cards</Title>
                     </Body>
                     <Right>
-                        <IconButton onPress={() => navigate('Filter')} icon="ios-options" />
+                        <IconButton onPress={() => openDrawer()} icon="ios-options" />
                     </Right>
                 </Header>
                 <CardList
@@ -46,4 +48,7 @@ class Cards extends PureComponent {
     }
 }
 
-export default connect(cardsSelector, {})(Cards);
+export default connect(
+    cardsSelector,
+    {}
+)(Cards);
