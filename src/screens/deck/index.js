@@ -2,7 +2,6 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { View, ImageBackground, Dimensions, Clipboard } from 'react-native';
 import { Container, Header, Title, Left, Right, Body, Toast, Text } from 'native-base';
-import { DrawerActions } from 'react-navigation';
 import _ from 'lodash';
 
 import Background from '../../components/Background';
@@ -24,7 +23,7 @@ import encode from '../../utils/encode';
 const height = 48;
 
 const Deck = ({ current_deck, navigation, resetDeck, saveCurrentDeck, ...passProps }) => {
-    const { navigate, dispatch } = navigation;
+    const { navigate, dispatch, openDrawer } = navigation;
     const { heroes, cards, name } = current_deck;
     const hero_count = heroes.filter(h => h.id).length;
     const hero_text = `${hero_count} HEROES`;
@@ -42,10 +41,7 @@ const Deck = ({ current_deck, navigation, resetDeck, saveCurrentDeck, ...passPro
         <Background>
             <Header hasTabs>
                 <Left>
-                    <IconButton
-                        onPress={() => dispatch(DrawerActions.openDrawer())}
-                        icon="ios-menu"
-                    />
+                    <IconButton onPress={() => openDrawer()} icon="ios-menu" />
                 </Left>
                 <Body>
                     <Title>Deck</Title>

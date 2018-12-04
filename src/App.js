@@ -39,12 +39,14 @@ const DeckNavigator = createStackNavigator(
     },
     {
         initialRouteName: 'Deck',
-        headerMode: 'none',
-        navigationOptions: {
-            tabBarVisible: false
-        }
+        headerMode: 'none'
     }
 );
+
+DeckNavigator.navigationOptions = ({ navigation }) => ({
+    swipeEnabled: navigation.state.index === 0,
+    tabBarVisible: false
+});
 
 const SettingsNavigator = createStackNavigator(
     {
@@ -53,7 +55,8 @@ const SettingsNavigator = createStackNavigator(
     },
     {
         initialRouteName: 'Settings',
-        headerMode: 'none'
+        headerMode: 'none',
+        navigationOptions: { drawerLockMode: 'locked-closed' }
     }
 );
 
@@ -66,31 +69,31 @@ const Tab = createMaterialTopTabNavigator(
         swipeEnabled: true,
         lazy: false,
         navigationOptions: {
-            tabBarVisible: false
+            tabBarVisible: false,
+            drawerLockMode: 'locked-closed'
         }
     }
 );
 
-const RightDrawer = createDrawerNavigator(
+const SideDrawer = createDrawerNavigator(
     {
         Set: SettingsNavigator,
         Tab: Tab
     },
     {
         initialRouteName: 'Tab',
-        drawerPosition: 'right',
         navigationOptions: { drawerLockMode: 'locked-closed' },
-        contentComponent: props => <Filter {...props} />
+        contentComponent: props => <SideBar {...props} />
     }
 );
 
 const Drawer = createDrawerNavigator(
     {
-        RightDrawer: { screen: RightDrawer }
+        SideDrawer: { screen: SideDrawer }
     },
     {
-        navigationOptions: { drawerLockMode: 'locked-closed' },
-        contentComponent: props => <SideBar {...props} />
+        drawerPosition: 'right',
+        contentComponent: props => <Filter {...props} />
     }
 );
 

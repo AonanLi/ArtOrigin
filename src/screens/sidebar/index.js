@@ -1,7 +1,6 @@
 import React from 'react';
 import { Image } from 'react-native';
 import { Content, Text, ListItem, Icon, Left } from 'native-base';
-import { DrawerActions } from 'react-navigation';
 
 import Background from '../../components/Background';
 
@@ -38,7 +37,7 @@ const SideBar = ({ navigation }) => (
                     button
                     noBorder
                     onPress={() => {
-                        navigation.dispatch(DrawerActions.closeDrawer());
+                        navigation.closeDrawer();
                         navigation.navigate(d.route);
                     }}
                 >

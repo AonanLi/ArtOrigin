@@ -22,16 +22,16 @@ class Cards extends PureComponent {
             <Container>
                 <Header hasTabs>
                     <Left>
-                        <IconButton
-                            onPress={() => dispatch(DrawerActions.openDrawer())}
-                            icon="ios-menu"
-                        />
+                        <IconButton onPress={() => openDrawer()} icon="ios-menu" />
                     </Left>
                     <Body>
                         <Title>Cards</Title>
                     </Body>
                     <Right>
-                        <IconButton onPress={() => openDrawer()} icon="ios-options" />
+                        <IconButton
+                            onPress={() => dispatch(DrawerActions.openDrawer())}
+                            icon="ios-options"
+                        />
                     </Right>
                 </Header>
                 <CardList
