@@ -7,13 +7,13 @@ import _ from 'lodash';
 
 import App from '../App';
 
+import { saveCardsets } from '../actions/cardsets';
+
 import getTheme from '../theme/components';
 import material from '../theme/variables/material';
 import ui from '../data/ui';
 import translations from '../data/translations';
-import languages from '../data/languages';
-
-import { saveCardsets } from '../actions/cardsets';
+import { setLocale } from '../utils/locale';
 
 const cacheImages = images =>
     images.map(image => {
@@ -38,7 +38,7 @@ class Setup extends Component {
         const { language, saveCardsets } = this.props;
         i18n.fallbacks = true;
         i18n.translations = translations;
-        i18n.locale = _.find(languages, l => l.value === language).locale;
+        setLocale(language);
 
         saveCardsets();
     }

@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Image } from 'react-native';
 import { Content } from 'native-base';
+import i18n from 'i18n-js';
 import _ from 'lodash';
 
 import SearchBar from './SearchBar';
@@ -56,7 +57,7 @@ class Filter extends Component {
             <Background>
                 <SearchBar onChange={setFilterValue} reset={resetFilter} keyword={keyword} />
                 <Content scrollEnabled={!this.state.locked} keyboardShouldPersistTaps="never">
-                    <ListHeader text="COLOR">
+                    <ListHeader text={i18n.t('Color')}>
                         {colors.map(c => (
                             <SmallButton
                                 key={c.label}
@@ -66,7 +67,7 @@ class Filter extends Component {
                             />
                         ))}
                     </ListHeader>
-                    <ListHeader text="RARITY">
+                    <ListHeader text={i18n.t('Rarity')}>
                         {rarities.map(r => (
                             <SmallButton
                                 key={r.label}
@@ -76,7 +77,7 @@ class Filter extends Component {
                             />
                         ))}
                     </ListHeader>
-                    <ListHeader text="TYPE">
+                    <ListHeader text={i18n.t('Type')}>
                         {card_types.map(t => (
                             <SmallButton
                                 key={t.label}
@@ -100,7 +101,7 @@ class Filter extends Component {
                             </SmallButton>
                         ))}
                     </ListHeader>
-                    <ListHeader hide={!showMana} text="MANA">
+                    <ListHeader hide={!showMana} text={i18n.t('Mana')}>
                         <Slider
                             max={10}
                             color="#145982"
@@ -110,7 +111,7 @@ class Filter extends Component {
                             lock={this.lock}
                         />
                     </ListHeader>
-                    <ListHeader hide={!showGold} text="GOLD">
+                    <ListHeader hide={!showGold} text={i18n.t('Gold')}>
                         <Slider
                             max={25}
                             color="#F4D35E"
@@ -120,7 +121,7 @@ class Filter extends Component {
                             lock={this.lock}
                         />
                     </ListHeader>
-                    <ListHeader hide={!hasHero} text="STATS">
+                    <ListHeader hide={!hasHero} text={i18n.t('Stats')}>
                         <Slider
                             max={20}
                             icon={ui.weapon}
@@ -159,4 +160,7 @@ class Filter extends Component {
     }
 }
 
-export default connect(state => ({ filterState: state.filters }), filters)(Filter);
+export default connect(
+    state => ({ filterState: state.filters }),
+    filters
+)(Filter);

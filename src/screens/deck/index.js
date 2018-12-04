@@ -2,6 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { View, ImageBackground, Dimensions, Clipboard } from 'react-native';
 import { Container, Header, Title, Left, Right, Body, Toast, Text } from 'native-base';
+import i18n from 'i18n-js';
 import _ from 'lodash';
 
 import Background from '../../components/Background';
@@ -27,7 +28,7 @@ const Deck = ({ current_deck, navigation, resetDeck, saveCurrentDeck, ...passPro
     const { navigate, dispatch, openDrawer } = navigation;
     const { heroes, cards, name } = current_deck;
     const hero_count = heroes.filter(h => h.id).length;
-    const hero_text = `${hero_count} HEROES`;
+    const hero_text = i18n.t('Heroes', { hero_count });
     const partition = _.partition(cards, c => c.card_type === 'Item');
     const costs = _.times(8).map(i => {
         const cost = i + 1;
@@ -45,14 +46,14 @@ const Deck = ({ current_deck, navigation, resetDeck, saveCurrentDeck, ...passPro
                     <IconButton onPress={() => openDrawer()} icon="ios-menu" />
                 </Left>
                 <Body>
-                    <Title>Deck</Title>
+                    <Title>{i18n.t('Deck')}</Title>
                 </Body>
                 <Right>
                     <IconButton
                         onPress={() => {
                             saveCurrentDeck();
                             Toast.show({
-                                text: `Deck saved: ${name}`
+                                text: i18n.t('DeckSaved', { name })
                             });
                         }}
                         icon="ios-save"
@@ -69,11 +70,11 @@ const Deck = ({ current_deck, navigation, resetDeck, saveCurrentDeck, ...passPro
                         if (code) {
                             Clipboard.setString(code);
                             Toast.show({
-                                text: 'Deck code copied to the clipboard'
+                                text: i18n.t('DeckCodeCopiedToTheClipboard')
                             });
                         } else {
                             Toast.show({
-                                text: 'Failed to generate deck link',
+                                text: i18n.t('FailedToGenerateDeckLink'),
                                 type: 'danger'
                             });
                         }

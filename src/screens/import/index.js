@@ -14,6 +14,7 @@ import {
     Toast
 } from 'native-base';
 import { View, Clipboard, FlatList } from 'react-native';
+import i18n from 'i18n-js';
 import _ from 'lodash';
 
 import Background from '../../components/Background';
@@ -45,16 +46,16 @@ class ImportDeck extends Component {
                         <IconButton onPress={() => goBack()} icon="arrow-back" />
                     </Left>
                     <Body>
-                        <Title>Select Deck</Title>
+                        <Title>{i18n.t('SelectDeck')}</Title>
                     </Body>
                 </Header>
                 <ListItem itemHeader noBorder>
-                    <Text>From Deck Code</Text>
+                    <Text>{i18n.t('FromDeckCode')}</Text>
                 </ListItem>
                 <ListItem noBorder>
                     <Item>
                         <Input
-                            placeholder="Paste Deck Code →"
+                            placeholder={i18n.t('PasteDeckCode')}
                             value={code}
                             onChangeText={text => this.setState({ code: text })}
                         />
@@ -73,20 +74,20 @@ class ImportDeck extends Component {
                             this.setState({ code: '' });
                             goBack();
                             Toast.show({
-                                text: 'Imported deck from code'
+                                text: i18n.t('Imported deck from code')
                             });
                         } else {
                             Toast.show({
-                                text: 'Deck code is invalid',
+                                text: i18n.t('DeckCodeIsInvalid'),
                                 type: 'danger'
                             });
                         }
                     }}
                     disabled={code.length === 0}
-                    text="Import"
+                    text={i18n.t('Import')}
                 />
                 <ListItem itemHeader noBorder>
-                    <Text>From Saved Decks</Text>
+                    <Text>{i18n.t('FromSavedDecks')}</Text>
                 </ListItem>
                 <View style={style.view}>
                     <FlatList
@@ -114,7 +115,7 @@ class ImportDeck extends Component {
                                                     this.setState({ deckId: undefined });
                                                 }
                                                 Toast.show({
-                                                    text: `Deck Deleted: ${name}`
+                                                    text: i18n.t('DeckDeleted', { name })
                                                 });
                                             }}
                                             icon="ios-trash"
@@ -133,14 +134,17 @@ class ImportDeck extends Component {
                     }}
                     disabled={!deckId}
                     style={style.select}
-                    text="Select"
+                    text={i18n.t('Select')}
                 />
             </Background>
         );
     }
 }
 
-export default connect(state => ({ saved_decks: state.decks.decks }), decks)(ImportDeck);
+export default connect(
+    state => ({ saved_decks: state.decks.decks }),
+    decks
+)(ImportDeck);
 
 const style = {
     icon: { color: '#cad4ff' },

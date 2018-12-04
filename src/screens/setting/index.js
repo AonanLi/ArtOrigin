@@ -7,7 +7,14 @@ import Background from '../../components/Background';
 import IconButton from '../../components/IconButton';
 
 import { editSetting } from '../../actions/settings';
-import languages from '../../data/languages';
+import { setLocale } from '../../utils/locale';
+
+const onPress = (path, value) => {
+    if (path === 'language') {
+        setLocale(value);
+    }
+    editSetting(path, value);
+};
 
 const Settings = ({ navigation, settings, editSetting }) => {
     const { label, path, options } = navigation.state.params.s;
@@ -23,24 +30,29 @@ const Settings = ({ navigation, settings, editSetting }) => {
                 </Body>
             </Header>
             <Content style={{ paddingTop: 8 }}>
-                {options.filter(o => o.value !== '').map((o, i) => (
-                    <ListItem
-                        underlayColor="#150f19"
-                        key={i}
-                        selected={o.value === value}
-                        onPress={() => editSetting(path, o.value)}
-                    >
-                        <Body>
-                            <Text>{o.label}</Text>
-                        </Body>
-                        <Right>
-                            <Icon active name="arrow-forward" />
-                        </Right>
-                    </ListItem>
-                ))}
+                {options
+                    .filter(o => o.value !== '')
+                    .map((o, i) => (
+                        <ListItem
+                            underlayColor="#150f19"
+                            key={i}
+                            selected={o.value === value}
+                            onPress={() => editSetting(path, o.value)}
+                        >
+                            <Body>
+                                <Text>{o.label}</Text>
+                            </Body>
+                            <Right>
+                                <Icon active name="arrow-forward" />
+                            </Right>
+                        </ListItem>
+                    ))}
             </Content>
         </Background>
     );
 };
 
-export default connect(state => ({ settings: state.settings }), { editSetting })(Settings);
+export default connect(
+    state => ({ settings: state.settings }),
+    { editSetting }
+)(Settings);

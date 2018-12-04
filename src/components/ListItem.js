@@ -2,6 +2,7 @@ import React, { PureComponent } from 'react';
 import { Text } from 'native-base';
 import { View, ImageBackground, TouchableOpacity, Image as NativeImage } from 'react-native';
 import { Image } from 'react-native-expo-image-cache';
+import i18n from 'i18n-js';
 import _ from 'lodash';
 
 import IconButton from './IconButton';
@@ -30,7 +31,7 @@ class ListItem extends PureComponent {
                         <Text style={style.cost}>{cost}</Text>
                         <View style={style.name_view}>
                             <Text style={style.name}>{text}</Text>
-                            {isSig && <Text style={style.sig}>Signature Card</Text>}
+                            {isSig && <Text style={style.sig}>{i18n.t('SignatureCard')}</Text>}
                         </View>
                         <View style={style.count}>
                             <IconButton

@@ -1,6 +1,7 @@
 import React from 'react';
 import { View, Image } from 'react-native';
 import { Text } from 'native-base';
+import i18n from 'i18n-js';
 import _ from 'lodash';
 
 import Divider from './Divider';
@@ -13,9 +14,11 @@ import countCards from '../utils/countCards';
 const TypeCounter = ({ item, cards }) => {
     const types = item ? sub_types : card_types.filter(c => c.label !== 'Hero');
     const path = item ? 'sub_type' : 'card_type';
-    const tota_count = countCards(cards);
-    const condition = tota_count < (item ? 9 : 40);
-    const name = `${tota_count} ${item ? 'ITEMS' : 'CARDS'}`;
+    const total_count = countCards(cards);
+    const condition = total_count < (item ? 9 : 40);
+    const name = item
+        ? i18n.t('TotalCountItems', { total_count })
+        : i18n.t('TotalCountCards', { total_count });
     return (
         <View>
             <AlertText condition={condition} text={name} />
