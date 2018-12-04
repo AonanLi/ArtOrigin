@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { PureComponent } from 'react';
 import { Text } from 'native-base';
 import { View, ImageBackground, TouchableOpacity, Image as NativeImage } from 'react-native';
 import { Image } from 'react-native-expo-image-cache';
@@ -9,53 +9,56 @@ import IconButton from './IconButton';
 import ui from '../data/ui';
 import defaultGet from '../utils/defaultGet';
 
-const ListItem = ({ item, language, navigate, manageDeckCards }) => {
-    const path = item.mini_image.default;
-    const text = defaultGet(item.card_name, language, 'english');
-    const background = getBackground(item);
-    const type = getType(item);
-    const cost = getCost(item);
-    const count = getCount(item);
-    const disableRemove = getDisable(item, 'remove');
-    const disableAdd = getDisable(item, 'add');
-    const { isSig } = item;
-    return (
-        <TouchableOpacity onPress={() => navigate('Card', { item })} activeOpacity={0.8}>
-            <ImageBackground source={background} style={style.color}>
-                <Image uri={path} style={style.mini} />
-                <View style={style.desciption}>
-                    <NativeImage source={type} style={style.type} />
-                    <Text style={style.cost}>{cost}</Text>
-                    <View style={style.name_view}>
-                        <Text style={style.name}>{text}</Text>
-                        {isSig && <Text style={style.sig}>Signature Card</Text>}
-                    </View>
-                    <View style={style.count}>
-                        <IconButton
-                            onPress={() => manageDeckCards(item, -1)}
-                            icon="ios-arrow-back"
-                            hide={disableRemove}
-                            style={style.arrow}
-                            buttonStyle={style.button}
-                        />
-                        <Text style={style.number}>{count}</Text>
-                        {isSig ? (
-                            <Image uri={isSig} style={style.ingame} />
-                        ) : (
+class ListItem extends PureComponent {
+    render() {
+        const { item, language, navigate, manageDeckCards } = this.props;
+        const path = item.mini_image.default;
+        const text = defaultGet(item.card_name, language, 'english');
+        const background = getBackground(item);
+        const type = getType(item);
+        const cost = getCost(item);
+        const count = getCount(item);
+        const disableRemove = getDisable(item, 'remove');
+        const disableAdd = getDisable(item, 'add');
+        const { isSig } = item;
+        return (
+            <TouchableOpacity onPress={() => navigate('Card', { item })} activeOpacity={0.8}>
+                <ImageBackground source={background} style={style.color}>
+                    <Image uri={path} style={style.mini} />
+                    <View style={style.desciption}>
+                        <NativeImage source={type} style={style.type} />
+                        <Text style={style.cost}>{cost}</Text>
+                        <View style={style.name_view}>
+                            <Text style={style.name}>{text}</Text>
+                            {isSig && <Text style={style.sig}>Signature Card</Text>}
+                        </View>
+                        <View style={style.count}>
                             <IconButton
-                                onPress={() => manageDeckCards(item, 1)}
-                                icon="ios-arrow-forward"
-                                hide={disableAdd}
+                                onPress={() => manageDeckCards(item, -1)}
+                                icon="ios-arrow-back"
+                                hide={disableRemove}
                                 style={style.arrow}
                                 buttonStyle={style.button}
                             />
-                        )}
+                            <Text style={style.number}>{count}</Text>
+                            {isSig ? (
+                                <Image uri={isSig} style={style.ingame} />
+                            ) : (
+                                <IconButton
+                                    onPress={() => manageDeckCards(item, 1)}
+                                    icon="ios-arrow-forward"
+                                    hide={disableAdd}
+                                    style={style.arrow}
+                                    buttonStyle={style.button}
+                                />
+                            )}
+                        </View>
                     </View>
-                </View>
-            </ImageBackground>
-        </TouchableOpacity>
-    );
-};
+                </ImageBackground>
+            </TouchableOpacity>
+        );
+    }
+}
 
 export default ListItem;
 
