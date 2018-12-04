@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import { Dimensions } from 'react-native';
 import { Header, Title, Left, Right, Body, Toast } from 'native-base';
 import { DrawerActions } from 'react-navigation';
+import i18n from 'i18n-js';
 import _ from 'lodash';
 
 import CardList from '../../components/CardList';
@@ -27,7 +28,7 @@ class Cards extends PureComponent {
                         <IconButton onPress={() => openDrawer()} icon="ios-menu" />
                     </Left>
                     <Body>
-                        <Title>Cards</Title>
+                        <Title>{i18n.t('Cards')}</Title>
                     </Body>
                     <Right>
                         <IconButton

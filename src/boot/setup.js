@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { AppLoading, Asset, Font } from 'expo';
 import { connect } from 'react-redux';
 import { Root, StyleProvider } from 'native-base';
+import i18n from 'i18n-js';
 import _ from 'lodash';
 
 import App from '../App';
@@ -9,6 +10,8 @@ import App from '../App';
 import getTheme from '../theme/components';
 import material from '../theme/variables/material';
 import ui from '../data/ui';
+import translations from '../data/translations';
+import languages from '../data/languages';
 
 import { saveCardsets } from '../actions/cardsets';
 
@@ -32,7 +35,12 @@ class Setup extends Component {
     }
 
     componentDidMount() {
-        this.props.saveCardsets();
+        const { language, saveCardsets } = this.props;
+        i18n.fallbacks = true;
+        i18n.translations = translations;
+        i18n.locale = _.find(languages, l => l.value === language).locale;
+
+        saveCardsets();
     }
 
     async _loadAssetsAsync() {
@@ -68,7 +76,11 @@ class Setup extends Component {
 }
 
 export default connect(
-    state => ({ cards: state.cardsets.cards, loading: state.cardsets.loading }),
+    state => ({
+        cards: state.cardsets.cards,
+        loading: state.cardsets.loading,
+        language: state.settings.language
+    }),
     {
         saveCardsets
     }
