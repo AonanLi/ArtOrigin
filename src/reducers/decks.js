@@ -7,7 +7,8 @@ const reducers = {
     SAVE_DECK: saveDeck,
     ACTIVE_DECK: activeDeck,
     REMOVE_DECK: removeDeck,
-    RESET_DECK: resetDeck
+    RESET_DECK: resetDeck,
+    MANAGE_DECK_CARDS: manageDeckCards
 };
 
 const default_deck = {
@@ -50,4 +51,43 @@ function removeDeck(state, id) {
 
 function resetDeck(state) {
     return { ...state, current_deck: default_deck };
+}
+
+function manageDeckCards(state, { card, step }) {
+    const { current_deck } = state;
+    const { heroes, cards } = current_deck;
+    const { card_type, card_id } = card;
+    const isHero = card_type === 'Hero';
+
+    if (isHero) {
+        const newHeroes = _.cloneDeep(heroes);
+        if (step > 0) {
+            const item = _.find(newHeroes, h => _.isUndefined(h.id));
+            if (item) {
+                item.id = card_id;
+            }
+        } else {
+            _.find(newHeroes, h => h.id === card_id).id = undefined;
+        }
+        const newDeck = { ...current_deck, heroes: newHeroes };
+        return { ...state, current_deck: newDeck };
+    } else {
+        let newCards = _.cloneDeep(cards);
+        const item = _.find(newCards, c => c.id === card_id);
+        if (step > 0) {
+            if (item) {
+                item.count++;
+            } else {
+                newCards.push({ id: card_id, count: 1 });
+            }
+        } else {
+            if (item.count === 1) {
+                _.pull(newCards, item);
+            } else {
+                item.count--;
+            }
+        }
+        const newDeck = { ...current_deck, cards: newCards };
+        return { ...state, current_deck: newDeck };
+    }
 }

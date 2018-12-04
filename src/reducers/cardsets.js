@@ -8,18 +8,25 @@ const defaultState = { cards: undefined, refs: undefined, loading: false };
 export default { reducers, defaultState };
 
 function saveCardSets(state, payload) {
-    const cards = _
-        .flatten(payload)
-        .filter(c => c.card_type !== 'Pathing' && c.card_type !== 'Stronghold');
+    const cards = _.flatten(payload).filter(
+        c => c.card_type !== 'Pathing' && c.card_type !== 'Stronghold'
+    );
     const references = _.flatten(cards.map(c => c.references.map(r => r.card_id)));
     const signatures = _.flatten(
-        cards.map(c => c.references.filter(r => r.ref_type === 'includes').map(r => r.card_id))
+        cards.map(c =>
+            c.references
+                .filter(r => r.ref_type === 'includes')
+                .map(r => ({ id: r.card_id, hero: c.ingame_image.default }))
+        )
     );
-    const marked = cards.map(c => ({
-        ...c,
-        isRef: c.card_type !== 'Hero' && references.includes(c.card_id),
-        isSig: signatures.includes(c.card_id)
-    }));
+    const marked = cards.map(c => {
+        const isSig = _.find(signatures, s => s.id === c.card_id);
+        return {
+            ...c,
+            isRef: c.card_type !== 'Hero' && references.includes(c.card_id),
+            isSig: isSig ? isSig.hero : false
+        };
+    });
     return {
         ...state,
         cards: marked,

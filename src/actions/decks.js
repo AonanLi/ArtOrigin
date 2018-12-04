@@ -29,3 +29,8 @@ export const saveCurrentDeck = () => (dispatch, getState) => {
     const { current_deck } = getState().decks;
     dispatch(saveDeck({ ...current_deck, id: uuid.v4() }));
 };
+
+export const manageDeckCards = (card, step) => ({
+    type: 'MANAGE_DECK_CARDS',
+    payload: { card, step }
+});

@@ -23,7 +23,7 @@ import encode from '../../utils/encode';
 
 const height = 48;
 
-const Deck = ({ current_deck, language, navigation, resetDeck, saveCurrentDeck }) => {
+const Deck = ({ current_deck, navigation, resetDeck, saveCurrentDeck, ...passProps }) => {
     const { navigate, dispatch } = navigation;
     const { heroes, cards, name } = current_deck;
     const hero_count = heroes.filter(h => h.id).length;
@@ -31,8 +31,8 @@ const Deck = ({ current_deck, language, navigation, resetDeck, saveCurrentDeck }
     const partition = _.partition(cards, c => c.card_type === 'Item');
     const costs = _.times(8).map(i => {
         const cost = i + 1;
-        const records = partition[1].filter(
-            c => (cost === 8 ? c.mana_cost >= 8 : c.mana_cost === cost)
+        const records = partition[1].filter(c =>
+            cost === 8 ? c.mana_cost >= 8 : c.mana_cost === cost
         );
         return { cost, records };
     });
@@ -96,7 +96,9 @@ const Deck = ({ current_deck, language, navigation, resetDeck, saveCurrentDeck }
                 <View style={style.avatar}>
                     {heroes
                         .filter(h => h.turn === 1)
-                        .map((h, i) => <Avatar key={i} item={h} height={height} round={1} />)}
+                        .map((h, i) => (
+                            <Avatar key={i} item={h} height={height} round={1} />
+                        ))}
                     <Divider length={height} />
                     <Avatar item={_.find(heroes, h => h.turn === 2)} height={height} round={2} />
                     <Divider length={height} />
@@ -107,15 +109,13 @@ const Deck = ({ current_deck, language, navigation, resetDeck, saveCurrentDeck }
                     <TypeCounter item cards={partition[0]} />
                 </View>
                 <View style={style.cost}>
-                    {costs.map(c => <CostCounter item={c} max={max_count} key={c.cost} />)}
+                    {costs.map(c => (
+                        <CostCounter item={c} max={max_count} key={c.cost} />
+                    ))}
                     <CostCounter item={{ cost: 'All', records: partition[1] }} />
                 </View>
-                <CardList
-                    cards={cards}
-                    language={language}
-                    navigate={navigate}
-                    style={style.list}
-                />
+                <CardList style={style.list} navigate={navigate} {...passProps} cards={cards} />
+                {/* {todo: separate selector} */}
             </View>
         </Background>
     );

@@ -8,6 +8,7 @@ import _ from 'lodash';
 import CardList from '../../components/CardList';
 import IconButton from '../../components/IconButton';
 
+import * as decks from '../../actions/decks';
 import cardsSelector from '../../selectors/cardsSelector';
 import isBigScreen from '../../utils/isBigScreen';
 
@@ -15,7 +16,7 @@ const margin = isBigScreen ? 128 : 0;
 
 class Cards extends PureComponent {
     render() {
-        const { cards, language, navigation } = this.props;
+        const { cards, navigation, ...passProps } = this.props;
         const { navigate, dispatch, openDrawer } = navigation;
         return (
             <Container>
@@ -35,13 +36,13 @@ class Cards extends PureComponent {
                 </Header>
                 <CardList
                     cards={cards}
-                    language={language}
-                    navigate={navigate}
                     style={{
                         marginLeft: margin,
                         marginRight: margin,
                         height: Dimensions.get('window').height - 56
                     }}
+                    navigate={navigate}
+                    {...passProps}
                 />
             </Container>
         );
@@ -50,5 +51,5 @@ class Cards extends PureComponent {
 
 export default connect(
     cardsSelector,
-    {}
+    decks
 )(Cards);

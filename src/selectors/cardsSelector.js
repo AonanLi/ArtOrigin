@@ -9,64 +9,103 @@ const old_deck = state => state.decks.current_deck;
 const filters = state => state.filters;
 const language = state => state.settings.language;
 
-const filter = createSelector(cards, filters, language, (cards, filters, language) => {
-    const { color, rarity, card_type, sub_type, keyword } = filters;
+const filter = createSelector(
+    cards,
+    filters,
+    language,
+    (cards, filters, language) => {
+        const { color, rarity, card_type, sub_type, keyword } = filters;
 
-    const colorEx = allSelected(color) ? c => c : c => _.find(color, co => c[co]);
-    const rarityEx = allSelected(rarity)
-        ? c => c
-        : c => _.find(rarity, r => (r === 'Basic' && !c.rarity) || r === c.rarity);
-    const cardTypeEx = allSelected(card_type)
-        ? c => c
-        : c => _.find(card_type, t => c.card_type === t);
-    const subTypeEx = sub_type.length === 0 ? c => c : c => _.find(sub_type, t => c.sub_type === t);
-    const manaEx = rangeEx('mana_cost', filters);
-    const goldEx = rangeEx('gold_cost', filters);
-    const attackEx = heroRangeEx('attack', filters);
-    const armorEx = heroRangeEx('armor', filters);
-    const hpEx = heroRangeEx('hit_points', filters);
-    const keywordEx = c =>
-        defaultGet(c.card_name, language, 'english', false, true)
-            .toLowerCase()
-            .includes(keyword.toLowerCase());
+        const colorEx = allSelected(color) ? c => c : c => _.find(color, co => c[co]);
+        const rarityEx = allSelected(rarity)
+            ? c => c
+            : c => _.find(rarity, r => (r === 'Basic' && !c.rarity) || r === c.rarity);
+        const cardTypeEx = allSelected(card_type)
+            ? c => c
+            : c => _.find(card_type, t => c.card_type === t);
+        const subTypeEx =
+            sub_type.length === 0 ? c => c : c => _.find(sub_type, t => c.sub_type === t);
+        const manaEx = rangeEx('mana_cost', filters);
+        const goldEx = rangeEx('gold_cost', filters);
+        const attackEx = heroRangeEx('attack', filters);
+        const armorEx = heroRangeEx('armor', filters);
+        const hpEx = heroRangeEx('hit_points', filters);
+        const keywordEx = c =>
+            defaultGet(c.card_name, language, 'english', false, true)
+                .toLowerCase()
+                .includes(keyword.toLowerCase());
 
-    return cards.filter(
-        c =>
-            colorEx(c) &&
-            rarityEx(c) &&
-            cardTypeEx(c) &&
-            subTypeEx(c) &&
-            manaEx(c) &&
-            goldEx(c) &&
-            attackEx(c) &&
-            armorEx(c) &&
-            hpEx(c) &&
-            keywordEx(c)
-    );
-});
+        return cards.filter(
+            c =>
+                colorEx(c) &&
+                rarityEx(c) &&
+                cardTypeEx(c) &&
+                subTypeEx(c) &&
+                manaEx(c) &&
+                goldEx(c) &&
+                attackEx(c) &&
+                armorEx(c) &&
+                hpEx(c) &&
+                keywordEx(c)
+        );
+    }
+);
 
-const current_deck = createSelector(cardByKey, old_deck, (cardByKey, old_deck) => {
-    const { id, name, heroes, cards } = old_deck;
-    const newHeroes = heroes.map(h => {
-        if (!h.id) {
-            return h;
-        }
-        return { ...h, ...cardByKey[h.id] };
-    });
-    return {
-        id,
-        name,
-        heroes: newHeroes,
-        cards: sort(cards.concat(signatures(newHeroes)).map(c => ({ ...c, ...cardByKey[c.id] })))
-    };
-});
+const current_deck = createSelector(
+    cardByKey,
+    old_deck,
+    (cardByKey, old_deck) => {
+        const { id, name, heroes, cards } = old_deck;
+        const newHeroes = heroes.map(h => {
+            if (!h.id) {
+                return h;
+            }
+            return { ...h, ...cardByKey[h.id] };
+        });
+        return {
+            id,
+            name,
+            heroes: newHeroes,
+            cards: sort(
+                cards
+                    .concat(signatures(newHeroes))
+                    .map(c => ({ ...c, ..._.omit(cardByKey[c.id], 'count') }))
+            )
+        };
+    }
+);
 
-const cardsSelector = createSelector(
+const counts = createSelector(
     filter,
     current_deck,
+    (filter, current_deck) => {
+        const { heroes, cards } = current_deck;
+        const heroesByKey = _.keyBy(heroes, h => h.card_id);
+        const deckCardsByKey = _.keyBy(cards, c => c.card_id);
+        return filter.map(c => {
+            const isHero = c.card_type === 'Hero';
+            if (isHero) {
+                if (heroesByKey[c.card_id]) {
+                    return { ...c, count: 1 };
+                }
+                return { ...c, count: 0 };
+            } else {
+                const found = deckCardsByKey[c.card_id];
+                if (found) {
+                    return { ...c, count: found.count };
+                }
+                return { ...c, count: 0 };
+            }
+        });
+    }
+);
+
+const cardsSelector = createSelector(
+    counts,
+    current_deck,
     language,
-    (filter, current_deck, language) => ({
-        cards: sort(filter),
+    (counts, current_deck, language) => ({
+        cards: sort(counts),
         current_deck,
         language
     })
@@ -108,8 +147,10 @@ const sort = cards => {
 };
 
 const signatures = heroes =>
-    heroes.filter(h => h.id).map(h => {
-        const includes = _.find(h.references, r => r.ref_type === 'includes');
-        const { card_id, count } = includes;
-        return { id: card_id, count };
-    });
+    heroes
+        .filter(h => h.id)
+        .map(h => {
+            const includes = _.find(h.references, r => r.ref_type === 'includes');
+            const { card_id, count } = includes;
+            return { id: card_id, count };
+        });
