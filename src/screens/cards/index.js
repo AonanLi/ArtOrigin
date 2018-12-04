@@ -1,16 +1,18 @@
 import React, { PureComponent } from 'react';
 import { connect } from 'react-redux';
-import { Container, Header, Title, Left, Right, Body, Toast } from 'native-base';
 import { Dimensions } from 'react-native';
+import { Header, Title, Left, Right, Body, Toast } from 'native-base';
 import { DrawerActions } from 'react-navigation';
 import _ from 'lodash';
 
 import CardList from '../../components/CardList';
 import IconButton from '../../components/IconButton';
+import Background from '../../components/Background';
 
 import * as decks from '../../actions/decks';
 import cardsSelector from '../../selectors/cardsSelector';
 import isBigScreen from '../../utils/isBigScreen';
+import statusbar from '../../utils/statusbar';
 
 const margin = isBigScreen ? 128 : 0;
 
@@ -19,7 +21,7 @@ class Cards extends PureComponent {
         const { cards, navigation, ...passProps } = this.props;
         const { navigate, dispatch, openDrawer } = navigation;
         return (
-            <Container>
+            <Background>
                 <Header hasTabs>
                     <Left>
                         <IconButton onPress={() => openDrawer()} icon="ios-menu" />
@@ -39,12 +41,12 @@ class Cards extends PureComponent {
                     style={{
                         marginLeft: margin,
                         marginRight: margin,
-                        height: Dimensions.get('window').height - 56
+                        height: Dimensions.get('window').height - 56 - statusbar
                     }}
                     navigate={navigate}
                     {...passProps}
                 />
-            </Container>
+            </Background>
         );
     }
 }

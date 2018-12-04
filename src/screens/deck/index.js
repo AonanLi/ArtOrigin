@@ -19,6 +19,7 @@ import ui from '../../data/ui';
 import isBigScreen from '../../utils/isBigScreen';
 import countCards from '../../utils/countCards';
 import encode from '../../utils/encode';
+import statusbar from '../../utils/statusbar';
 
 const height = 48;
 
@@ -124,7 +125,7 @@ export default connect(
 
 const marginLeftRight = isBigScreen ? 128 : 16;
 const marginBottom = isBigScreen ? 16 : 12;
-const listHeight = Dimensions.get('window').height - 3 * marginBottom - 325;
+const listHeight = Dimensions.get('window').height - 3 * marginBottom - 305 - statusbar;
 
 const style = {
     header: {

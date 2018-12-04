@@ -6,7 +6,7 @@ import ListItem from './ListItem';
 const CardList = ({ cards, style, ...passProps }) => (
     <View style={{ backgroundColor: 'transparent', ...(style ? style : {}) }}>
         <FlatList
-            style={{ padding: 8 }}
+            style={{ marginTop: 8, paddingLeft: 8, paddingRight: 8 }}
             data={cards}
             renderItem={({ item }) => <ListItem item={item} {...passProps} />}
             keyExtractor={item => item.card_id.toString()}
