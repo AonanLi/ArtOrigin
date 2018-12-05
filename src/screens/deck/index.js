@@ -102,12 +102,28 @@ const Deck = ({
                     {heroes
                         .filter(h => h.turn === 1)
                         .map((h, i) => (
-                            <Avatar key={i} item={h} height={height} round={1} />
+                            <Avatar
+                                key={i}
+                                item={h}
+                                height={height}
+                                round={1}
+                                navigate={navigate}
+                            />
                         ))}
                     <Divider length={height} />
-                    <Avatar item={_.find(heroes, h => h.turn === 2)} height={height} round={2} />
+                    <Avatar
+                        item={_.find(heroes, h => h.turn === 2)}
+                        height={height}
+                        round={2}
+                        navigate={navigate}
+                    />
                     <Divider length={height} />
-                    <Avatar item={_.find(heroes, h => h.turn === 3)} height={height} round={3} />
+                    <Avatar
+                        item={_.find(heroes, h => h.turn === 3)}
+                        height={height}
+                        round={3}
+                        navigate={navigate}
+                    />
                 </View>
                 <View style={style.type}>
                     <TypeCounter cards cards={partition[1]} />

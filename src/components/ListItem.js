@@ -23,7 +23,7 @@ class ListItem extends PureComponent {
         const disableAdd = getDisable(item, 'add', has5Heroes);
         const { isSig } = item;
         return (
-            <TouchableOpacity onPress={() => navigate('Card', { item })} activeOpacity={0.8}>
+            <TouchableOpacity onPress={() => navigate('Card', { item })} activeOpacity={0.6}>
                 <ImageBackground source={background} style={style.color}>
                     <Image uri={path} style={style.mini} />
                     <View style={style.desciption}>
