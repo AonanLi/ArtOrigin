@@ -15,7 +15,7 @@ import CardList from '../../components/CardList';
 import IconButton from '../../components/IconButton';
 
 import * as decks from '../../actions/decks';
-import cardsSelector from '../../selectors/cardsSelector';
+import deckSelector from '../../selectors/deckSelector';
 import ui from '../../data/ui';
 import isBigScreen from '../../utils/isBigScreen';
 import countCards from '../../utils/countCards';
@@ -24,7 +24,14 @@ import statusbar from '../../utils/statusbar';
 
 const height = 48;
 
-const Deck = ({ current_deck, navigation, resetDeck, saveCurrentDeck, ...passProps }) => {
+const Deck = ({
+    current_deck,
+    navigation,
+    language,
+    resetDeck,
+    saveCurrentDeck,
+    manageDeckCards
+}) => {
     const { navigate, dispatch, openDrawer } = navigation;
     const { heroes, cards, name } = current_deck;
     const hero_count = heroes.filter(h => h.id).length;
@@ -112,15 +119,20 @@ const Deck = ({ current_deck, navigation, resetDeck, saveCurrentDeck, ...passPro
                     ))}
                     <CostCounter item={{ cost: 'All', records: partition[1] }} />
                 </View>
-                <CardList style={style.list} navigate={navigate} {...passProps} cards={cards} />
-                {/* {todo: separate selector} */}
+                <CardList
+                    style={style.list}
+                    cards={cards}
+                    navigate={navigate}
+                    language={language}
+                    manageDeckCards={manageDeckCards}
+                />
             </View>
         </Background>
     );
 };
 
 export default connect(
-    cardsSelector,
+    deckSelector,
     decks
 )(Deck);
 

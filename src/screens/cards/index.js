@@ -10,7 +10,7 @@ import CardList from '../../components/CardList';
 import IconButton from '../../components/IconButton';
 import Background from '../../components/Background';
 
-import * as decks from '../../actions/decks';
+import { manageDeckCards } from '../../actions/decks';
 import cardsSelector from '../../selectors/cardsSelector';
 import isBigScreen from '../../utils/isBigScreen';
 import statusbar from '../../utils/statusbar';
@@ -19,7 +19,7 @@ const margin = isBigScreen ? 128 : 0;
 
 class Cards extends PureComponent {
     render() {
-        const { cards, navigation, ...passProps } = this.props;
+        const { navigation, cards, language, has5Heroes, manageDeckCards } = this.props;
         const { navigate, dispatch, openDrawer } = navigation;
         return (
             <Background>
@@ -45,7 +45,9 @@ class Cards extends PureComponent {
                         height: Dimensions.get('window').height - 56 - statusbar
                     }}
                     navigate={navigate}
-                    {...passProps}
+                    language={language}
+                    has5Heroes={has5Heroes}
+                    manageDeckCards={manageDeckCards}
                 />
             </Background>
         );
@@ -54,5 +56,5 @@ class Cards extends PureComponent {
 
 export default connect(
     cardsSelector,
-    decks
+    { manageDeckCards }
 )(Cards);

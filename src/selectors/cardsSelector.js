@@ -1,96 +1,28 @@
 import { createSelector } from 'reselect';
 import _ from 'lodash';
 
-import defaultGet from '../utils/defaultGet';
+import language from './languageSelector';
+import filter from './filterSelector';
 
-const cards = state => state.cardsets.cards.filter(c => !c.isRef);
-const cardByKey = state => _.keyBy(state.cardsets.cards, c => c.card_id);
-const old_deck = state => state.decks.current_deck;
-const filters = state => state.filters;
-const language = state => state.settings.language;
-
-const filter = createSelector(
-    cards,
-    filters,
-    language,
-    (cards, filters, language) => {
-        const { color, rarity, card_type, sub_type, keyword } = filters;
-
-        const colorEx = allSelected(color) ? c => c : c => _.find(color, co => c[co]);
-        const rarityEx = allSelected(rarity)
-            ? c => c
-            : c => _.find(rarity, r => (r === 'Basic' && !c.rarity) || r === c.rarity);
-        const cardTypeEx = allSelected(card_type)
-            ? c => c
-            : c => _.find(card_type, t => c.card_type === t);
-        const subTypeEx =
-            sub_type.length === 0 ? c => c : c => _.find(sub_type, t => c.sub_type === t);
-        const manaEx = rangeEx('mana_cost', filters);
-        const goldEx = rangeEx('gold_cost', filters);
-        const attackEx = heroRangeEx('attack', filters);
-        const armorEx = heroRangeEx('armor', filters);
-        const hpEx = heroRangeEx('hit_points', filters);
-        const keywordEx = c =>
-            defaultGet(c.card_name, language, 'english', false, true)
-                .toLowerCase()
-                .includes(keyword.toLowerCase());
-
-        return cards.filter(
-            c =>
-                colorEx(c) &&
-                rarityEx(c) &&
-                cardTypeEx(c) &&
-                subTypeEx(c) &&
-                manaEx(c) &&
-                goldEx(c) &&
-                attackEx(c) &&
-                armorEx(c) &&
-                hpEx(c) &&
-                keywordEx(c)
-        );
-    }
-);
-
-const current_deck = createSelector(
-    cardByKey,
-    old_deck,
-    (cardByKey, old_deck) => {
-        const { id, name, heroes, cards } = old_deck;
-        const newHeroes = heroes.map(h => {
-            if (!h.id) {
-                return h;
-            }
-            return { ...h, ...cardByKey[h.id] };
-        });
-        return {
-            id,
-            name,
-            heroes: newHeroes,
-            cards: sort(
-                cards
-                    .concat(signatures(newHeroes))
-                    .map(c => ({ ...c, ..._.omit(cardByKey[c.id], 'count') }))
-            )
-        };
-    }
-);
+const heroes = state => state.decks.current_deck.heroes.filter(h => h.id);
+const cards = state => state.decks.current_deck.cards;
 
 const counts = createSelector(
     filter,
-    current_deck,
-    (filter, current_deck) => {
-        const { heroes, cards } = current_deck;
-        const heroesByKey = _.keyBy(heroes, h => h.card_id);
-        const deckCardsByKey = _.keyBy(cards, c => c.card_id);
+    heroes,
+    cards,
+    (filter, heroes, cards) => {
+        const keyByHeroes = _.keyBy(heroes, h => h.id);
+        const keyByCards = _.keyBy(cards, c => c.id);
         return filter.map(c => {
             const isHero = c.card_type === 'Hero';
             if (isHero) {
-                if (heroesByKey[c.card_id]) {
+                if (keyByHeroes[c.card_id]) {
                     return { ...c, count: 1 };
                 }
                 return { ...c, count: 0 };
             } else {
-                const found = deckCardsByKey[c.card_id];
+                const found = keyByCards[c.card_id];
                 if (found) {
                     return { ...c, count: found.count };
                 }
@@ -102,55 +34,13 @@ const counts = createSelector(
 
 const cardsSelector = createSelector(
     counts,
-    current_deck,
+    heroes,
     language,
-    (counts, current_deck, language) => ({
-        cards: sort(counts),
-        current_deck,
-        language
+    (cards, heroes, language) => ({
+        cards,
+        language,
+        has5Heroes: heroes.length === 5
     })
 );
 
 export default cardsSelector;
-
-const allSelected = array => array.length === 0 || array.length === 4;
-
-const rangeEx = (path, filters) => c =>
-    _.isUndefined(c[path]) || (c[path] >= filters[path][0] && c[path] <= filters[path][1]);
-
-const heroRangeEx = (path, filters) => c =>
-    c.card_type !== 'Hero' ||
-    ((c[path] || 0) >= filters[path][0] && (c[path] || 0) <= filters[path][1]);
-
-const colorOrder = ({ is_red, is_green, is_blue, is_black }) => {
-    if (is_red) {
-        return 0;
-    }
-    if (is_green) {
-        return 1;
-    }
-    if (is_blue) {
-        return 2;
-    }
-    if (is_black) {
-        return 3;
-    }
-};
-
-const sort = cards => {
-    const heroParts = _.partition(cards, c => c.card_type === 'Hero');
-    const itemParts = _.partition(heroParts[1], c => c.card_type === 'Item');
-    const first = _.sortBy(heroParts[0], c => colorOrder(c));
-    const second = _.sortBy(itemParts[1], c => c.mana_cost, c => colorOrder(c));
-    const third = _.sortBy(itemParts[0], c => c.gold_cost);
-    return _.flatten([first, second, third]);
-};
-
-const signatures = heroes =>
-    heroes
-        .filter(h => h.id)
-        .map(h => {
-            const includes = _.find(h.references, r => r.ref_type === 'includes');
-            const { card_id, count } = includes;
-            return { id: card_id, count };
-        });

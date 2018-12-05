@@ -1,5 +1,7 @@
 import _ from 'lodash';
 
+import sort from '../utils/sort';
+
 const reducers = {
     SAVE_CARDSETS: saveCardSets
 };
@@ -19,7 +21,8 @@ function saveCardSets(state, payload) {
                 .map(r => ({ id: r.card_id, hero: c.ingame_image.default }))
         )
     );
-    const marked = cards.map(c => {
+    const sorted = sort(cards);
+    const marked = sorted.map(c => {
         const isSig = _.find(signatures, s => s.id === c.card_id);
         return {
             ...c,

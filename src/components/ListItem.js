@@ -12,7 +12,7 @@ import defaultGet from '../utils/defaultGet';
 
 class ListItem extends PureComponent {
     render() {
-        const { item, language, navigate, manageDeckCards } = this.props;
+        const { item, navigate, language, has5Heroes, manageDeckCards } = this.props;
         const path = item.mini_image.default;
         const text = defaultGet(item.card_name, language, 'english');
         const background = getBackground(item);
@@ -20,7 +20,7 @@ class ListItem extends PureComponent {
         const cost = getCost(item);
         const count = getCount(item);
         const disableRemove = getDisable(item, 'remove');
-        const disableAdd = getDisable(item, 'add');
+        const disableAdd = getDisable(item, 'add', has5Heroes);
         const { isSig } = item;
         return (
             <TouchableOpacity onPress={() => navigate('Card', { item })} activeOpacity={0.8}>
@@ -167,14 +167,14 @@ const getCost = ({ mana_cost, gold_cost }) => mana_cost || gold_cost || '-';
 
 const getCount = item => _.get(item, 'count', item.card_type === 'Hero' ? 1 : 3);
 
-const getDisable = (item, type) => {
+const getDisable = (item, type, has5Heroes) => {
     const { isSig, card_type } = item;
     if (isSig) {
         return true;
     }
     const count = getCount(item);
     if (card_type === 'Hero') {
-        return (type === 'add' && count > 0) || (type === 'remove' && count < 1);
+        return (type === 'add' && (has5Heroes || count > 0)) || (type === 'remove' && count < 1);
     }
     return (type === 'add' && count > 2) || (type === 'remove' && count < 1);
 };
