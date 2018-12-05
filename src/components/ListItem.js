@@ -42,7 +42,7 @@ class ListItem extends Component {
                             <Text style={style.name}>{text}</Text>
                             {isSig && <Text style={style.sig}>{i18n.t('SignatureCard')}</Text>}
                         </View>
-                        <TouchableOpacity>
+                        <TouchableOpacity activeOpacity={1}>
                             <View style={style.count}>
                                 <IconButton
                                     onPress={() => manageDeckCards(item, -1)}
@@ -127,7 +127,7 @@ const style = {
     button: {
         marginTop: 2
     },
-    ingame: { height: 20, width: 20, marginLeft: 6 }
+    ingame: { height: 20, width: 20, marginLeft: 6, marginTop: 12 }
 };
 
 const getBackground = ({ is_red, is_blue, is_green, is_black, card_type }) => {
