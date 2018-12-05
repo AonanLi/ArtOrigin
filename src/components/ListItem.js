@@ -1,4 +1,4 @@
-import React, { PureComponent } from 'react';
+import React, { Component } from 'react';
 import { Text } from 'native-base';
 import { View, ImageBackground, TouchableOpacity, Image as NativeImage } from 'react-native';
 import { Image } from 'react-native-expo-image-cache';
@@ -10,7 +10,16 @@ import IconButton from './IconButton';
 import ui from '../data/ui';
 import defaultGet from '../utils/defaultGet';
 
-class ListItem extends PureComponent {
+class ListItem extends Component {
+    shouldComponentUpdate(nextProps) {
+        const { item, language, has5Heroes } = nextProps;
+        return (
+            getCount(item) !== getCount(this.props.item) ||
+            (item.card_type === 'Hero' && has5Heroes !== this.props.has5Heroes) ||
+            language !== this.props.language
+        );
+    }
+
     render() {
         const { item, navigate, language, has5Heroes, manageDeckCards } = this.props;
         const path = item.mini_image.default;
@@ -33,27 +42,29 @@ class ListItem extends PureComponent {
                             <Text style={style.name}>{text}</Text>
                             {isSig && <Text style={style.sig}>{i18n.t('SignatureCard')}</Text>}
                         </View>
-                        <View style={style.count}>
-                            <IconButton
-                                onPress={() => manageDeckCards(item, -1)}
-                                icon="ios-arrow-back"
-                                hide={disableRemove}
-                                style={style.arrow}
-                                buttonStyle={style.button}
-                            />
-                            <Text style={style.number}>{count}</Text>
-                            {isSig ? (
-                                <Image uri={isSig} style={style.ingame} />
-                            ) : (
+                        <TouchableOpacity>
+                            <View style={style.count}>
                                 <IconButton
-                                    onPress={() => manageDeckCards(item, 1)}
-                                    icon="ios-arrow-forward"
-                                    hide={disableAdd}
+                                    onPress={() => manageDeckCards(item, -1)}
+                                    icon="ios-arrow-back"
+                                    hide={disableRemove}
                                     style={style.arrow}
                                     buttonStyle={style.button}
                                 />
-                            )}
-                        </View>
+                                <Text style={style.number}>{count}</Text>
+                                {isSig ? (
+                                    <Image uri={isSig} style={style.ingame} />
+                                ) : (
+                                    <IconButton
+                                        onPress={() => manageDeckCards(item, 1)}
+                                        icon="ios-arrow-forward"
+                                        hide={disableAdd}
+                                        style={style.arrow}
+                                        buttonStyle={style.button}
+                                    />
+                                )}
+                            </View>
+                        </TouchableOpacity>
                     </View>
                 </ImageBackground>
             </TouchableOpacity>
@@ -79,8 +90,7 @@ const style = {
         flex: 8,
         flexDirection: 'row',
         justifyContent: 'space-between',
-        marginTop: 12,
-        paddingRight: 8
+        marginTop: 12
     },
     type: {
         height: 32,
@@ -103,14 +113,19 @@ const style = {
         marginTop: -3,
         color: 'white'
     },
-    count: { flexDirection: 'row', justifyContent: 'space-between', flex: 2 },
-    number: { color: 'white' },
+    count: {
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+        flex: 2,
+        marginTop: -12
+    },
+    number: { color: 'white', marginTop: 12 },
     arrow: {
         color: '#ae9f84',
         fontSize: 14
     },
     button: {
-        marginTop: -10
+        marginTop: 2
     },
     ingame: { height: 20, width: 20, marginLeft: 6 }
 };
