@@ -52,7 +52,7 @@ const translations = {
         //Filter
         Search: '搜索',
         Reset: '重置',
-        Color: '卡色',
+        Color: '颜色',
         Rarity: '稀有度',
         Type: '类型',
         Mana: '魔法',
@@ -70,13 +70,13 @@ const translations = {
         Select: '选择',
         //Deck
         Deck: '牌组',
-        Heroes: '{{hero_count}} 英雄',
+        Heroes: '{{hero_count}}名英雄',
         DeckSaved: '{{name}} 已保存',
         DeckCodeCopiedToTheClipboard: '代码已复制到剪切板',
         FailedToGenerateDeckLink: '生成代码失败',
         Round: '回合',
-        TotalCountItems: '{{total_count}} 物品',
-        TotalCountCards: '{{total_count}} 卡牌',
+        TotalCountItems: '{{total_count}}件物品',
+        TotalCountCards: '{{total_count}}张卡牌',
         //SideBar
         Settings: '设置',
         Language: '语言'
