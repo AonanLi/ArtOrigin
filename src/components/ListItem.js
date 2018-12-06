@@ -1,6 +1,12 @@
 import React, { Component } from 'react';
 import { Text } from 'native-base';
-import { View, ImageBackground, TouchableOpacity, Image as NativeImage } from 'react-native';
+import {
+    View,
+    ImageBackground,
+    TouchableOpacity,
+    TouchableWithoutFeedback,
+    Image as NativeImage
+} from 'react-native';
 import { Image } from 'react-native-expo-image-cache';
 import i18n from 'i18n-js';
 import _ from 'lodash';
@@ -42,7 +48,7 @@ class ListItem extends Component {
                             <Text style={style.name}>{text}</Text>
                             {isSig && <Text style={style.sig}>{i18n.t('SignatureCard')}</Text>}
                         </View>
-                        <TouchableOpacity activeOpacity={1}>
+                        <TouchableWithoutFeedback>
                             <View style={style.count}>
                                 <IconButton
                                     onPress={() => manageDeckCards(item, -1)}
@@ -64,7 +70,7 @@ class ListItem extends Component {
                                     />
                                 )}
                             </View>
-                        </TouchableOpacity>
+                        </TouchableWithoutFeedback>
                     </View>
                 </ImageBackground>
             </TouchableOpacity>
