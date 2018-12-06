@@ -7,14 +7,6 @@ import Background from '../../components/Background';
 import IconButton from '../../components/IconButton';
 
 import { editSetting } from '../../actions/settings';
-import { setLocale } from '../../utils/locale';
-
-const onPress = (path, value) => {
-    if (path === 'language') {
-        setLocale(value);
-    }
-    editSetting(path, value);
-};
 
 const Settings = ({ navigation, settings, editSetting }) => {
     const { label, path, options } = navigation.state.params.s;
