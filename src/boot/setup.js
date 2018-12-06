@@ -7,7 +7,7 @@ import _ from 'lodash';
 
 import App from '../App';
 
-import { saveCardsets } from '../actions/cardsets';
+import * as cardsets from '../actions/cardsets';
 
 import getTheme from '../theme/components';
 import material from '../theme/variables/material';
@@ -35,12 +35,17 @@ class Setup extends Component {
     }
 
     componentDidMount() {
-        const { language, saveCardsets } = this.props;
+        const { language, saveCardsets, updateCardsPrice } = this.props;
         i18n.fallbacks = true;
         i18n.translations = translations;
         setLocale(language);
 
         saveCardsets();
+        this.getPrice = setInterval(() => updateCardsPrice(), 600000);
+    }
+
+    componentWillUnmount() {
+        clearInterval(this.getPrice);
     }
 
     async _loadAssetsAsync() {
@@ -81,7 +86,5 @@ export default connect(
         loading: state.cardsets.loading,
         language: state.settings.language
     }),
-    {
-        saveCardsets
-    }
+    cardsets
 )(Setup);

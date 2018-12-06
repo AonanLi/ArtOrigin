@@ -11,6 +11,7 @@ import IconButton from '../../components/IconButton';
 import Background from '../../components/Background';
 
 import { manageDeckCards } from '../../actions/decks';
+import { setCardDetails } from '../../actions/cardsets';
 import cardsSelector from '../../selectors/cardsSelector';
 import isBigScreen from '../../utils/isBigScreen';
 import statusbar from '../../utils/statusbar';
@@ -19,7 +20,15 @@ const margin = isBigScreen ? 128 : 0;
 
 class Cards extends PureComponent {
     render() {
-        const { navigation, cards, language, has5Heroes, manageDeckCards } = this.props;
+        const {
+            navigation,
+            cards,
+            language,
+            has5Heroes,
+            showDetails,
+            manageDeckCards,
+            setCardDetails
+        } = this.props;
         const { navigate, dispatch, openDrawer } = navigation;
         return (
             <Background>
@@ -31,6 +40,10 @@ class Cards extends PureComponent {
                         <Title>{i18n.t('Cards')}</Title>
                     </Body>
                     <Right>
+                        <IconButton
+                            onPress={() => setCardDetails(!showDetails)}
+                            icon={showDetails ? 'ios-code' : 'logo-usd'}
+                        />
                         <IconButton
                             onPress={() => dispatch(DrawerActions.openDrawer())}
                             icon="ios-options"
@@ -47,6 +60,7 @@ class Cards extends PureComponent {
                     navigate={navigate}
                     language={language}
                     has5Heroes={has5Heroes}
+                    showDetails={showDetails}
                     manageDeckCards={manageDeckCards}
                 />
             </Background>
@@ -56,5 +70,5 @@ class Cards extends PureComponent {
 
 export default connect(
     cardsSelector,
-    { manageDeckCards }
+    { manageDeckCards, setCardDetails }
 )(Cards);

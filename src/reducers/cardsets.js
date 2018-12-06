@@ -3,9 +3,17 @@ import _ from 'lodash';
 import sort from '../utils/sort';
 
 const reducers = {
-    SAVE_CARDSETS: saveCardSets
+    SAVE_CARDSETS: saveCardSets,
+    UPDATE_CARDS_PRICE: updateCardsPrice,
+    SET_CARD_DETAILS: setCardDetails
 };
-const defaultState = { cards: undefined, refs: undefined, loading: false };
+const defaultState = {
+    cards: undefined,
+    refs: undefined,
+    loading: false,
+    price: {},
+    showDetails: false
+};
 
 export default { reducers, defaultState };
 
@@ -35,4 +43,13 @@ function saveCardSets(state, payload) {
         cards: marked,
         refs: _.keyBy(marked.filter(m => m.isRef), c => c.card_id)
     };
+}
+
+function updateCardsPrice(state, price) {
+    const newPrice = { ...state.price, ...price };
+    return { ...state, cards: state.cards.map(c => ({ ...c, price: _.get(newPrice, c.card_id) })) };
+}
+
+function setCardDetails(state, showDetails) {
+    return { ...state, showDetails };
 }

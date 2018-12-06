@@ -6,6 +6,7 @@ import filter from './filterSelector';
 
 const heroes = state => state.decks.current_deck.heroes.filter(h => h.id);
 const cards = state => state.decks.current_deck.cards;
+const showDetails = state => state.cardsets.showDetails;
 
 const counts = createSelector(
     filter,
@@ -36,10 +37,12 @@ const cardsSelector = createSelector(
     counts,
     heroes,
     language,
-    (cards, heroes, language) => ({
+    showDetails,
+    (cards, heroes, language, showDetails) => ({
         cards,
         language,
-        has5Heroes: heroes.length === 5
+        has5Heroes: heroes.length === 5,
+        showDetails
     })
 );
 

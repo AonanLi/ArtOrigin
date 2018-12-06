@@ -6,22 +6,24 @@ import i18n from 'i18n-js';
 import _ from 'lodash';
 
 import IconButton from './IconButton';
+import ShowIf from './ShowIf';
 
 import ui from '../data/ui';
 import defaultGet from '../utils/defaultGet';
 
 class ListItem extends Component {
     shouldComponentUpdate(nextProps) {
-        const { item, language, has5Heroes } = nextProps;
+        const { item, language, has5Heroes, showDetails } = nextProps;
         return (
             getCount(item) !== getCount(this.props.item) ||
             (item.card_type === 'Hero' && has5Heroes !== this.props.has5Heroes) ||
-            language !== this.props.language
+            language !== this.props.language ||
+            showDetails !== this.props.showDetails
         );
     }
 
     render() {
-        const { item, navigate, language, has5Heroes, manageDeckCards } = this.props;
+        const { item, navigate, language, has5Heroes, showDetails, manageDeckCards } = this.props;
         const path = item.mini_image.default;
         const text = defaultGet(item.card_name, language, 'english');
         const background = getBackground(item);
@@ -44,25 +46,32 @@ class ListItem extends Component {
                         </View>
                         <TouchableOpacity activeOpacity={1}>
                             <View style={style.count}>
-                                <IconButton
-                                    onPress={() => manageDeckCards(item, -1)}
-                                    icon="ios-arrow-back"
-                                    hide={disableRemove}
-                                    style={style.arrow}
-                                    buttonStyle={style.button}
-                                />
-                                <Text style={style.number}>{count}</Text>
-                                {isSig ? (
-                                    <Image uri={isSig} style={style.ingame} />
-                                ) : (
+                                <ShowIf condition={!showDetails}>
                                     <IconButton
-                                        onPress={() => manageDeckCards(item, 1)}
-                                        icon="ios-arrow-forward"
-                                        hide={disableAdd}
+                                        onPress={() => manageDeckCards(item, -1)}
+                                        icon="ios-arrow-back"
+                                        hide={disableRemove}
                                         style={style.arrow}
                                         buttonStyle={style.button}
                                     />
-                                )}
+                                    <Text style={style.number}>{count}</Text>
+                                    {isSig ? (
+                                        <Image uri={isSig} style={style.ingame} />
+                                    ) : (
+                                        <IconButton
+                                            onPress={() => manageDeckCards(item, 1)}
+                                            icon="ios-arrow-forward"
+                                            hide={disableAdd}
+                                            style={style.arrow}
+                                            buttonStyle={style.button}
+                                        />
+                                    )}
+                                </ShowIf>
+                                <ShowIf condition={showDetails}>
+                                    <Text style={style.market}>
+                                        {_.get(item, 'price.sale_price_text', 'Free')}
+                                    </Text>
+                                </ShowIf>
                             </View>
                         </TouchableOpacity>
                     </View>
@@ -120,6 +129,7 @@ const style = {
         marginTop: -12
     },
     number: { color: 'white', marginTop: 12 },
+    market: { color: 'white', marginTop: 12, width: 80 },
     arrow: {
         color: '#ae9f84',
         fontSize: 14
