@@ -18,11 +18,16 @@ const filterSelector = createSelector(
         const rarityEx = allSelected(rarity)
             ? c => c
             : c => _.find(rarity, r => (r === 'Basic' && !c.rarity) || r === c.rarity);
-        const cardTypeEx = allSelected(card_type)
-            ? c => c
-            : c => _.find(card_type, t => c.card_type === t);
+        const cardTypeEx = allSelected(card_type) ? c => c : c => card_type.includes(c.card_type);
         const subTypeEx =
-            sub_type.length === 0 ? c => c : c => _.find(sub_type, t => c.sub_type === t);
+            sub_type.length === 0
+                ? c => c
+                : c => {
+                      if (c.sub_type === 'Deed') {
+                          return sub_type.includes('Consumable');
+                      }
+                      return sub_type.includes(c.sub_type);
+                  };
         const manaEx = rangeEx('mana_cost', filters);
         const goldEx = rangeEx('gold_cost', filters);
         const attackEx = heroRangeEx('attack', filters);

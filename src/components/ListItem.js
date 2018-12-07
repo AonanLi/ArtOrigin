@@ -133,7 +133,7 @@ const style = {
     button: {
         marginTop: 2
     },
-    ingame: { height: 20, width: 20, marginLeft: 6, marginTop: 12 }
+    ingame: { height: 20, width: 20, marginLeft: 2, marginTop: 13 }
 };
 
 const getBackground = ({ is_red, is_blue, is_green, is_black, card_type }) => {
@@ -175,6 +175,7 @@ const getType = ({ card_type, sub_type }) => {
                 case 'Accessory':
                     return accessory;
                 case 'Consumable':
+                case 'Deed':
                     return consumable;
                 default:
                     return null;
