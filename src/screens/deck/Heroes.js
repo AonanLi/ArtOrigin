@@ -29,7 +29,7 @@ class Heroes extends Component {
             return PanResponder.create({
                 onStartShouldSetPanResponder: () => true,
                 onMoveShouldSetPanResponder: (e, gesture) =>
-                    Math.abs(gesture.dx) > 10 || Math.abs(gesture.dy) > 10,
+                    Math.abs(gesture.dx) > 5 || Math.abs(gesture.dy) > 5,
                 onPanResponderMove: (e, gesture) => {
                     if (zIndex[i] === 1) {
                         this.setZIndex(i, 2);
@@ -46,37 +46,73 @@ class Heroes extends Component {
                     this.setZIndex(i, 1);
                     const joinedIndex = this.joinedIndex(gesture, i);
                     if (!_.isUndefined(joinedIndex)) {
-                        //inOther
-                        // swap
+                        this.swap(i, joinedIndex);
                     } else {
                         if (this.outSpace(gesture, i)) {
                             this.removeHero(i);
                         }
-                        Animated.spring(this.state.pan[i], { toValue: { x: 0, y: 0 } }).start();
                     }
+                    Animated.spring(this.state.pan[i], { toValue: { x: 0, y: 0 } }).start();
                 }
             });
         });
     };
 
+    swap = (from, to) => this.props.swapHeroes(from, to);
+
     setZIndex = (i, index) => this.setState({ zIndex: { ...this.state.zIndex, [i]: index } });
 
     removeHero = i => this.props.manageDeckCards(this.props.heroes[i], -1);
 
+    distance = () => {
+        const gap = this.getGap();
+        return {
+            0: {
+                1: gap + 0.5 * height,
+                2: 2 * gap + 1.5 * height,
+                3: 4 * gap + 2.5 * height + divider,
+                4: 6 * gap + 3.5 * height + 2 * divider
+            },
+            1: {
+                2: gap + 0.5 * height,
+                3: 3 * gap + 1.5 * height + divider,
+                4: 5 * gap + 2.5 * height + 2 * divider
+            },
+            2: {
+                3: 2 * gap + 0.5 * height + divider,
+                4: 4 * gap + 1.5 * height + 2 * divider
+            },
+            3: {
+                4: 2 * gap + 0.5 * height + divider
+            }
+        };
+    };
+
     joinedIndex = (gesture, i) => {
-        switch (i) {
-            case 0:
-                return undefined;
-            case 1:
-                return undefined;
-            case 2:
-                return undefined;
-            case 3:
-                return undefined;
-            case 4:
-                return undefined;
-            default:
-                return undefined;
+        const { dx, dy } = gesture;
+
+        if (dy < -0.5 * height || dy > 0.5 * height) {
+            //vertically fall out
+            return undefined;
+        }
+
+        const distances = this.distance();
+
+        for (let q = 0; q <= 4; q++) {
+            if (q > i) {
+                //drag right
+                const distance = distances[i][q];
+                if (dx >= distance && dx <= distance + height) {
+                    return q;
+                }
+            }
+            if (q < i) {
+                //drag left
+                const distance = -distances[q][i];
+                if (dx >= distance - height && dx <= distance) {
+                    return q;
+                }
+            }
         }
     };
 
@@ -170,7 +206,7 @@ const style = {
         height: 64,
         width: '100%'
     },
-    empty: { position: 'absolute', left: 13, top: 2 },
+    empty: { position: 'absolute', top: 2, width: '100%' },
     round: { textAlign: 'center', fontSize: 10 },
     turn: { textAlign: 'center', fontSize: 22 }
 };

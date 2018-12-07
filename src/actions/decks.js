@@ -34,3 +34,8 @@ export const manageDeckCards = (card, step) => ({
     type: 'MANAGE_DECK_CARDS',
     payload: { card, step }
 });
+
+export const swapHeroes = (from, to) => ({
+    type: 'SWAP_HEROES',
+    payload: { from, to }
+});

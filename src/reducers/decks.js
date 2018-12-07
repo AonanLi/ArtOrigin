@@ -8,7 +8,8 @@ const reducers = {
     ACTIVE_DECK: activeDeck,
     REMOVE_DECK: removeDeck,
     RESET_DECK: resetDeck,
-    MANAGE_DECK_CARDS: manageDeckCards
+    MANAGE_DECK_CARDS: manageDeckCards,
+    SWAP_HEROES: swapHeroes
 };
 
 const default_deck = {
@@ -93,4 +94,15 @@ function manageDeckCards(state, { card, step }) {
         const newDeck = { ...current_deck, cards: newCards };
         return { ...state, current_deck: newDeck };
     }
+}
+
+function swapHeroes(state, { from, to }) {
+    const { heroes } = state.current_deck;
+    const newHeroes = _.cloneDeep(heroes);
+    newHeroes[to].id = heroes[from].id;
+    newHeroes[from].id = heroes[to].id;
+    return {
+        ...state,
+        current_deck: { ...state.current_deck, heroes: _.sortBy(newHeroes, h => h.turn) }
+    };
 }

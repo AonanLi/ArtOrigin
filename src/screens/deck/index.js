@@ -27,7 +27,8 @@ const Deck = ({
     language,
     resetDeck,
     saveCurrentDeck,
-    manageDeckCards
+    manageDeckCards,
+    swapHeroes
 }) => {
     const { navigate, dispatch, openDrawer } = navigation;
     const { heroes, cards, name } = current_deck;
@@ -101,6 +102,7 @@ const Deck = ({
                         navigate={navigate}
                         width={width}
                         manageDeckCards={manageDeckCards}
+                        swapHeroes={swapHeroes}
                     />
                 </View>
                 <View style={style.type}>
