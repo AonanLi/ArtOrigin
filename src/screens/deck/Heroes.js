@@ -1,56 +1,94 @@
 import React, { Component } from 'react';
-import { StyleSheet, View, PanResponder, Animated, Dimensions } from 'react-native';
+import { View, PanResponder, Animated } from 'react-native';
+import { Text } from 'native-base';
+import { Image } from 'react-native-expo-image-cache';
+import i18n from 'i18n-js';
+import _ from 'lodash';
 
 import Avatar from '../../components/Avatar';
 import Divider from '../../components/Divider';
 
 const height = 48;
 const divider = 0.8;
+const array = _.times(5);
 
 class Heroes extends Component {
     constructor(props) {
         super(props);
-        const { heroes } = props;
-
         this.state = {
-            pan: heroes.map(h => new Animated.ValueXY()),
-            showDraggable: true,
-            dropZoneValues: null
+            pan: array.map(h => new Animated.ValueXY()),
+            space: array.map(h => null),
+            zIndex: array.map(h => 1)
         };
+        this.setPan();
+    }
 
-        this.panResponder = heroes.map((h, i) =>
-            PanResponder.create({
+    setPan = () => {
+        this.panResponder = array.map((h, i) => {
+            const { zIndex } = this.state;
+            return PanResponder.create({
                 onStartShouldSetPanResponder: () => true,
-                onPanResponderMove: Animated.event([
-                    null,
-                    {
-                        dx: this.state.pan[i].x,
-                        dy: this.state.pan[i].y
+                onMoveShouldSetPanResponder: (e, gesture) =>
+                    Math.abs(gesture.dx) > 10 || Math.abs(gesture.dy) > 10,
+                onPanResponderMove: (e, gesture) => {
+                    if (zIndex[i] === 1) {
+                        this.setZIndex(i, 2);
                     }
-                ]),
+                    Animated.event([
+                        null,
+                        {
+                            dx: this.state.pan[i].x,
+                            dy: this.state.pan[i].y
+                        }
+                    ])(e, gesture);
+                },
                 onPanResponderRelease: (e, gesture) => {
-                    if (this.isDropZone(gesture)) {
-                        this.setState({
-                            showDraggable: false
-                        });
+                    this.setZIndex(i, 1);
+                    const joinedIndex = this.joinedIndex(gesture, i);
+                    if (!_.isUndefined(joinedIndex)) {
+                        //inOther
+                        // swap
                     } else {
+                        if (this.outSpace(gesture, i)) {
+                            this.removeHero(i);
+                        }
                         Animated.spring(this.state.pan[i], { toValue: { x: 0, y: 0 } }).start();
                     }
                 }
-            })
-        );
-    }
-
-    isDropZone(gesture) {
-        const dz = this.state.dropZoneValues;
-        return gesture.moveY > dz.y && gesture.moveY < dz.y + dz.height;
-    }
-
-    setDropZoneValues(event) {
-        this.setState({
-            dropZoneValues: event.nativeEvent.layout
+            });
         });
-    }
+    };
+
+    setZIndex = (i, index) => this.setState({ zIndex: { ...this.state.zIndex, [i]: index } });
+
+    removeHero = i => this.props.manageDeckCards(this.props.heroes[i], -1);
+
+    joinedIndex = (gesture, i) => {
+        switch (i) {
+            case 0:
+                return undefined;
+            case 1:
+                return undefined;
+            case 2:
+                return undefined;
+            case 3:
+                return undefined;
+            case 4:
+                return undefined;
+            default:
+                return undefined;
+        }
+    };
+
+    outSpace = (gesture, i) => {
+        const dz = this.state.space[i];
+        return Math.abs(gesture.dx) >= height || Math.abs(gesture.dy) >= height;
+    };
+
+    setSpace = (event, i) =>
+        this.setState({
+            space: { ...this.state.space, [i]: event.nativeEvent.layout }
+        });
 
     getGap = () => (this.props.width - 5 * height - 2 * divider) / 6;
 
@@ -66,18 +104,32 @@ class Heroes extends Component {
 
     renderAvatar = num => {
         const { left, turn, item } = this.calculateAvatar(num);
+        const i = num - 1;
+        const { zIndex } = this.state;
+        const isDragged = !_.every(zIndex, z => z === 1);
         return (
-            <View style={{ position: 'absolute', top: 8, left }}>
+            <View
+                onLayout={e => this.setSpace(e, i)}
+                style={{
+                    position: 'absolute',
+                    top: 8,
+                    left,
+                    borderWidth: 1,
+                    borderColor: isDragged ? '#cad4ff' : '#42565f',
+                    width: height,
+                    height,
+                    zIndex: zIndex[i]
+                }}
+            >
+                <View style={style.empty}>
+                    <Text style={style.round}>{i18n.t('Round')}</Text>
+                    <Text style={style.turn}>{turn}</Text>
+                </View>
                 <Animated.View
-                    {...this.panResponder[num - 1].panHandlers}
-                    style={[this.state.pan[num - 1].getLayout()]}
+                    {...this.panResponder[i].panHandlers}
+                    style={[this.state.pan[i].getLayout()]}
                 >
-                    <Avatar
-                        item={item}
-                        height={height}
-                        round={turn}
-                        navigate={this.props.navigate}
-                    />
+                    <Avatar item={item} navigate={this.props.navigate} />
                 </Animated.View>
             </View>
         );
@@ -98,8 +150,7 @@ class Heroes extends Component {
 
     render() {
         return (
-            <View style={styles.mainContainer}>
-                <View style={styles.dropZone} onLayout={this.setDropZoneValues.bind(this)} />
+            <View style={style.container}>
                 {this.renderAvatar(1)}
                 {this.renderAvatar(2)}
                 {this.renderAvatar(3)}
@@ -114,12 +165,12 @@ class Heroes extends Component {
 
 export default Heroes;
 
-const styles = StyleSheet.create({
-    mainContainer: {
+const style = {
+    container: {
         height: 64,
         width: '100%'
     },
-    dropZone: {
-        height: 64
-    }
-});
+    empty: { position: 'absolute', left: 13, top: 2 },
+    round: { textAlign: 'center', fontSize: 10 },
+    turn: { textAlign: 'center', fontSize: 22 }
+};

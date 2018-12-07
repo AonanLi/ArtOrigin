@@ -8,7 +8,6 @@ import _ from 'lodash';
 import Heroes from './Heroes';
 import Background from '../../components/Background';
 import AlertText from '../../components/AlertText';
-import Avatar from '../../components/Avatar';
 import TypeCounter from '../../components/TypeCounter';
 import CostCounter from '../../components/CostCounter';
 import CardList from '../../components/CardList';
@@ -97,7 +96,12 @@ const Deck = ({
                     style={style.alertText}
                 />
                 <View style={style.avatar}>
-                    <Heroes heroes={heroes} navigate={navigate} width={width} />
+                    <Heroes
+                        heroes={heroes}
+                        navigate={navigate}
+                        width={width}
+                        manageDeckCards={manageDeckCards}
+                    />
                 </View>
                 <View style={style.type}>
                     <TypeCounter cards cards={partition[1]} />
@@ -157,7 +161,8 @@ const style = {
         marginRight: marginLeftRight
     },
     avatar: {
-        marginBottom: marginBottom
+        marginBottom: marginBottom,
+        zIndex: 1
     },
     type: {
         flexDirection: 'row',

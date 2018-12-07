@@ -37,7 +37,10 @@ export default { reducers, defaultState, persistConfig };
 function saveDeck(state, deck) {
     return {
         ...state,
-        decks: { ...state.decks, [deck.id]: deck }
+        decks: {
+            ...state.decks,
+            [deck.id]: { ...deck, heroes: _.sortBy(deck.heroes, h => h.turn) }
+        }
     };
 }
 
@@ -69,7 +72,7 @@ function manageDeckCards(state, { card, step }) {
         } else {
             _.find(newHeroes, h => h.id === card_id).id = undefined;
         }
-        const newDeck = { ...current_deck, heroes: newHeroes };
+        const newDeck = { ...current_deck, heroes: _.sortBy(newHeroes, h => h.turn) };
         return { ...state, current_deck: newDeck };
     } else {
         let newCards = _.cloneDeep(cards);

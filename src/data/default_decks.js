@@ -64,16 +64,8 @@ const default_decks = {
         ],
         heroes: [
             {
-                id: 4005,
-                turn: 2
-            },
-            {
                 id: 10014,
                 turn: 1
-            },
-            {
-                id: 10017,
-                turn: 3
             },
             {
                 id: 10026,
@@ -82,6 +74,14 @@ const default_decks = {
             {
                 id: 10047,
                 turn: 1
+            },
+            {
+                id: 4005,
+                turn: 2
+            },
+            {
+                id: 10017,
+                turn: 3
             }
         ],
         name: 'Green/Black Example',
@@ -164,12 +164,12 @@ const default_decks = {
                 turn: 1
             },
             {
-                id: 10033,
-                turn: 3
-            },
-            {
                 id: 10065,
                 turn: 2
+            },
+            {
+                id: 10033,
+                turn: 3
             }
         ],
         name: 'Blue/Red Example',
