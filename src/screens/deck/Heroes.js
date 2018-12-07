@@ -8,8 +8,6 @@ import _ from 'lodash';
 import Avatar from '../../components/Avatar';
 import Divider from '../../components/Divider';
 
-const height = 48;
-const divider = 0.8;
 const array = _.times(5);
 
 class Heroes extends Component {
@@ -68,22 +66,22 @@ class Heroes extends Component {
         const gap = this.getGap();
         return {
             0: {
-                1: gap + 0.5 * height,
-                2: 2 * gap + 1.5 * height,
-                3: 4 * gap + 2.5 * height + divider,
-                4: 6 * gap + 3.5 * height + 2 * divider
+                1: gap + 24,
+                2: 2 * gap + 72,
+                3: 4 * gap + 120.8,
+                4: 6 * gap + 169.6
             },
             1: {
-                2: gap + 0.5 * height,
-                3: 3 * gap + 1.5 * height + divider,
-                4: 5 * gap + 2.5 * height + 2 * divider
+                2: gap + 24,
+                3: 3 * gap + 72.8,
+                4: 5 * gap + 121.6
             },
             2: {
-                3: 2 * gap + 0.5 * height + divider,
-                4: 4 * gap + 1.5 * height + 2 * divider
+                3: 2 * gap + 24.8,
+                4: 4 * gap + 73.6
             },
             3: {
-                4: 2 * gap + 0.5 * height + divider
+                4: 2 * gap + 24.8
             }
         };
     };
@@ -91,7 +89,7 @@ class Heroes extends Component {
     joinedIndex = (gesture, i) => {
         const { dx, dy } = gesture;
 
-        if (dy < -0.5 * height || dy > 0.5 * height) {
+        if (dy < -24 || dy > 24) {
             //vertically fall out
             return undefined;
         }
@@ -102,14 +100,14 @@ class Heroes extends Component {
             if (q > i) {
                 //drag right
                 const distance = distances[i][q];
-                if (dx >= distance && dx <= distance + height) {
+                if (dx >= distance && dx <= distance + 48) {
                     return q;
                 }
             }
             if (q < i) {
                 //drag left
                 const distance = -distances[q][i];
-                if (dx >= distance - height && dx <= distance) {
+                if (dx >= distance - 48 && dx <= distance) {
                     return q;
                 }
             }
@@ -118,7 +116,7 @@ class Heroes extends Component {
 
     outSpace = (gesture, i) => {
         const dz = this.state.space[i];
-        return Math.abs(gesture.dx) >= height || Math.abs(gesture.dy) >= height;
+        return Math.abs(gesture.dx) >= 48 || Math.abs(gesture.dy) >= 48;
     };
 
     setSpace = (event, i) =>
@@ -126,7 +124,7 @@ class Heroes extends Component {
             space: { ...this.state.space, [i]: event.nativeEvent.layout }
         });
 
-    getGap = () => (this.props.width - 5 * height - 2 * divider) / 6;
+    getGap = () => (this.props.width - 238.4) / 6;
 
     calculateAvatar = num => {
         const { heroes } = this.props;
@@ -134,7 +132,7 @@ class Heroes extends Component {
         const turn = num < 4 ? 1 : num - 2;
         const index = num < 4 ? num - 1 : 0;
         const item = heroes.filter(h => h.turn === turn)[index];
-        const left = (num - 1) * (gap + height) + (num > 3 ? (num - 3) * (divider + gap) : 0);
+        const left = (num - 1) * (gap + 48) + (num > 3 ? (num - 3) * (0.8 + gap) : 0);
         return { left, turn, item };
     };
 
@@ -152,8 +150,8 @@ class Heroes extends Component {
                     left,
                     borderWidth: 1,
                     borderColor: isDragged ? '#cad4ff' : '#42565f',
-                    width: height,
-                    height,
+                    width: 48,
+                    height: 48,
                     zIndex: zIndex[i]
                 }}
             >
@@ -173,13 +171,13 @@ class Heroes extends Component {
 
     renderDivider = num => {
         const gap = this.getGap();
-        let left = 3 * (gap + height);
+        let left = 3 * (gap + 48);
         if (num === 2) {
-            left = 5 * gap + 4 * height + divider;
+            left = 5 * gap + 192.8;
         }
         return (
             <View style={{ position: 'absolute', top: 8, left }}>
-                <Divider length={height} />
+                <Divider length={48} />
             </View>
         );
     };
