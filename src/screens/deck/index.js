@@ -5,10 +5,9 @@ import { Container, Header, Title, Left, Right, Body, Toast, Text } from 'native
 import i18n from 'i18n-js';
 import _ from 'lodash';
 
+import Heroes from './Heroes';
 import Background from '../../components/Background';
 import AlertText from '../../components/AlertText';
-import Avatar from '../../components/Avatar';
-import Divider from '../../components/Divider';
 import TypeCounter from '../../components/TypeCounter';
 import CostCounter from '../../components/CostCounter';
 import CardList from '../../components/CardList';
@@ -22,15 +21,14 @@ import countCards from '../../utils/countCards';
 import encode from '../../utils/encode';
 import statusbar from '../../utils/statusbar';
 
-const height = 48;
-
 const Deck = ({
     current_deck,
     navigation,
     language,
     resetDeck,
     saveCurrentDeck,
-    manageDeckCards
+    manageDeckCards,
+    swapHeroes
 }) => {
     const { navigate, dispatch, openDrawer } = navigation;
     const { heroes, cards, name } = current_deck;
@@ -99,30 +97,12 @@ const Deck = ({
                     style={style.alertText}
                 />
                 <View style={style.avatar}>
-                    {heroes
-                        .filter(h => h.turn === 1)
-                        .map((h, i) => (
-                            <Avatar
-                                key={i}
-                                item={h}
-                                height={height}
-                                round={1}
-                                navigate={navigate}
-                            />
-                        ))}
-                    <Divider length={height} />
-                    <Avatar
-                        item={_.find(heroes, h => h.turn === 2)}
-                        height={height}
-                        round={2}
+                    <Heroes
+                        heroes={heroes}
                         navigate={navigate}
-                    />
-                    <Divider length={height} />
-                    <Avatar
-                        item={_.find(heroes, h => h.turn === 3)}
-                        height={height}
-                        round={3}
-                        navigate={navigate}
+                        width={width}
+                        manageDeckCards={manageDeckCards}
+                        swapHeroes={swapHeroes}
                     />
                 </View>
                 <View style={style.type}>
@@ -155,7 +135,7 @@ export default connect(
 const marginLeftRight = isBigScreen ? 128 : 16;
 const marginBottom = isBigScreen ? 16 : 12;
 const listHeight = Dimensions.get('window').height - 3 * marginBottom - 305 - statusbar;
-
+const width = Dimensions.get('window').width - 2 * marginLeftRight;
 const style = {
     header: {
         height: 30,
@@ -183,9 +163,8 @@ const style = {
         marginRight: marginLeftRight
     },
     avatar: {
-        flexDirection: 'row',
-        justifyContent: 'space-between',
-        marginBottom: marginBottom
+        marginBottom: marginBottom,
+        zIndex: 1
     },
     type: {
         flexDirection: 'row',

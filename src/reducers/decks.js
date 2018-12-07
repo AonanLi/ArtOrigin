@@ -8,7 +8,8 @@ const reducers = {
     ACTIVE_DECK: activeDeck,
     REMOVE_DECK: removeDeck,
     RESET_DECK: resetDeck,
-    MANAGE_DECK_CARDS: manageDeckCards
+    MANAGE_DECK_CARDS: manageDeckCards,
+    SWAP_HEROES: swapHeroes
 };
 
 const default_deck = {
@@ -37,7 +38,10 @@ export default { reducers, defaultState, persistConfig };
 function saveDeck(state, deck) {
     return {
         ...state,
-        decks: { ...state.decks, [deck.id]: deck }
+        decks: {
+            ...state.decks,
+            [deck.id]: { ...deck, heroes: _.sortBy(deck.heroes, h => h.turn) }
+        }
     };
 }
 
@@ -69,7 +73,7 @@ function manageDeckCards(state, { card, step }) {
         } else {
             _.find(newHeroes, h => h.id === card_id).id = undefined;
         }
-        const newDeck = { ...current_deck, heroes: newHeroes };
+        const newDeck = { ...current_deck, heroes: _.sortBy(newHeroes, h => h.turn) };
         return { ...state, current_deck: newDeck };
     } else {
         let newCards = _.cloneDeep(cards);
@@ -90,4 +94,15 @@ function manageDeckCards(state, { card, step }) {
         const newDeck = { ...current_deck, cards: newCards };
         return { ...state, current_deck: newDeck };
     }
+}
+
+function swapHeroes(state, { from, to }) {
+    const { heroes } = state.current_deck;
+    const newHeroes = _.cloneDeep(heroes);
+    newHeroes[to].id = heroes[from].id;
+    newHeroes[from].id = heroes[to].id;
+    return {
+        ...state,
+        current_deck: { ...state.current_deck, heroes: _.sortBy(newHeroes, h => h.turn) }
+    };
 }
