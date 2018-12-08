@@ -7,7 +7,7 @@ import _ from 'lodash';
 import Avatar from '../../components/Avatar';
 import Divider from '../../components/Divider';
 
-const array = _.times(5);
+const array = _.times(5, false);
 
 class Heroes extends Component {
     constructor(props) {
@@ -15,21 +15,29 @@ class Heroes extends Component {
         this.state = {
             pan: array.map(h => new Animated.ValueXY()),
             space: array.map(h => null),
-            zIndex: array.map(h => 1)
+            zIndex: array.map(h => 1),
+            active: array
         };
         this.setPan();
     }
 
     setPan = () => {
         this.panResponder = array.map((h, i) => {
-            const { zIndex } = this.state;
+            const { zIndex, active } = this.state;
             return PanResponder.create({
                 onStartShouldSetPanResponder: () => true,
                 onMoveShouldSetPanResponder: (e, gesture) =>
-                    Math.abs(gesture.dx) > 5 || Math.abs(gesture.dy) > 5,
+                    Math.abs(gesture.dx) > 2 || Math.abs(gesture.dy) > 2,
                 onPanResponderMove: (e, gesture) => {
                     if (zIndex[i] === 1) {
-                        this.setZIndex(i, 2);
+                        this.setValue(i, 2, 'zIndex');
+                    }
+                    const joinedIndex = this.joinedIndex(gesture, i);
+                    if (!_.isUndefined(joinedIndex) && !active[joinedIndex]) {
+                        this.setValue(joinedIndex, true, 'active');
+                    }
+                    if (_.isUndefined(joinedIndex)) {
+                        this.setState({ active: array });
                     }
                     Animated.event([
                         null,
@@ -40,16 +48,18 @@ class Heroes extends Component {
                     ])(e, gesture);
                 },
                 onPanResponderRelease: (e, gesture) => {
-                    this.setZIndex(i, 1);
+                    this.setValue(i, 1, 'zIndex');
                     const joinedIndex = this.joinedIndex(gesture, i);
                     if (!_.isUndefined(joinedIndex)) {
                         this.swap(i, joinedIndex);
+                        this.setState({ active: array });
+                        Animated.decay(this.state.pan[i], { toValue: { x: 0, y: 0 } }).start();
                     } else {
                         if (this.outSpace(gesture, i)) {
                             this.removeHero(i);
                         }
+                        Animated.spring(this.state.pan[i], { toValue: { x: 0, y: 0 } }).start();
                     }
-                    Animated.spring(this.state.pan[i], { toValue: { x: 0, y: 0 } }).start();
                 }
             });
         });
@@ -57,7 +67,7 @@ class Heroes extends Component {
 
     swap = (from, to) => this.props.swapHeroes(from, to);
 
-    setZIndex = (i, index) => this.setState({ zIndex: { ...this.state.zIndex, [i]: index } });
+    setValue = (i, val, path) => this.setState({ [path]: { ...this.state[path], [i]: val } });
 
     removeHero = i => this.props.manageDeckCards(this.props.heroes[i], -1);
 
@@ -138,7 +148,7 @@ class Heroes extends Component {
     renderAvatar = num => {
         const { left, turn, item } = this.calculateAvatar(num);
         const i = num - 1;
-        const { zIndex } = this.state;
+        const { zIndex, active } = this.state;
         const isDragged = !_.every(zIndex, z => z === 1);
         return (
             <View
@@ -151,7 +161,10 @@ class Heroes extends Component {
                     borderColor: isDragged ? '#cad4ff' : '#42565f',
                     width: 48,
                     height: 48,
-                    zIndex: zIndex[i]
+                    zIndex: zIndex[i],
+                    ...(active[i]
+                        ? { shadowColor: '#cad4ff', shadowOpacity: 0.4, shadowRadius: 8 }
+                        : {})
                 }}
             >
                 <View style={style.empty}>
