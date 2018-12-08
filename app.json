@@ -1,21 +1,20 @@
 {
     "expo": {
         "sdkVersion": "31.0.0",
-        "icon": "./assets/nblogo.png",
-        "slug": "artorigin",
-        "loading": {
-            "hideExponentText": true,
-            "backgroundImage": "./assets/splashscreen.png"
+        "icon": "./assets/logo.png",
+        "slug": "artisight",
+        "splash": {
+            "image": "./assets/splash.png",
+            "backgroundColor": "#150f19"
         },
         "orientation": "portrait",
         "primaryColor": "#cccccc",
         "packagerOpts": {
             "assetExts": ["ttf"]
         },
-        "androidStatusBarColor": "#334393",
         "androidStatusBar": {
             "barStyle": "light-content",
-            "backgroundColor": "#334393"
+            "backgroundColor": "#150f19"
         }
     }
 }
