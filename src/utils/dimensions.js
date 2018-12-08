@@ -2,8 +2,8 @@ import { Dimensions } from 'react-native';
 import { Constants } from 'expo';
 
 const statusbar = Constants.statusBarHeight || 20;
-const windowWidth = Dimensions.get('window').width;
-const windowHeight = Dimensions.get('window').height;
+export const windowWidth = Dimensions.get('window').width;
+export const windowHeight = Dimensions.get('window').height;
 const isLarge = windowWidth > 700;
 export const isSmall = windowWidth < 350;
 
