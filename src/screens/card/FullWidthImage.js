@@ -2,7 +2,6 @@ import React from 'react';
 import { View, Dimensions } from 'react-native';
 import { Image } from 'react-native-expo-image-cache';
 
-import defaultGet from '../../utils/defaultGet';
 import isBigScreen from '../../utils/isBigScreen';
 
 const margin = isBigScreen ? 128 : 18;

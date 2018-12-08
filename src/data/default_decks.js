@@ -1,5 +1,5 @@
 const default_decks = {
-    1: {
+    green: {
         cards: [
             {
                 count: 2,
@@ -87,7 +87,7 @@ const default_decks = {
         name: 'Green/Black Example',
         id: 1
     },
-    2: {
+    black: {
         cards: [
             {
                 count: 2,

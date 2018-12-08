@@ -56,7 +56,7 @@ class Setup extends Component {
     }
 
     render() {
-        if (this.props.loading || !this.state.isReady) {
+        if (this.props.loading || !this.state.isReady || !this.props.cards) {
             return (
                 <AppLoading
                     startAsync={this._loadAssetsAsync}
