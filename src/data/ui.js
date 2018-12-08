@@ -20,7 +20,6 @@ export default {
     black_his: require('../../assets/ui/histogram_black.png'),
     blue_his: require('../../assets/ui/histogram_blue.png'),
     background: require('../../assets/ui/deck_list_fullbg.png'),
-    drawerCover: require('../../assets/ui/drawer-cover.png'),
     drawerImage: require('../../assets/ui/artifact_logo_top.png'),
     sidebar: require('../../assets/ui/sidebar.jpg'),
     header: require('../../assets/ui/header.png'),

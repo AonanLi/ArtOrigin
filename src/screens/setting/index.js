@@ -26,7 +26,7 @@ const Settings = ({ navigation, settings, editSetting }) => {
                     .filter(o => o.value !== '')
                     .map((o, i) => (
                         <ListItem
-                            underlayColor="#150f19"
+                            underlayColor="rgba(21, 15, 26, 0.35)"
                             key={i}
                             selected={o.value === value}
                             onPress={() => editSetting(path, o.value)}

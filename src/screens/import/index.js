@@ -103,7 +103,7 @@ class ImportDeck extends Component {
                                     onPress={() =>
                                         this.setState({ deckId: selected ? undefined : id })
                                     }
-                                    underlayColor="#150f19"
+                                    underlayColor="rgba(21, 15, 26, 0.35)"
                                 >
                                     <Body>
                                         <Text>{name}</Text>

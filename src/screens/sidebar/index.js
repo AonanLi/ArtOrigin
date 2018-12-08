@@ -31,7 +31,6 @@ const SideBar = ({ navigation }) => {
         <Background>
             <Content bounces={false}>
                 <View style={style.outer}>
-                    <Image square source={ui.drawerCover} style={style.drawerCover} />
                     <View style={style.inner}>
                         <Image square source={ui.drawerImage} style={style.drawerImage} />
                     </View>
@@ -39,7 +38,7 @@ const SideBar = ({ navigation }) => {
                 {data.map(d => (
                     <ListItem
                         key={d.route}
-                        underlayColor="#150f19"
+                        underlayColor="rgba(21, 15, 26, 0.35)"
                         button
                         noBorder
                         onPress={() => {
@@ -74,7 +73,6 @@ const style = {
         width: 210,
         height: 84
     },
-    drawerCover: { position: 'absolute', width: '100%', height: '100%' },
     text: {
         fontWeight: Platform.OS === 'ios' ? '500' : '400',
         fontSize: 16,

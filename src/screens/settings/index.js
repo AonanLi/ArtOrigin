@@ -38,7 +38,7 @@ const Settings = ({ navigation, settings, editSetting }) => {
                         : value;
                     return (
                         <ListItem
-                            underlayColor="#150f19"
+                            underlayColor="rgba(21, 15, 26, 0.35)"
                             key={i}
                             icon
                             onPress={() => navigation.navigate('Setting', { s })}
