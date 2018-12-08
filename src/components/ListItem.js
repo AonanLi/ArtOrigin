@@ -59,7 +59,9 @@ class ListItem extends Component {
                                 />
                                 <Text style={style.number}>{count}</Text>
                                 {isSig ? (
-                                    <Image uri={isSig} style={style.ingame} />
+                                    <View style={{ width: 40 }}>
+                                        <Image uri={isSig} style={style.ingame} />
+                                    </View>
                                 ) : (
                                     <IconButton
                                         onPress={() => manageDeckCards(item, 1)}
@@ -93,7 +95,7 @@ const style = {
         flex: 1
     },
     desciption: {
-        flex: 8,
+        flex: 7,
         flexDirection: 'row',
         justifyContent: 'space-between',
         marginTop: 12
@@ -109,7 +111,7 @@ const style = {
         marginLeft: 10
     },
     name_view: {
-        flex: 4
+        flex: 3
     },
     name: {
         color: 'white'
@@ -133,7 +135,7 @@ const style = {
     button: {
         marginTop: 2
     },
-    ingame: { height: 20, width: 20, marginLeft: 2, marginTop: 13 }
+    ingame: { height: 20, width: 20, marginLeft: 8, marginTop: 13 }
 };
 
 const getBackground = ({ is_red, is_blue, is_green, is_black, card_type }) => {
