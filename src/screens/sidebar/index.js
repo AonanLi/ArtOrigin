@@ -31,6 +31,11 @@ const SideBar = ({ navigation }) => {
         <Background>
             <Content bounces={false}>
                 <View style={style.outer}>
+                    <Image
+                        square
+                        source={ui.drawerCover}
+                        style={{ position: 'absolute', width: '100%', height: '100%' }}
+                    />
                     <View style={style.inner}>
                         <Image square source={ui.drawerImage} style={style.drawerImage} />
                     </View>
