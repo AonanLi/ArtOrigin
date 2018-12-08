@@ -31,11 +31,7 @@ const SideBar = ({ navigation }) => {
         <Background>
             <Content bounces={false}>
                 <View style={style.outer}>
-                    <Image
-                        square
-                        source={ui.drawerCover}
-                        style={{ position: 'absolute', width: '100%', height: '100%' }}
-                    />
+                    <Image square source={ui.drawerCover} style={style.drawerCover} />
                     <View style={style.inner}>
                         <Image square source={ui.drawerImage} style={style.drawerImage} />
                     </View>
@@ -78,6 +74,7 @@ const style = {
         width: 210,
         height: 84
     },
+    drawerCover: { position: 'absolute', width: '100%', height: '100%' },
     text: {
         fontWeight: Platform.OS === 'ios' ? '500' : '400',
         fontSize: 16,
