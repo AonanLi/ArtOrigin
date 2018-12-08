@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import { View, PanResponder, Animated } from 'react-native';
 import { Text } from 'native-base';
-import { Image } from 'react-native-expo-image-cache';
 import i18n from 'i18n-js';
 import _ from 'lodash';
 

@@ -13,7 +13,7 @@ const FullWidthImage = ({ uri }) => (
             marginTop: 20
         }}
     >
-        <Image uri={uri} style={{ width: cardWidth, height: cardHeight }} />
+        <Image uri={uri} preview style={{ width: cardWidth, height: cardHeight }} />
     </View>
 );
 
