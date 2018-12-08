@@ -34,7 +34,8 @@ const filterSelector = createSelector(
         const armorEx = heroRangeEx('armor', filters);
         const hpEx = heroRangeEx('hit_points', filters);
         const keywordEx = c =>
-            defaultGet(c.card_name, language, 'english', false, true)
+            defaultGet(c.card_name, language, 'english')
+                .concat(defaultGet(c.card_name, 'english', 'english'))
                 .toLowerCase()
                 .includes(keyword.toLowerCase());
 

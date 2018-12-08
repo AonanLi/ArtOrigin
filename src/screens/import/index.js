@@ -75,7 +75,7 @@ class ImportDeck extends Component {
                             this.setState({ code: '' });
                             goBack();
                             Toast.show({
-                                text: i18n.t('Imported deck from code')
+                                text: i18n.t('ImportedDeckFromCode')
                             });
                         } else {
                             Toast.show({
