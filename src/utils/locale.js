@@ -13,10 +13,8 @@ export const setLocale = value => {
     i18n.locale = locale;
 };
 
-export const defaultLocale = () => {
-    const item = _.find(languages, l => l.locale === Localization.locale.slice(0, 2));
-    if (item) {
-        return item.value;
-    }
-    return 'english';
-};
+export const defaultLocale = _.get(
+    _.find(languages, l => l.locale === Localization.locale.slice(0, 2)),
+    'value',
+    'english'
+);

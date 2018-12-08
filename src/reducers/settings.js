@@ -4,7 +4,7 @@ const reducers = {
     EDIT_SETTING: editSetting
 };
 
-const defaultState = { language: defaultLocale() };
+const defaultState = { language: defaultLocale };
 
 export default { reducers, defaultState };
 
