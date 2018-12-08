@@ -16,10 +16,9 @@ import IconButton from '../../components/IconButton';
 import * as decks from '../../actions/decks';
 import deckSelector from '../../selectors/deckSelector';
 import ui from '../../data/ui';
-import isBigScreen from '../../utils/isBigScreen';
 import countCards from '../../utils/countCards';
 import encode from '../../utils/encode';
-import statusbar from '../../utils/statusbar';
+import { deckLeftRight, deckBottom, deckListHeight, heroesWidth } from '../../utils/dimensions';
 
 const Deck = ({
     current_deck,
@@ -100,7 +99,7 @@ const Deck = ({
                     <Heroes
                         heroes={heroes}
                         navigate={navigate}
-                        width={width}
+                        width={heroesWidth}
                         manageDeckCards={manageDeckCards}
                         swapHeroes={swapHeroes}
                     />
@@ -132,10 +131,6 @@ export default connect(
     decks
 )(Deck);
 
-const marginLeftRight = isBigScreen ? 128 : 16;
-const marginBottom = isBigScreen ? 16 : 12;
-const listHeight = Dimensions.get('window').height - 3 * marginBottom - 305 - statusbar;
-const width = Dimensions.get('window').width - 2 * marginLeftRight;
 const style = {
     header: {
         height: 30,
@@ -155,29 +150,29 @@ const style = {
     text: {
         fontSize: 14,
         marginTop: 5,
-        marginLeft: marginLeftRight,
-        marginRight: marginLeftRight
+        marginLeft: deckLeftRight,
+        marginRight: deckLeftRight
     },
     view: {
-        marginLeft: marginLeftRight,
-        marginRight: marginLeftRight
+        marginLeft: deckLeftRight,
+        marginRight: deckLeftRight
     },
     avatar: {
-        marginBottom: marginBottom,
+        marginBottom: deckBottom,
         zIndex: 1
     },
     type: {
         flexDirection: 'row',
         justifyContent: 'space-around',
-        marginBottom: marginBottom
+        marginBottom: deckBottom
     },
     cost: {
         flexDirection: 'row',
         justifyContent: 'space-between',
-        marginBottom: marginBottom
+        marginBottom: deckBottom
     },
     list: {
         backgroundColor: '#150f19',
-        height: listHeight
+        height: deckListHeight
     }
 };

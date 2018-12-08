@@ -23,6 +23,7 @@ import FullButton from '../../components/FullButton';
 
 import * as decks from '../../actions/decks';
 import decode from '../../utils/decode';
+import { importListHeight } from '../../utils/dimensions';
 
 class ImportDeck extends Component {
     constructor(props) {
@@ -149,5 +150,5 @@ export default connect(
 const style = {
     icon: { color: '#cad4ff' },
     select: { marginTop: 16 },
-    view: { marginLeft: 20, marginRight: 20, backgroundColor: '#150f19', height: 300 }
+    view: { marginLeft: 20, marginRight: 20, backgroundColor: '#150f19', height: importListHeight }
 };

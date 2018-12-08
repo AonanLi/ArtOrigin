@@ -2,11 +2,7 @@ import React from 'react';
 import { View, Dimensions } from 'react-native';
 import { Image } from 'react-native-expo-image-cache';
 
-import isBigScreen from '../../utils/isBigScreen';
-
-const margin = isBigScreen ? 128 : 18;
-const width = Dimensions.get('window').width - 2 * margin;
-const height = 1.69 * width;
+import { cardWidth, cardHeight } from '../../utils/dimensions';
 
 const FullWidthImage = ({ uri }) => (
     <View
@@ -17,7 +13,7 @@ const FullWidthImage = ({ uri }) => (
             marginTop: 20
         }}
     >
-        <Image uri={uri} style={{ width, height }} />
+        <Image uri={uri} style={{ width: cardWidth, height: cardHeight }} />
     </View>
 );
 

@@ -85,7 +85,7 @@ const default_decks = {
             }
         ],
         name: 'Green/Black Example',
-        id: 1
+        id: 'green'
     },
     black: {
         cards: [
@@ -173,7 +173,7 @@ const default_decks = {
             }
         ],
         name: 'Blue/Red Example',
-        id: 2
+        id: 'black'
     }
 };
 

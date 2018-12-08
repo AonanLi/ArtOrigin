@@ -12,10 +12,7 @@ import Background from '../../components/Background';
 
 import { manageDeckCards } from '../../actions/decks';
 import cardsSelector from '../../selectors/cardsSelector';
-import isBigScreen from '../../utils/isBigScreen';
-import statusbar from '../../utils/statusbar';
-
-const margin = isBigScreen ? 128 : 0;
+import { cardsMargin, listHeight } from '../../utils/dimensions';
 
 class Cards extends PureComponent {
     render() {
@@ -40,9 +37,9 @@ class Cards extends PureComponent {
                 <CardList
                     cards={cards}
                     style={{
-                        marginLeft: margin,
-                        marginRight: margin,
-                        height: Dimensions.get('window').height - 56 - statusbar
+                        marginLeft: cardsMargin,
+                        marginRight: cardsMargin,
+                        height: listHeight
                     }}
                     navigate={navigate}
                     language={language}
