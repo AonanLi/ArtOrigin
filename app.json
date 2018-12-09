@@ -1,25 +1,34 @@
 {
-  "expo": {
-    "sdkVersion": "31.0.0",
-    "icon": "./assets/logo.png",
-    "slug": "artisight",
-    "splash": {
-      "image": "./assets/splash.png",
-      "backgroundColor": "#150f19"
-    },
-    "orientation": "portrait",
-    "primaryColor": "#cccccc",
-    "packagerOpts": {
-      "assetExts": [
-        "ttf"
-      ]
-    },
-    "androidStatusBar": {
-      "barStyle": "light-content",
-      "backgroundColor": "#150f19"
-    },
-    "name": "Artisight",
-    "version": "1.0.0",
-    "description": "Valve Artifact tool for viewing cards and building decks"
-  }
+    "expo": {
+        "sdkVersion": "31.0.0",
+        "ios": {
+            "bundleIdentifier": "com.polarduck.artisight",
+            "supportsTablet": true,
+            "config": {
+                "usesNonExemptEncryption": false
+            }
+        },
+        "android": {
+            "package": "com.polarduck.artisight"
+        },
+        "icon": "./assets/logo.png",
+        "slug": "artisight",
+        "privacy": "public",
+        "splash": {
+            "image": "./assets/splash.png",
+            "backgroundColor": "#150f19"
+        },
+        "orientation": "portrait",
+        "primaryColor": "#cccccc",
+        "packagerOpts": {
+            "assetExts": ["ttf"]
+        },
+        "androidStatusBar": {
+            "barStyle": "light-content",
+            "backgroundColor": "#150f19"
+        },
+        "name": "Artisight",
+        "version": "1.0.1",
+        "description": "Valve Artifact tool for viewing cards and building decks"
+    }
 }
