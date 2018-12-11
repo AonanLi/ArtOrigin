@@ -6,7 +6,8 @@ const deviceHeight = Dimensions.get('window').height;
 const deviceWidth = Dimensions.get('window').width;
 const platform = Platform.OS;
 const platformStyle = 'material';
-const isIphoneX = platform === 'ios' && deviceHeight === 812 && deviceWidth === 375;
+const radio = (deviceHeight / deviceWidth).toFixed(3);
+const isIphoneX = platform === 'ios' && (radio === '2.165' || radio === '2.164');
 
 export default {
     platformStyle,
