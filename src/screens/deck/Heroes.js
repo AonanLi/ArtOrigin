@@ -53,7 +53,7 @@ class Heroes extends Component {
                     if (!_.isUndefined(joinedIndex)) {
                         this.swap(i, joinedIndex);
                         this.setState({ active: array });
-                        Animated.decay(this.state.pan[i], { toValue: { x: 0, y: 0 } }).start();
+                        Animated.spring(this.state.pan[i], { toValue: { x: 0, y: 0 } }).start();
                     } else {
                         if (this.outSpace(gesture, i)) {
                             this.removeHero(i);
