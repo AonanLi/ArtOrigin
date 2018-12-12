@@ -33,18 +33,21 @@ class Card extends Component {
     }
 }
 
-const getRefs = (item, refs, origin) =>
-    item.references.map(r => {
-        if (r.card_id === origin.card_id) {
-            return origin;
-        }
-        const ref = refs[r.card_id];
-        if (ref) {
-            return ref;
-        }
-        return false;
-    });
-
+const getRefs = (item, refs, origin) => {
+    if (item) {
+        return item.references.map(r => {
+            if (r.card_id === origin.card_id) {
+                return origin;
+            }
+            const ref = refs[r.card_id];
+            if (ref) {
+                return ref;
+            }
+            return false;
+        });
+    }
+    return false;
+};
 export default connect(
     (state, props) => {
         const { item } = props.navigation.state.params;
