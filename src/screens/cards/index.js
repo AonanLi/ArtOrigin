@@ -11,7 +11,7 @@ import Background from '../../components/Background';
 
 import { manageDeckCards } from '../../actions/decks';
 import cardsSelector from '../../selectors/cardsSelector';
-import { cardsMargin, listHeight } from '../../utils/dimensions';
+import { cardsMargin } from '../../utils/dimensions';
 
 class Cards extends PureComponent {
     render() {
@@ -37,8 +37,7 @@ class Cards extends PureComponent {
                     cards={cards}
                     style={{
                         marginLeft: cardsMargin,
-                        marginRight: cardsMargin,
-                        height: listHeight
+                        marginRight: cardsMargin
                     }}
                     navigate={navigate}
                     language={language}

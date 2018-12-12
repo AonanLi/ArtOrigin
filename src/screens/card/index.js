@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Header, Title, Content, Left, Body } from 'native-base';
+import { View } from 'react-native';
 import _ from 'lodash';
 
 import Background from '../../components/Background';
@@ -9,6 +10,7 @@ import FullWidthImage from './FullWidthImage';
 import References from './References';
 
 import defaultGet from '../../utils/defaultGet';
+import material from '../../theme/variables/material';
 
 class Card extends Component {
     render() {
@@ -27,6 +29,14 @@ class Card extends Component {
                 <Content>
                     <FullWidthImage uri={defaultGet(large_image, language, 'default')} />
                     <References refs={refs} language={language} />
+                    {material.isIphoneX && (
+                        <View
+                            style={{
+                                width: 200,
+                                height: 42
+                            }}
+                        />
+                    )}
                 </Content>
             </Background>
         );

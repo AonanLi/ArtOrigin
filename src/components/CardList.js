@@ -5,9 +5,8 @@ import ListItem from './ListItem';
 
 import { isSmall } from '../utils/dimensions';
 import material from '../theme/variables/material';
-console.log(material.isIphoneX);
 
-const CardList = ({ cards, style, ...passProps }) => (
+const CardList = ({ cards, isDeck, style, ...passProps }) => (
     <View style={{ backgroundColor: 'transparent', ...(style ? style : {}) }}>
         <FlatList
             style={isSmall ? {} : { marginTop: 8, paddingLeft: 8, paddingRight: 8 }}
@@ -16,7 +15,12 @@ const CardList = ({ cards, style, ...passProps }) => (
                 item.card_id ? (
                     <ListItem item={item} {...passProps} />
                 ) : (
-                    <View style={{ width: 200, height: material.isIphoneX ? 110 : 70 }} />
+                    <View
+                        style={{
+                            width: 200,
+                            height: material.isIphoneX ? (isDeck ? 102 : 130) : 64
+                        }}
+                    />
                 )
             }
             keyExtractor={item => item.card_id.toString()}

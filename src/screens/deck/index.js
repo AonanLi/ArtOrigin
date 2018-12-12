@@ -1,7 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { View, ImageBackground, Dimensions, Clipboard } from 'react-native';
-import { Container, Header, Title, Left, Right, Body, Toast, Text } from 'native-base';
+import { Header, Title, Left, Right, Body, Toast, Text } from 'native-base';
 import i18n from 'i18n-js';
 import _ from 'lodash';
 
@@ -120,6 +120,7 @@ const Deck = ({
                     navigate={navigate}
                     language={language}
                     manageDeckCards={manageDeckCards}
+                    isDeck
                 />
             </View>
         </Background>
