@@ -1,6 +1,5 @@
 import React, { PureComponent } from 'react';
 import { connect } from 'react-redux';
-import { Dimensions } from 'react-native';
 import { Header, Title, Left, Right, Body, Toast } from 'native-base';
 import { DrawerActions } from 'react-navigation';
 import i18n from 'i18n-js';
