@@ -1,5 +1,101 @@
 const default_decks = {
-    green: {
+    blue: {
+        cards: [
+            {
+                count: 2,
+                id: 10151
+            },
+            {
+                count: 2,
+                id: 10157
+            },
+            {
+                count: 2,
+                id: 10175
+            },
+            {
+                count: 3,
+                id: 10205
+            },
+            {
+                count: 2,
+                id: 10206
+            },
+            {
+                count: 3,
+                id: 10207
+            },
+            {
+                count: 1,
+                id: 10253
+            },
+            {
+                count: 2,
+                id: 10307
+            },
+            {
+                count: 2,
+                id: 10312
+            },
+            {
+                count: 2,
+                id: 10315
+            },
+            {
+                count: 2,
+                id: 10352
+            },
+            {
+                count: 3,
+                id: 10353
+            },
+            {
+                count: 2,
+                id: 10360
+            },
+            {
+                count: 2,
+                id: 10391
+            },
+            {
+                count: 2,
+                id: 10402
+            },
+            {
+                count: 2,
+                id: 10411
+            },
+            {
+                count: 2,
+                id: 10418
+            }
+        ],
+        heroes: [
+            {
+                id: 10006,
+                turn: 1
+            },
+            {
+                id: 10043,
+                turn: 1
+            },
+            {
+                id: 10062,
+                turn: 3
+            },
+            {
+                id: 10064,
+                turn: 2
+            },
+            {
+                id: 10065,
+                turn: 1
+            }
+        ],
+        name: 'Death from Above',
+        id: 'blue_red'
+    },
+    green_black: {
         cards: [
             {
                 count: 2,
@@ -85,9 +181,9 @@ const default_decks = {
             }
         ],
         name: 'Green/Black Example',
-        id: 'green'
+        id: 'green_black'
     },
-    black: {
+    blue_red: {
         cards: [
             {
                 count: 2,
@@ -173,7 +269,7 @@ const default_decks = {
             }
         ],
         name: 'Blue/Red Example',
-        id: 'black'
+        id: 'blue_red'
     }
 };
 
