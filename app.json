@@ -9,7 +9,12 @@
             }
         },
         "android": {
-            "package": "com.polarduck.artisight"
+            "package": "com.polarduck.artisight",
+            "versionCode": 1,
+            "adaptiveIcon": {
+                "foregroundImage": "./assets/logo_android.png",
+                "backgroundColor": "#150f19"
+            }
         },
         "icon": "./assets/logo.png",
         "slug": "artisight",
@@ -19,7 +24,7 @@
             "backgroundColor": "#150f19"
         },
         "orientation": "portrait",
-        "primaryColor": "#cccccc",
+        "primaryColor": "#150f19",
         "packagerOpts": {
             "assetExts": ["ttf"]
         },
@@ -28,7 +33,7 @@
             "backgroundColor": "#150f19"
         },
         "name": "Artisight",
-        "version": "1.0.1",
+        "version": "1.0.0",
         "description": "Valve Artifact tool for viewing cards and building decks"
     }
 }
