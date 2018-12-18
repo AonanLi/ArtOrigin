@@ -93,7 +93,7 @@ const default_decks = {
             }
         ],
         name: 'Death from Above',
-        id: 'blue_red'
+        id: 'blue'
     },
     green_black: {
         cards: [
