@@ -10,11 +10,12 @@
         },
         "android": {
             "package": "com.polarduck.artisight",
-            "versionCode": 1,
+            "versionCode": 2,
             "adaptiveIcon": {
                 "foregroundImage": "./assets/logo_android.png",
                 "backgroundColor": "#150f19"
-            }
+            },
+            "permissions": []
         },
         "icon": "./assets/logo.png",
         "slug": "artisight",
