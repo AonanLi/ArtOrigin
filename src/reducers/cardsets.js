@@ -11,7 +11,7 @@ export default { reducers, defaultState };
 
 function saveCardSets(state, payload) {
     const cards = _.flatten(payload).filter(
-        c => c.card_type !== 'Pathing' && c.card_type !== 'Stronghold'
+        c => c.card_type !== 'Pathing' && c.card_type !== 'Stronghold' && c.card_type !== 'Mutation'
     );
     const references = _.flatten(cards.map(c => c.references.map(r => r.card_id)));
     const signatures = _.flatten(
